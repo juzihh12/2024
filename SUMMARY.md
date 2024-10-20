@@ -2,7 +2,9 @@
 
 * [openstack](README.md)
   * [openstack-train](openstack/openstack-train.md)
+  * [OpeStack Y版OVS网络+Ceph后端集成项目](openstack/opestackyban-ovs-wang-luo-+ceph-hou-duan-ji-cheng-xiang-mu.md)
 * [kubernetes](kubernetes/README.md)
+  * [CentOS Stream 8 搭建v1.29.2](kubernetes/centos-stream-8-da-jian-v1.29.2.md)
   * [工作负载](kubernetes/gong-zuo-fu-zai/README.md)
     * [Pod](kubernetes/gong-zuo-fu-zai/pod.md)
   * [负载均衡](kubernetes/fu-zai-jun-heng/README.md)
