@@ -1,0 +1,15 @@
+# Table of contents
+
+* [openstack](README.md)
+  * [openstack-train](openstack/openstack-train.md)
+* [kubernetes](kubernetes/README.md)
+  * [工作负载](kubernetes/gong-zuo-fu-zai/README.md)
+    * [Pod](kubernetes/gong-zuo-fu-zai/pod.md)
+  * [负载均衡](kubernetes/fu-zai-jun-heng/README.md)
+    * [Ingress详解](kubernetes/fu-zai-jun-heng/ingress-xiang-jie.md)
+  * [存储](kubernetes/cun-chu.md)
+  * [实验案例](kubernetes/shi-yan-an-li/README.md)
+    * [istio部署](kubernetes/shi-yan-an-li/istio-bu-shu.md)
+    * [bookinfo](kubernetes/shi-yan-an-li/bookinfo.md)
+* [金砖比赛](jin-zhuan-bi-sai/README.md)
+  * [2024年金砖省赛](jin-zhuan-bi-sai/2024-nian-jin-zhuan-sheng-sai.md)
