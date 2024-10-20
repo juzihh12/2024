@@ -1,4 +1,5 @@
 ---
+icon: square-hacker-news
 coverY: 0
 ---
 
