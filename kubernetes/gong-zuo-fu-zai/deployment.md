@@ -159,6 +159,15 @@ kubectl rollout pause deployment myapp-v1
 kubectl rollout resume deployment myapp-v1
 ```
 
+### 9、其余参数
+
+* status：显示当前升级状态
+* history：显示升级历史记录
+* pause：暂停版本升级过程
+* resume：继续已经暂停的版本升级过程
+* restart：重启版本升级过程
+* undo：回滚到上一级版本（可以使用 --to-revision 回滚到指定版本）
+
 ## 六、蓝绿发布
 
 ### 1、什么是蓝绿部署？
@@ -299,7 +308,7 @@ spec:
   type: NodePort
 ```
 
-## 七、金丝雀发布
+## 七、[金丝雀发布](../shi-yan-an-li/istio-bu-shu.md)
 
 金丝雀发布（又称灰度发布、灰度更新）：金丝雀发布一般先发1台，或者一个小比例，例如2%的服务器，主要做流量验证用，也称为金丝雀 (Canary) 测试 （国内常称灰度测试）。
 
