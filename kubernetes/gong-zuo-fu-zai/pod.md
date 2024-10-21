@@ -35,61 +35,59 @@ spec:
 
 \#更新资源清单文件
 
-`[root@xianchaomaster1 ~]# kubectl apply -f pod-first.yaml`
-
-&#x20;
+```
+kubectl apply -f pod-first.yaml
+```
 
 \#查看pod是否创建成功
 
-`[root@xianchaomaster1 pod]# kubectl get pods -l app=tomcat`
-
-&#x20;
+```
+kubectl get pods -l app=tomcat
+```
 
 \#查看pod的ip和pod调度到哪个节点上
 
-`kubectl get pods -owide`
-
-&#x20;
+```
+kubectl get pods -owide
+```
 
 \#查看pod日志
 
-`kubectl logs tomcat-test`
-
-&#x20;
+```
+kubectl logs tomcat-test
+```
 
 \#进入到刚才创建的pod，刚才创建的pod名字是web
 
-`kubectl exec -it tomcat-test  -- /bin/bash`
-
-&#x20;
+```
+kubectl exec -it tomcat-test  -- /bin/bash
+```
 
 \#假如pod里有多个容器，进入到pod里的指定容器，按如下命令：
 
-`kubectl exec -it tomcat-test -c tomcat-java -- /bin/bash`
-
-&#x20;
+```
+kubectl exec -it tomcat-test -c tomcat-java -- /bin/bash
+```
 
 \#查看pod详细信息
 
-`kubectl describe pods tomcat-test`
-
-&#x20;
+```
+kubectl describe pods tomcat-test
+```
 
 \#查看pod具有哪些标签：
 
-`[root@xianchaomaster1 pod]# kubectl get pods --show-labels`
-
-&#x20;
+```
+kubectl get pods --show-labels
+```
 
 \#删除pod
 
-`kubectl delete pods tomcat-test`
-
-&#x20;
-
+```
+kubectl delete pods tomcat-test
 或者
-
-`kubectl delete -f pod-first.yaml`
+kubectl delete -f pod-first.yaml
+```
 
 ### 4、通过kubectl run创建Pod
 
@@ -130,7 +128,9 @@ spec:
 
 #### 2.1 在调度的node节点上打上标签
 
-`kubectl label nodes node2 disk=ceph`
+```
+kubectl label nodes node2 disk=ceph
+```
 
 #### 2.2 编写yaml文件指定调度到具有标签disk=ceph节点上
 
@@ -156,7 +156,9 @@ spec:
 
 #### 2.3 删除node节点打的标签
 
-`kubectl label nodes node2 disk-`
+```
+kubectl label nodes node2 disk-
+```
 
 ### 3、如果两个调度同时存在的话
 
@@ -553,9 +555,10 @@ spec:
 
 #### 2、删除污点
 
-`kubectl taint nodes node1 node-type:NoExecute-`
-
-`kubectl taint nodes node2 node-type-`
+```
+kubectl taint nodes node1 node-type:NoExecute-
+kubectl taint nodes node2 node-type-
+```
 
 ## 五、pod的状态及其重启策略
 
