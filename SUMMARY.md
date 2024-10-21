@@ -7,6 +7,7 @@
   * [CentOS Stream 8 搭建v1.29.2](kubernetes/centos-stream-8-da-jian-v1.29.2.md)
   * [工作负载](kubernetes/gong-zuo-fu-zai/README.md)
     * [Pod](kubernetes/gong-zuo-fu-zai/pod.md)
+    * [Deployment](kubernetes/gong-zuo-fu-zai/deployment.md)
   * [负载均衡](kubernetes/fu-zai-jun-heng/README.md)
     * [Ingress详解](kubernetes/fu-zai-jun-heng/ingress-xiang-jie.md)
   * [存储](kubernetes/cun-chu.md)

@@ -108,7 +108,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-- "*"
+    - "*"
 ```
 
 ### **4、创建virtualservice服务**
