@@ -43,7 +43,7 @@ spec:
 
 ### 2、pod的工作流程
 
-<figure><img src="../../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
 
 ### 3、pod的基础操作
 
@@ -723,7 +723,7 @@ kubectl exec -it tomcat-pod -- /bin/bash kill 1
 
 `创建主容器（containers）是必须的操作，初始化容器（initContainers），容器启动后钩子，启动探测、存活性探测，就绪性探测，容器停止前钩子。`
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
 
 #### 2、pod在整个生命周期的过程中总会处于以下几个状态：
 
