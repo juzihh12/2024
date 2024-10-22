@@ -1,5 +1,5 @@
 ---
-cover: .gitbook/assets/山田凉和波奇酱 报纸墙4K动漫壁纸3840x2160_彼岸图网.jpg
+cover: .gitbook/assets/HH.jpg
 coverY: 0
 layout:
   cover:
