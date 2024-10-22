@@ -1,4 +1,4 @@
-# 2024年金砖省赛
+# 2024 BRICS Provincial Championships
 
 ### A模块：私有云平台部署与运维（30分）
 
@@ -2980,7 +2980,7 @@ Jenkins
 
 在web端通过http://IP:8080访问Jenkins，如图所示：
 
-![](<../.gitbook/assets/0 (2).png>)
+![](<../../.gitbook/assets/0 (2).png>)
 
 查看密码：
 
@@ -2990,25 +2990,25 @@ Jenkins
 
 输入密码并点击“继续”，如图所示：
 
-![](<../.gitbook/assets/1 (2).png>)
+![](<../../.gitbook/assets/1 (2).png>)
 
 依次点击“系统管理”、“管理用户”按钮进入用户列表界面，如图所示：
 
-![](<../.gitbook/assets/2 (1).png>)
+![](<../../.gitbook/assets/2 (1).png>)
 
 点击“新建用户”，输入用户信息，如图所示：
 
-![](<../.gitbook/assets/3 (1).png>)
+![](<../../.gitbook/assets/3 (1).png>)
 
 点击“创建用户”如图所示：
 
-![](<../.gitbook/assets/4 (1).png>)
+![](<../../.gitbook/assets/4 (1).png>)
 
 退出admin用户登录，使用新创建的用户登录Jenkins。
 
 依次点击 “系统管理”🡪“系统配置”按钮进入系统配置界面，在“Resource root URL”处配置Jenkins URL，如图所示：
 
-![](<../.gitbook/assets/5 (1).png>)
+![](<../../.gitbook/assets/5 (1).png>)
 
 完成后点击“保存”。
 
@@ -3094,19 +3094,19 @@ gitlab "/assets/wrapper" gitlab running (healthy) 0.0.0.0:443->443/tcp, :::443->
 
 Gitlab启动较慢，启动完成后，在web端访问Gitlab（http://IP:81），如图所示：
 
-![](../.gitbook/assets/6.png)
+![](../../.gitbook/assets/6.png)
 
 设置root用户信息并使用root用户登录Gitlab，如图所示：
 
-![](../.gitbook/assets/7.png)（2）创建项目
+![](../../.gitbook/assets/7.png)（2）创建项目
 
 点击“Create a project”，创建项目springcloud，可见等级选择“Public”，如图所示：
 
-![](../.gitbook/assets/8.png)
+![](../../.gitbook/assets/8.png)
 
 点击“创建项目”，进入项目，如图所示：
 
-![](../.gitbook/assets/9.png)
+![](../../.gitbook/assets/9.png)
 
 1. **push源代码（2分）**
 
@@ -3184,7 +3184,7 @@ Branch master set up to track remote branch master from origin.
 
 刷新网页，springcloud项目中文件已经更新了，如图所示：
 
-![](../.gitbook/assets/10.png)
+![](../../.gitbook/assets/10.png)
 
 1. **Jenkins连接maven （1分）**
 
@@ -3212,15 +3212,15 @@ OS name: "linux", version: "3.10.0-862.2.3.el7.x86\_64", arch: "amd64", family: 
 
 登录Gitlab首页，如图所示：
 
-![](../.gitbook/assets/11.png)
+![](../../.gitbook/assets/11.png)
 
 点击管理区域的扳手图标，如图所示：
 
-![](../.gitbook/assets/12.png)
+![](../../.gitbook/assets/12.png)
 
 点击左侧导航栏的“Settings”→“Network”，设置“Outbound requests”，勾选“Allow requests to the local network from web hooks and services”，如图所示：
 
-![](../.gitbook/assets/13.png)
+![](../../.gitbook/assets/13.png)
 
 配置完成后保存。
 
@@ -3228,21 +3228,21 @@ OS name: "linux", version: "3.10.0-862.2.3.el7.x86\_64", arch: "amd64", family: 
 
 点击Gitlab用户头像图标，如图所示：
 
-![](../.gitbook/assets/14.png)
+![](../../.gitbook/assets/14.png)
 
 点击“Settings”，如图所示：
 
-![](../.gitbook/assets/15.png)
+![](../../.gitbook/assets/15.png)
 
 点击左侧导航栏的“Access Tokens”添加token，如图所示：
 
-![](../.gitbook/assets/16.png)
+![](../../.gitbook/assets/16.png)
 
 点击“Create personal access token”生成Token，如图所示：
 
 6Tftkc2C\_5P8pS74ZDuF
 
-![](../.gitbook/assets/17.png)
+![](../../.gitbook/assets/17.png)
 
 复制Token（fNJF37GcttyG18v83tcy），后面配置Jenkins时会用到。
 
@@ -3250,15 +3250,15 @@ OS name: "linux", version: "3.10.0-862.2.3.el7.x86\_64", arch: "amd64", family: 
 
 登录Jenkins首页，点击“系统管理”→“系统配置”，配置Gitlab信息，取消勾选“Enable authentication for '/project' end-point”，如图所示：
 
-![](../.gitbook/assets/18.png)
+![](../../.gitbook/assets/18.png)
 
 点击“添加”→“Jenkins”添加认证信息，将Gitlab API Token填入，如图所示：
 
-![](../.gitbook/assets/19.png)
+![](../../.gitbook/assets/19.png)
 
 点击“Test Connection”，如图所示：
 
-![](../.gitbook/assets/20.png)
+![](../../.gitbook/assets/20.png)
 
 \[root@master \~]# cp -rf /opt/apache-maven-3.6.3-bin.tar.gz /home/jenkins\_home/
 

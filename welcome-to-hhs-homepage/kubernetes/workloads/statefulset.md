@@ -166,7 +166,7 @@ Headless service不分配clusterIP，headless service可以通过解析service�
 
 对于有状态应用都会用到持久化存储，比如mysql主从，由于主从数据库的数据是不能存放在一个目录下的，每个mysql节点都需要有自己独立的存储空间。而在deployment中创建的存储卷是一个共享的存储卷，多个pod使用同一个存储卷，它们数据是同步的，而statefulset定义中的每一个pod都不能使用同一个存储卷，这就需要使用volumeClainTemplate，当在使用statefulset创建pod时，volumeClainTemplate会自动生成一个PVC，从而请求绑定一个PV，每一个pod都有自己专用的存储卷。Pod、PVC和PV对应的关系图如下：
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
 使用kubectl run运行一个提供nslookup命令的容器的，这个命令来自于dnsutils包，通过对pod主机名执行nslookup，可以检查它们在集群内部的DNS地址：
 

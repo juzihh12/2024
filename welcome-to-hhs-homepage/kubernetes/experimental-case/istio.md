@@ -1,4 +1,4 @@
-# istio部署
+# istio
 
 ## 一、灰度发布
 
@@ -487,7 +487,7 @@ hosts:
 
 添加以下内容：
 
-![](../../.gitbook/assets/0.png)
+![](../../../.gitbook/assets/0.png)
 
 编辑完后，再执行如下语句验证配置和让配置生效：
 
@@ -584,6 +584,6 @@ hosts:
 
 结果如下：
 
-![](../../.gitbook/assets/1.png)
+![](../../../.gitbook/assets/1.png)
 
 [^1]: 

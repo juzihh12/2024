@@ -10,7 +10,7 @@ Deployment是kubernetes中最常用的资源对象，为ReplicaSet和Pod的创�
 
 Deployment控制器是建立在rs之上的一个控制器，可以管理多个rs，每次更新镜像版本，都会生成一个新的rs，把旧的rs替换掉，多个rs同时存在，但是只有一个rs运行。
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption><p>replicaset</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>replicaset</p></figcaption></figure>
 
 rs v1控制三个pod，删除一个pod，在rs v2上重新建立一个，依次类推，直到全部都是由rs v2控制，如果rs v2有问题，还可以回滚，Deployment是建构在rs之上的，多个rs组成一个Deployment，但是只有一个rs处于活跃状态.
 
@@ -176,7 +176,7 @@ kubectl rollout resume deployment myapp-v1
 
 开发新版本，要用新版本替换线上的旧版本，在线上的系统之外，搭建了一个使用新版本代码的全新系统。 这时候，一共有两套系统在运行，正在对外提供服务的老系统是绿色系统，新部署的系统是蓝色系统。
 
-<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
 蓝色系统不对外提供服务，用来做什么呢？
 
@@ -184,7 +184,7 @@ kubectl rollout resume deployment myapp-v1
 
 蓝色系统经过反复的测试、修改、验证，确定达到上线标准之后，直接将用户切换到蓝色系统。
 
-<figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 切换后的一段时间内，依旧是蓝绿两套系统并存，但是用户访问的已经是蓝色系统。这段时间内观察蓝色系统（新系统）工作状态，如果出现问题，直接切换回绿色系统。
 
@@ -308,7 +308,7 @@ spec:
   type: NodePort
 ```
 
-## 七、[金丝雀发布](../shi-yan-an-li/istio-bu-shu.md)
+## 七、[金丝雀发布](../experimental-case/istio.md)
 
 金丝雀发布（又称灰度发布、灰度更新）：金丝雀发布一般先发1台，或者一个小比例，例如2%的服务器，主要做流量验证用，也称为金丝雀 (Canary) 测试 （国内常称灰度测试）。
 

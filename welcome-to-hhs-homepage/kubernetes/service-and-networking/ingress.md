@@ -1,4 +1,4 @@
-# Ingress详解
+# Ingress
 
 ## 一、为什么选择ingress
 
@@ -28,7 +28,7 @@ Ingress(以 Nginx 为例)原理:
 
 4\. 到此为止,正在工作的就是一个 nginx 了,内部配置了用户定义的请求转发规则,当用户访问,直接就会被转发到 nginx 上,再由 nginx 代理到对应的 service
 
-![IMG\_256](<../../.gitbook/assets/0 (1).png>)
+![IMG\_256](<../../../.gitbook/assets/0 (1).png>)
 
 ## 二、部署ingress
 
@@ -89,7 +89,7 @@ ingress-nginx NodePort 10.102.169.164 <none> 80:30034/TCP,443:31599/TCP 2m32s
 
 ## 三、准备两个不同的service资源
 
-![IMG\_256](<../../.gitbook/assets/1 (1).png>)
+![IMG\_256](<../../../.gitbook/assets/1 (1).png>)
 
 ### 1.编写yaml
 
@@ -378,7 +378,7 @@ ingress-https <none> nginx.zhengjq.com,tomcat.zhengjq.com 10.102.169.164 80, 443
 
 `由于是https，需要域名绑定证书才可以进行访问`
 
-![IMG\_256](../../.gitbook/assets/2.png)
+![IMG\_256](../../../.gitbook/assets/2.png)
 
 #### **7.本地hosts文件记得修改**
 
@@ -419,7 +419,7 @@ server_name tomcat.zhengjq.com ;
 /etc/nginx $ vi nginx.conf
 ```
 
-![IMG\_256](../../.gitbook/assets/3.png)
+![IMG\_256](../../../.gitbook/assets/3.png)
 
 ## 七、扩展
 
@@ -463,7 +463,7 @@ spec:
         kubernetes.io/os: linux	#node主机调度策略，给所有node节点打上这个标签，默认node节点都有这个标签
 ```
 
-![IMG\_256](../../.gitbook/assets/4.png)
+![IMG\_256](../../../.gitbook/assets/4.png)
 
 #### **3.创建资源**
 
@@ -544,7 +544,7 @@ spec:
 ······
 ```
 
-![IMG\_256](../../.gitbook/assets/5.png)
+![IMG\_256](../../../.gitbook/assets/5.png)
 
 **2.创建资源**
 

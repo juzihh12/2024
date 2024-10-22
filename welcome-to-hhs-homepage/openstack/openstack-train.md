@@ -4460,7 +4460,7 @@ systemctl restart httpd && systemctl enable httpd
 
 检测dashboard服务
 
-![Untitled](../.gitbook/assets/Untitled.png)
+![Untitled](../../.gitbook/assets/Untitled.png)
 
 ### **Cinder服务**
 
