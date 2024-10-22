@@ -1,4 +1,18 @@
-# CentOS Stream 8 搭建v1.29.2
+---
+layout:
+  title:
+    visible: true
+  description:
+    visible: false
+  tableOfContents:
+    visible: false
+  outline:
+    visible: true
+  pagination:
+    visible: false
+---
+
+# CentOS Stream 8 build v1.29.2
 
 
 

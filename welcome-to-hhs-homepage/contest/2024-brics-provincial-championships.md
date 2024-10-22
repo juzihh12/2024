@@ -1,3 +1,17 @@
+---
+layout:
+  title:
+    visible: true
+  description:
+    visible: false
+  tableOfContents:
+    visible: true
+  outline:
+    visible: false
+  pagination:
+    visible: false
+---
+
 # 2024 BRICS Provincial Championships
 
 ### A模块：私有云平台部署与运维（30分）

@@ -1,3 +1,17 @@
+---
+layout:
+  title:
+    visible: true
+  description:
+    visible: false
+  tableOfContents:
+    visible: true
+  outline:
+    visible: false
+  pagination:
+    visible: false
+---
+
 # EndpointSlice
 
 _**创建Service服务时系统会自动创建对应的EndpointSlice服务(Pod 的地址、端口和状态信息会被记录在**** ****`EndpointSlice`**** ****中)，将请求发往Service服务，最后路由到对应的Pod上进行访问**_

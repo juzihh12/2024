@@ -1,4 +1,18 @@
-# 工作负载
+---
+layout:
+  title:
+    visible: true
+  description:
+    visible: false
+  tableOfContents:
+    visible: false
+  outline:
+    visible: false
+  pagination:
+    visible: false
+---
+
+# Workloads
 
 * [Pod](pod.md)
 * [Deployment](deployment.md)

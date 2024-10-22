@@ -1,3 +1,17 @@
+---
+layout:
+  title:
+    visible: true
+  description:
+    visible: false
+  tableOfContents:
+    visible: true
+  outline:
+    visible: false
+  pagination:
+    visible: false
+---
+
 # bookinfo
 
 在提供的kubernetes镜像中，使用 project/istio/istio-1.17.2/services/bookinfo.yaml部署bookinfo应用，将Bookinfo应用部署到default命名空间下，使用Istio Gateway可以实现应用程序从外部访问，请为Bookinfo应用创建一个名为bookinfo-gateway的网关，指定所有HTTP流量通过80端口流入网格，然后将网关绑定到虚拟服务bookinfo上。

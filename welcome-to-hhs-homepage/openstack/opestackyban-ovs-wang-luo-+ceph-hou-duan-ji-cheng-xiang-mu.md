@@ -1,3 +1,17 @@
+---
+layout:
+  title:
+    visible: true
+  description:
+    visible: false
+  tableOfContents:
+    visible: false
+  outline:
+    visible: true
+  pagination:
+    visible: false
+---
+
 # OpeStack Y版OVS网络+Ceph后端集成项目
 
 ## OpeStack-Y版OVS网络+Ceph后端集成项目
