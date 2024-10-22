@@ -5,9 +5,9 @@ layout:
   description:
     visible: false
   tableOfContents:
-    visible: true
-  outline:
     visible: false
+  outline:
+    visible: true
   pagination:
     visible: false
 ---
