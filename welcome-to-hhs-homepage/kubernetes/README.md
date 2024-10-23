@@ -25,4 +25,5 @@ layout:
 * [工作负载](workloads/)
 * [负载均衡](service-and-networking/)
 * [存储](storage/)
+* [配置](configuration/)
 * [实验案例](experimental-case/)
