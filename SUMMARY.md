@@ -32,5 +32,6 @@
       * [istio](welcome-to-hhs-homepage/kubernetes/experimental-case/istio.md)
       * [bookinfo](welcome-to-hhs-homepage/kubernetes/experimental-case/bookinfo.md)
       * [Service and endpoint](welcome-to-hhs-homepage/kubernetes/experimental-case/service-and-endpoint.md)
+      * [Ceph](welcome-to-hhs-homepage/kubernetes/experimental-case/ceph.md)
   * [Contest](welcome-to-hhs-homepage/contest/README.md)
     * [2024 BRICS Provincial Championships](welcome-to-hhs-homepage/contest/2024-brics-provincial-championships.md)

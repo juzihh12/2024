@@ -64,3 +64,4 @@ f）我们在创建pvc的时候，应该确保和底下的pv能绑定，如果�
 
 3、Recycle （不推荐使用，1.15可能被废弃了）
 
+## 二、更多内容查看[Persistent Storage](persistent-storage.md)
