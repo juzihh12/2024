@@ -32,6 +32,7 @@
       * [istio](welcome-to-hhs-homepage/kubernetes/experimental-case/istio.md)
       * [bookinfo](welcome-to-hhs-homepage/kubernetes/experimental-case/bookinfo.md)
       * [Service and endpoint](welcome-to-hhs-homepage/kubernetes/experimental-case/service-and-endpoint.md)
-      * [Ceph](welcome-to-hhs-homepage/kubernetes/experimental-case/ceph.md)
+      * [Ceph](welcome-to-hhs-homepage/kubernetes/experimental-case/ceph/README.md)
+        * [创建node1节点时，出现以下问题](welcome-to-hhs-homepage/kubernetes/experimental-case/ceph/chuang-jian-node1-jie-dian-shi-chu-xian-yi-xia-wen-ti.md)
   * [Contest](welcome-to-hhs-homepage/contest/README.md)
     * [2024 BRICS Provincial Championships](welcome-to-hhs-homepage/contest/2024-brics-provincial-championships.md)

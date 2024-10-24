@@ -16,3 +16,5 @@ layout:
 
 * [istio](istio.md)
 * [bookinfo](bookinfo.md)
+* [Service and endpoint](service-and-endpoint.md)
+* [Ceph](ceph/)

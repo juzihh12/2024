@@ -21,6 +21,6 @@ layout:
 
 
 
-* [openstack](welcome-to-hhs-homepage/openstack/)
-* [kubernetes](welcome-to-hhs-homepage/kubernetes/)
-* [Contest](welcome-to-hhs-homepage/contest/)
+* [**openstack**](welcome-to-hhs-homepage/openstack/)
+* [**kubernetes**](welcome-to-hhs-homepage/kubernetes/)
+* [**Contest**](welcome-to-hhs-homepage/contest/)
