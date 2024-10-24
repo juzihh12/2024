@@ -256,7 +256,7 @@ yum install ceph ceph-radosgw  -y
 yum install ceph ceph-radosgw  -y
 </code></pre>
 
-### 11、[创建node1节点](chuang-jian-node1-jie-dian-shi-chu-xian-yi-xia-wen-ti.md)
+### 11、[创建node1节点](ceph/chuang-jian-node1-jie-dian-shi-chu-xian-yi-xia-wen-ti.md)
 
 ```
 # 创建一个目录，用于保存 ceph-deploy 生成的配置文件信息的
