@@ -36,5 +36,6 @@
         * [创建node1节点时，出现以下问题](welcome-to-hhs-homepage/kubernetes/experimental-case/ceph/chuang-jian-node1-jie-dian-shi-chu-xian-yi-xia-wen-ti.md)
       * [基于Jenkins+k8s+Git+DockerHub等技术链构建企业级DevOps容器云平台](welcome-to-hhs-homepage/kubernetes/experimental-case/ji-yu-jenkins+k8s+git+dockerhub-deng-ji-shu-lian-gou-jian-qi-ye-ji-devops-rong-qi-yun-ping-tai/README.md)
         * [jenkins一直处于CrashLoopBackOff状态](welcome-to-hhs-homepage/kubernetes/experimental-case/ji-yu-jenkins+k8s+git+dockerhub-deng-ji-shu-lian-gou-jian-qi-ye-ji-devops-rong-qi-yun-ping-tai/jenkins-yi-zhi-chu-yu-crashloopbackoff-zhuang-tai.md)
+      * [Jenkins Pipeline](welcome-to-hhs-homepage/kubernetes/experimental-case/jenkins-pipeline.md)
   * [Contest](welcome-to-hhs-homepage/contest/README.md)
     * [2024 BRICS Provincial Championships](welcome-to-hhs-homepage/contest/2024-brics-provincial-championships.md)

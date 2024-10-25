@@ -16,33 +16,33 @@ layout:
 
 ## 一、安装jenkins
 
-1、安装nfs
+### 1、安装nfs
 
 ```
 yum install nfs-utils -y
 ```
 
-2、创建一个共享目录
+### 2、创建一个共享目录
 
 ```
 mkdir /data/v2  -p
 ```
 
-3、定义目录的访问及权限
+### 3、定义目录的访问及权限
 
 <pre><code>vim /etc/exports
 <strong>    /data/v2 *(rw,no_root_squash)
 </strong>exportfs -arv
 </code></pre>
 
-4、创建工作目录及命名空间
+### 4、创建工作目录及命名空间
 
 ```
 mkdir jenkins-k8s && cd jenkins-k8s
 kubectl create namespace jenkins-k8s
 ```
 
-5、创建pv存储（使用nfs）
+### 5、创建pv存储（使用nfs）
 
 ```
 apiVersion: v1
@@ -60,7 +60,7 @@ spec:
     server: 192.168.100.10
 ```
 
-6、创建pvc对接pv
+### 6、创建pvc对接pv
 
 ```
 apiVersion: v1
@@ -76,19 +76,19 @@ spec:
       storage: 10Gi
 ```
 
-7、创建sa证书
+### 7、创建sa证书
 
 ```
 kubectl create sa jenkins-sa -n jenkins-k8s
 ```
 
-8、对sa账号做rbac授权
+### 8、对sa账号做rbac授权
 
 ```
 kubectl create clusterrolebinding jenkins-sa-cluster -n jenkins-k8s --clusterrole=cluster-admin --serviceaccount=jenkins-k8s:jenkins-sa
 ```
 
-9、[通过deployment部署jenkins](jenkins-yi-zhi-chu-yu-crashloopbackoff-zhuang-tai.md)
+### 9、[通过deployment部署jenkins](jenkins-yi-zhi-chu-yu-crashloopbackoff-zhuang-tai.md)
 
 ```
 apiVersion: apps/v1
@@ -149,7 +149,7 @@ spec:
           claimName: jenkins-pvc
 ```
 
-10、创建service，提供外部网络访问
+### 10、创建service，提供外部网络访问
 
 ```
 apiVersion: v1
@@ -173,7 +173,7 @@ spec:
     targetPort: agent
 ```
 
-11、获取管理员密码
+### 11、获取管理员密码
 
 ```
 cat  /data/v2/jenkins-home/secrets/initialAdminPassword
