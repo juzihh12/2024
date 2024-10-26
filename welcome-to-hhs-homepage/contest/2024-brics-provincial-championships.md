@@ -18,7 +18,7 @@ layout:
 
 项目需求：某企业根据自身业务需求，实施数字化转型，规划和建设数字化平台建设，平台聚焦“DevOps建运一体”和“数据驱动产品开发”，拟采用开源OpenStack搭建企业内部私有云平台。拟将该任务交给工程师A与B，分工协助完成云平台服务部署、云应用开发、云系统运维等任务。
 
-表 1 IP 地址规划
+&#x20;                                                                      表 1 IP 地址规划
 
 | 设备名称   | 主机名                    | 接 口  | IP 地址                                            | 说明 |
 | ------ | ---------------------- | ---- | ------------------------------------------------ | -- |
@@ -47,61 +47,40 @@ layout:
 
 **操作步骤**
 
-\[root@controller \~]# hostnamectl set-hostname controller
-
-\[root@compute \~]# hostnamectl set-hostname compute
-
-\[root@controller \~]# vim /etc/hosts
-
+```
+[root@controller ~]# hostnamectl set-hostname controller
+[root@compute ~]# hostnamectl set-hostname compute
+[root@controller ~]# vim /etc/hosts
 10.0.3.175 controller
-
 10.0.3.158 compute
-
-\[root@compute \~]# vim /etc/hosts
-
+[root@compute ~]# vim /etc/hosts
 10.0.3.175 controller
-
 10.0.3.158 compute
-
-\[root@controller \~]# ssh-copy-id controller
-
-\[root@compute \~]# ssh-copy-id compute
+[root@controller ~]# ssh-copy-id controller
+[root@compute ~]# ssh-copy-id compute
+```
 
 **#答案**
 
-\[root@controller \~]# hostnamectl && cat /etc/hosts && cat /root/.ssh/known\_hosts
-
+```
+[root@controller ~]# hostnamectl && cat /etc/hosts && cat /root/.ssh/known_hosts
 Static hostname: controller
-
 Icon name: computer-vm
-
 Chassis: vm
-
 Machine ID: cc2c86fe566741e6a2ff6d399c5d5daa
-
 Boot ID: f1df36131d8247c2a6595a0823e0fb95
-
 Virtualization: kvm
-
 Operating System: CentOS Linux 7 (Core)
-
 CPE OS Name: cpe:/o:centos:centos:7
-
-Kernel: Linux 3.10.0-1160.el7.x86\_64
-
+Kernel: Linux 3.10.0-1160.el7.x86_64
 Architecture: x86-64
-
 127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4
-
 ::1 localhost localhost.localdomain localhost6 localhost6.localdomain6
-
 192.168.100.4 controller
-
 192.168.100.227 compute
-
 controller,192.168.100.4 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKSPQjT1znw9npuosr7STU4luO8xXupbvL2SAnzoeWjZpbsXrP1xti1O5rM4ojYIToYf7Wk+CXrDxNbVsOsHtTQ=
-
 compute,192.168.100.227 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDCvv127V/+59IGWruGybKSEreW5fHFbeGinpCmyUUBKKjGVAIFGZOhxWzhD2M4ZrM7FQcAlLboqdZAm6PCrHts=
+```
 
 #### yum源配置(1分)
 
@@ -111,117 +90,68 @@ compute,192.168.100.227 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAI
 
 **操作步骤**
 
-\[root@controller \~]# mount CentOS-7-x86\_64-DVD-2009.iso /mnt/
-
-\[root@controller \~]# mkdir -p /opt/centos
-
-\[root@controller \~]# cp -rvf /mnt/\* /opt/centos/
-
-\[root@controller \~]# umount /mnt
-
-\[root@controller \~]# tar -zxvf openstack-train.tar.gz -C /opt/
-
-\#controller节点yum源文件http.repo
-
-\[root@controller \~]# vim /etc/yum.repos.d/ftp.repo
-
-\[centos]
-
+```
+[root@controller ~]# mount CentOS-7-x86_64-DVD-2009.iso /mnt/
+[root@controller ~]# mkdir -p /opt/centos
+[root@controller ~]# cp -rvf /mnt/* /opt/centos/
+[root@controller ~]# umount /mnt
+[root@controller ~]# tar -zxvf openstack-train.tar.gz -C /opt/
+#controller节点yum源文件http.repo
+[root@controller ~]# vim /etc/yum.repos.d/ftp.repo
+[centos]
 name=centos
-
 baseurl=file:///opt/centos
-
 gpgcheck=0
-
 enabled=1
-
-\[openstack]
-
+[openstack]
 name=openstack
-
 baseurl=file:///opt/openstack
-
 gpgcheck=0
-
 enabled=1
-
-\[root@controller \~]# yum clean all
-
-\[root@controller \~]# yum repolist
-
-\[root@controller \~]# yum install vsftpd -y
-
-\[root@controller \~]# echo anon\_root=/opt >> /etc/vsftpd/vsftpd.conf
-
-\[root@controller \~]# systemctl restart vsftpd
-
-\[root@controller \~]# systemctl enable vsftpd
-
-\#compute节点yum源文件ftp.repo
-
-\[root@compute \~]# vim /etc/yum.repos.d/ftp.repo
-
-\[centos]
-
+[root@controller ~]# yum clean all
+[root@controller ~]# yum repolist
+[root@controller ~]# yum install vsftpd -y
+[root@controller ~]# echo anon_root=/opt >> /etc/vsftpd/vsftpd.conf
+[root@controller ~]# systemctl restart vsftpd
+[root@controller ~]# systemctl enable vsftpd
+#compute节点yum源文件ftp.repo
+[root@compute ~]# vim /etc/yum.repos.d/ftp.repo
+[centos]
 name=centos
-
 baseurl=ftp://controller/centos
-
 gpgcheck=0
-
 enabled=1
-
-\[openstack]
-
+[openstack]
 name=openstack
-
 baseurl=ftp://controller/openstack
-
 gpgcheck=0
-
 enabled=1
-
-\[root@compute \~]# yum clean all
-
-\[root@compute \~]# yum repolist
+[root@compute ~]# yum clean all
+[root@compute ~]# yum repolist
+```
 
 **答案**
 
-\[root@controller \~]# yum repolist && rpm -qa | grep ftp && ssh compute "cat /etc/yum.repos.d/ftp.repo"
-
+```
+[root@controller ~]# yum repolist && rpm -qa | grep ftp && ssh compute "cat /etc/yum.repos.d/ftp.repo"
 Loaded plugins: fastestmirror
-
 Loading mirror speeds from cached hostfile
-
 repo id repo name status
-
 centos centos 4,070
-
 openstack openstack 1,008
-
 repolist: 5,078
-
-vsftpd-3.0.2-29.el7\_9.x86\_64
-
-\[centos]
-
+vsftpd-3.0.2-29.el7_9.x86_64
+[centos]
 name=centos
-
 baseurl=ftp://controller/centos
-
 gpgcheck=0
-
 enabled=1
-
-\[openstack]
-
+[openstack]
 name=openstack
-
 baseurl=ftp://controller/openstack
-
 gpgcheck=0
-
 enabled=1
+```
 
 #### 基础安装(1分)
 
@@ -263,71 +193,41 @@ enabled=1
 
 **答案**
 
-\[root@controller \~]# cat /root/variable.sh | grep -Ev '^$|#|000000' && systemctl status chronyd
-
-HOST\_IP=192.168.100.4
-
-HOST\_NAME=controller
-
-HOST\_IP\_NODE=192.168.100.227
-
-HOST\_NAME\_NODE=compute
-
-network\_segment\_IP=192.168.100.0/24
-
-RABBIT\_USER=openstack
-
-DOMAIN\_NAME=demo
-
-INTERFACE\_IP\_HOST=192.168.100.4
-
-INTERFACE\_IP\_NODE=192.168.100.227
-
-INTERFACE\_NAME\_HOST=eth1
-
-INTERFACE\_NAME\_NODE=eth1
-
-Physical\_NAME=provider
-
+```
+[root@controller ~]# cat /root/variable.sh | grep -Ev '^$|#|000000' && systemctl status chronyd
+HOST_IP=192.168.100.4
+HOST_NAME=controller
+HOST_IP_NODE=192.168.100.227
+HOST_NAME_NODE=compute
+network_segment_IP=192.168.100.0/24
+RABBIT_USER=openstack
+DOMAIN_NAME=demo
+INTERFACE_IP_HOST=192.168.100.4
+INTERFACE_IP_NODE=192.168.100.227
+INTERFACE_NAME_HOST=eth1
+INTERFACE_NAME_NODE=eth1
+Physical_NAME=provider
 minvlan=100
-
 maxvlan=200
-
-BLOCK\_DISK=sdb1
-
-OBJECT\_DISK=sdb2
-
-STORAGE\_LOCAL\_NET\_IP=192.168.100.227
-
-SHARE\_DISK=sdb3
-
+BLOCK_DISK=sdb1
+OBJECT_DISK=sdb2
+STORAGE_LOCAL_NET_IP=192.168.100.227
+SHARE_DISK=sdb3
 ● chronyd.service - NTP client/server
-
 Loaded: loaded (/usr/lib/systemd/system/chronyd.service; enabled; vendor preset: enabled)
-
 Active: active (running) since Tue 2024-07-02 12:59:19 UTC; 11s ago
-
 Docs: man:chronyd(8)
-
 man:chrony.conf(5)
-
 Main PID: 27410 (chronyd)
-
 CGroup: /system.slice/chronyd.service
-
 └─27410 /usr/sbin/chronyd
-
-Jul 02 12:59:19 controller systemd\[1]: Starting NTP client/server...
-
-Jul 02 12:59:19 controller chronyd\[27410]: chronyd version 3.4 starting (+CMDMON +NTP +REFCLOCK +RTC +PRIVDROP +SCF...DEBUG)
-
-Jul 02 12:59:19 controller chronyd\[27410]: Frequency -1.278 +/- 0.487 ppm read from /var/lib/chrony/drift
-
-Jul 02 12:59:19 controller systemd\[1]: Started NTP client/server.
-
-Jul 02 12:59:24 controller chronyd\[27410]: Selected source 192.168.100.4
-
+Jul 02 12:59:19 controller systemd[1]: Starting NTP client/server...
+Jul 02 12:59:19 controller chronyd[27410]: chronyd version 3.4 starting (+CMDMON +NTP +REFCLOCK +RTC +PRIVDROP +SCF...DEBUG)
+Jul 02 12:59:19 controller chronyd[27410]: Frequency -1.278 +/- 0.487 ppm read from /var/lib/chrony/drift
+Jul 02 12:59:19 controller systemd[1]: Started NTP client/server.
+Jul 02 12:59:24 controller chronyd[27410]: Selected source 192.168.100.4
 Hint: Some lines were ellipsized, use -l to show in full.
+```
 
 #### 数据库安装与调优(1分)
 
@@ -347,81 +247,50 @@ Hint: Some lines were ellipsized, use -l to show in full.
 
 **操作步骤**
 
-\[root@controller \~]# openstack-controller-mysql.sh
-
-\[root@controller \~]# vim /etc/my.cnf
-
-\#添加
-
-lower\_case\_table\_names = 1
-
-innodb\_buffer\_pool\_size = 4G
-
-innodb\_log\_buffer\_size = 64M
-
-innodb\_log\_file\_size = 256M
-
-innodb\_log\_files\_in\_group = 2
-
-\[root@controller \~]# systemctl restart mariadb
+```
+[root@controller ~]# openstack-controller-mysql.sh
+[root@controller ~]# vim /etc/my.cnf
+#添加
+lower_case_table_names = 1
+innodb_buffer_pool_size = 4G
+innodb_log_buffer_size = 64M
+innodb_log_file_size = 256M
+innodb_log_files_in_group = 2
+[root@controller ~]# systemctl restart mariadb
+```
 
 **答案**
 
-\[root@controller \~]# cat /etc/my.cnf | grep -Ev ^'(#|$)' && source /root/variable.sh && mysql -uroot -p$DB\_PASS -e "show variables like 'innodb\_log%';"
-
-\[client-server]
-
-\[mysqld]
-
+```
+[root@controller ~]# cat /etc/my.cnf | grep -Ev ^'(#|$)' && source /root/variable.sh && mysql -uroot -p$DB_PASS -e "show variables like 'innodb_log%';"
+[client-server]
+[mysqld]
 symbolic-links=0
-
 !includedir /etc/my.cnf.d
-
 default-storage-engine = innodb
-
-innodb\_file\_per\_table
-
-collation-server = utf8\_general\_ci
-
+innodb_file_per_table
+collation-server = utf8_general_ci
 init-connect = 'SET NAMES utf8'
-
 character-set-server = utf8
-
-max\_connections = 10000
-
-lower\_case\_table\_names = 1
-
-innodb\_buffer\_pool\_size = 4G
-
-innodb\_log\_buffer\_size = 64M
-
-innodb\_log\_file\_size = 256M
-
-innodb\_log\_files\_in\_group = 2
-
-\+-----------------------------+-----------+
-
-\| Variable\_name | Value |
-
-\+-----------------------------+-----------+
-
-\| innodb\_log\_buffer\_size | 67108864 |
-
-\| innodb\_log\_checksums | ON |
-
-\| innodb\_log\_compressed\_pages | ON |
-
-\| innodb\_log\_file\_size | 268435456 |
-
-\| innodb\_log\_files\_in\_group | 2 |
-
-\| innodb\_log\_group\_home\_dir | ./ |
-
-\| innodb\_log\_optimize\_ddl | ON |
-
-\| innodb\_log\_write\_ahead\_size | 8192 |
-
-\+-----------------------------+-----------+
+max_connections = 10000
+lower_case_table_names = 1
+innodb_buffer_pool_size = 4G
+innodb_log_buffer_size = 64M
+innodb_log_file_size = 256M
+innodb_log_files_in_group = 2
++-----------------------------+-----------+
+| Variable_name | Value |
++-----------------------------+-----------+
+| innodb_log_buffer_size | 67108864 |
+| innodb_log_checksums | ON |
+| innodb_log_compressed_pages | ON |
+| innodb_log_file_size | 268435456 |
+| innodb_log_files_in_group | 2 |
+| innodb_log_group_home_dir | ./ |
+| innodb_log_optimize_ddl | ON |
+| innodb_log_write_ahead_size | 8192 |
++-----------------------------+-----------+
+```
 
 #### Keystone服务安装与使用(1分)
 
@@ -431,59 +300,39 @@ innodb\_log\_files\_in\_group = 2
 
 **操作步骤**
 
-\[root@controller \~]# openstack-controller-keystone.sh
-
-\[root@controller \~]# source /root/admin-openrc
-
-\[root@controller \~]# openstack user create --password 000000 competition
-
-\+---------------------+----------------------------------+
-
-\| Field | Value |
-
-\+---------------------+----------------------------------+
-
-\| domain\_id | default |
-
-\| enabled | True |
-
-\| id | 8911fe08fad04d75a0a7dc567f895f80 |
-
-\| name | competition |
-
-\| options | {} |
-
-\| password\_expires\_at | None |
-
-\+---------------------+----------------------------------+
+```
+[root@controller ~]# openstack-controller-keystone.sh
+[root@controller ~]# source /root/admin-openrc
+[root@controller ~]# openstack user create --password 000000 competition
++---------------------+----------------------------------+
+| Field | Value |
++---------------------+----------------------------------+
+| domain_id | default |
+| enabled | True |
+| id | 8911fe08fad04d75a0a7dc567f895f80 |
+| name | competition |
+| options | {} |
+| password_expires_at | None |
++---------------------+----------------------------------+
+```
 
 **答案**
 
-\[root@controller \~]# source /root/admin-openrc && openstack service list && openstack user list
-
-\+----------------------------------+----------+----------+
-
-\| ID | Name | Type |
-
-\+----------------------------------+----------+----------+
-
-\| c1028e54fcab4604a31a1b062c208d2b | keystone | identity |
-
-\+----------------------------------+----------+----------+
-
-\+----------------------------------+-------------+
-
-\| ID | Name |
-
-\+----------------------------------+-------------+
-
-\| a6d86c811dbe41ac8f9bde49d950e860 | admin |
-
-\| 216a58918927476a96ec2cc4af7bbc72 | demo |
-
-\| 5971a102636d46ab8aef8ac3e6fd2029 | competition |
-
-\+----------------------------------+-------------+
+```
+[root@controller ~]# source /root/admin-openrc && openstack service list && openstack user list
++----------------------------------+----------+----------+
+| ID | Name | Type |
++----------------------------------+----------+----------+
+| c1028e54fcab4604a31a1b062c208d2b | keystone | identity |
++----------------------------------+----------+----------+
++----------------------------------+-------------+
+| ID | Name |
++----------------------------------+-------------+
+| a6d86c811dbe41ac8f9bde49d950e860 | admin |
+| 216a58918927476a96ec2cc4af7bbc72 | demo |
+| 5971a102636d46ab8aef8ac3e6fd2029 | competition |
++----------------------------------+-------------+
+```
 
 #### Glance安装与使用(1分)
 
@@ -493,65 +342,42 @@ innodb\_log\_files\_in\_group = 2
 
 **操作步骤**
 
-\[root@controller \~]# openstack-controller-glance.sh
-
-\[root@controller \~]# source /root/admin-openrc
-
-\[root@controller \~]# openstack image create --container-format bare --disk-format qcow2 --public --file cirros-0.3.4-x86\_64-disk.img --min-disk 10 --min-ram 1024 cirros
+```
+[root@controller ~]# openstack-controller-glance.sh
+[root@controller ~]# source /root/admin-openrc
+[root@controller ~]# openstack image create --container-format bare --disk-format qcow2 --public --file cirros-0.3.4-x86_64-disk.img --min-disk 10 --min-ram 1024 cirros
+```
 
 **答案**
 
-\[root@controller \~]# source /root/admin-openrc && openstack-service status glance && openstack image show cirros | sed s/\[\[:space:]]//g
-
+```
+[root@controller ~]# source /root/admin-openrc && openstack-service status glance && openstack image show cirros | sed s/[[:space:]]//g
 MainPID=30644 Id=openstack-glance-api.service ActiveState=active
-
 MainPID=30645 Id=openstack-glance-registry.service ActiveState=active
-
-\+------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-
++------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |Field|Value|
-
-\+------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-
++------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |checksum|ee1eca47dc88f4879d8a229cc70a07c6|
-
-|container\_format|bare|
-
-|created\_at|2024-07-02T13:03:40Z|
-
-|disk\_format|qcow2|
-
+|container_format|bare|
+|created_at|2024-07-02T13:03:40Z|
+|disk_format|qcow2|
 |file|/v2/images/d3cb0019-6bc0-4340-8660-ada2d6991e9f/file|
-
 |id|d3cb0019-6bc0-4340-8660-ada2d6991e9f|
-
-|min\_disk|10|
-
-|min\_ram|1024|
-
+|min_disk|10|
+|min_ram|1024|
 |name|cirros|
-
 |owner|27e2f4b37b084ad9b853c1013de66f61|
-
-|properties|os\_hash\_algo='sha512',os\_hash\_value='1b03ca1bc3fafe448b90583c12f367949f8b0e665685979d95b004e48574b953316799e23240f4f739d1b5eb4c4ca24d38fdc6f4f9d8247a2bc64db25d6bbdb2',os\_hidden='False'|
-
+|properties|os_hash_algo='sha512',os_hash_value='1b03ca1bc3fafe448b90583c12f367949f8b0e665685979d95b004e48574b953316799e23240f4f739d1b5eb4c4ca24d38fdc6f4f9d8247a2bc64db25d6bbdb2',os_hidden='False'|
 |protected|False|
-
 |schema|/v2/schemas/image|
-
 |size|13287936|
-
 |status|active|
-
 |tags||
-
-|updated\_at|2024-07-02T13:03:40Z|
-
-|virtual\_size|None|
-
+|updated_at|2024-07-02T13:03:40Z|
+|virtual_size|None|
 |visibility|public|
-
-\+------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
++------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+```
 
 #### Nova安装(1分)
 
@@ -561,95 +387,57 @@ MainPID=30645 Id=openstack-glance-registry.service ActiveState=active
 
 **操作步骤**
 
-\[root@controller \~]# openstack-controller-nova.sh
-
-\[root@compute \~]# openstack-compute-nova.sh
-
-\[root@controller \~]# vim /etc/nova/nova.conf
-
-\[DEFAULT]#下添加
-
-vif\_plugging\_is\_fatal=false
-
-\#重启
-
-\[root@controller \~]# systemctl restart openstack-nova-\*
+```
+[root@controller ~]# openstack-controller-nova.sh
+[root@compute ~]# openstack-compute-nova.sh
+[root@controller ~]# vim /etc/nova/nova.conf
+[DEFAULT]#下添加
+vif_plugging_is_fatal=false
+#重启
+[root@controller ~]# systemctl restart openstack-nova-*
+```
 
 **答案**
 
-\[root@controller \~]# source admin-openrc && openstack-service status nova && cat /etc/nova/nova.conf | grep -Ev ^'(#|$|\\\[)'
-
+```
+[root@controller ~]# source admin-openrc && openstack-service status nova && cat /etc/nova/nova.conf | grep -Ev ^'(#|$|\[)'
 MainPID=32069 Id=openstack-nova-api.service ActiveState=active
-
 MainPID=32094 Id=openstack-nova-conductor.service ActiveState=active
-
 MainPID=32064 Id=openstack-nova-novncproxy.service ActiveState=active
-
 MainPID=32065 Id=openstack-nova-scheduler.service ActiveState=active
-
-enabled\_apis = osapi\_compute,metadata
-
-transport\_url = rabbit://openstack:000000@controller
-
-my\_ip = 192.168.100.4
-
-use\_neutron = True
-
-firewall\_driver = nova.virt.firewall.NoopFirewallDriver
-
-vif\_plugging\_is\_fatal=false
-
-auth\_strategy = keystone
-
-connection = mysql+pymysql://nova:000000@controller/nova\_api
-
+enabled_apis = osapi_compute,metadata
+transport_url = rabbit://openstack:000000@controller
+my_ip = 192.168.100.4
+use_neutron = True
+firewall_driver = nova.virt.firewall.NoopFirewallDriver
+vif_plugging_is_fatal=false
+auth_strategy = keystone
+connection = mysql+pymysql://nova:000000@controller/nova_api
 connection = mysql+pymysql://nova:000000@controller/nova
-
-api\_servers = http://controller:9292
-
-www\_authenticate\_uri = http://controller:5000
-
-auth\_url = http://controller:5000
-
-memcached\_servers = controller:11211
-
-auth\_type = password
-
-project\_domain\_name = demo
-
-user\_domain\_name = demo
-
-project\_name = service
-
+api_servers = http://controller:9292
+www_authenticate_uri = http://controller:5000
+auth_url = http://controller:5000
+memcached_servers = controller:11211
+auth_type = password
+project_domain_name = demo
+user_domain_name = demo
+project_name = service
 username = nova
-
 password = 000000
-
-lock\_path = /var/lib/nova/tmp
-
-region\_name = RegionOne
-
-project\_domain\_name = demo
-
-project\_name = service
-
-auth\_type = password
-
-user\_domain\_name = demo
-
-auth\_url = http://controller:5000/v3
-
+lock_path = /var/lib/nova/tmp
+region_name = RegionOne
+project_domain_name = demo
+project_name = service
+auth_type = password
+user_domain_name = demo
+auth_url = http://controller:5000/v3
 username = placement
-
 password = 000000
-
-discover\_hosts\_in\_cells\_interval = 300
-
+discover_hosts_in_cells_interval = 300
 enabled = true
-
-server\_listen = 192.168.100.4
-
-server\_proxyclient\_address = 192.168.100.4
+server_listen = 192.168.100.4
+server_proxyclient_address = 192.168.100.4
+```
 
 #### Neutron安装(1分)
 
@@ -659,37 +447,28 @@ server\_proxyclient\_address = 192.168.100.4
 
 **操作步骤**
 
-\[root@controller \~]# openstack-controller-neutron.sh
-
-\[root@compute \~]# openstack-controller-neutron.sh
+```
+[root@controller ~]# openstack-controller-neutron.sh
+[root@compute ~]# openstack-controller-neutron.sh
+```
 
 **答案**
 
-\[root@controller \~]# source /root/admin-openrc && openstack-service status neutron && openstack network agent list
-
+```
+[root@controller ~]# source /root/admin-openrc && openstack-service status neutron && openstack network agent list
 MainPID=1126 Id=neutron-dhcp-agent.service ActiveState=active
-
 MainPID=1128 Id=neutron-l3-agent.service ActiveState=active
-
 MainPID=1133 Id=neutron-linuxbridge-agent.service ActiveState=active
-
 MainPID=1127 Id=neutron-metadata-agent.service ActiveState=active
-
 MainPID=1124 Id=neutron-server.service ActiveState=active
-
-\+--------------------------------------+--------------------+------------+-------------------+-------+-------+---------------------------+
-
-\| ID | Agent Type | Host | Availability Zone | Alive | State | Binary |
-
-\+--------------------------------------+--------------------+------------+-------------------+-------+-------+---------------------------+
-
-\| 2065502a-aef9-4c02-ad05-6a8d59a6efc6 | Linux bridge agent | controller | None | :-) | UP | neutron-linuxbridge-agent |
-
-\| 73ad8900-d9e2-4fac-ac96-23fd2812039c | L3 agent | controller | nova | :-) | UP | neutron-l3-agent |
-
-\| 9e3d851b-15e5-4c91-bce1-be7b37474c06 | Linux bridge agent | compute | None | :-) | UP | neutron-linuxbridge-agent |
-
-\+--------------------------------------+--------------------+------------+-------------------+-------+-------+---------------------------+
++--------------------------------------+--------------------+------------+-------------------+-------+-------+---------------------------+
+| ID | Agent Type | Host | Availability Zone | Alive | State | Binary |
++--------------------------------------+--------------------+------------+-------------------+-------+-------+---------------------------+
+| 2065502a-aef9-4c02-ad05-6a8d59a6efc6 | Linux bridge agent | controller | None | :-) | UP | neutron-linuxbridge-agent |
+| 73ad8900-d9e2-4fac-ac96-23fd2812039c | L3 agent | controller | nova | :-) | UP | neutron-l3-agent |
+| 9e3d851b-15e5-4c91-bce1-be7b37474c06 | Linux bridge agent | compute | None | :-) | UP | neutron-linuxbridge-agent |
++--------------------------------------+--------------------+------------+-------------------+-------+-------+---------------------------+
+```
 
 #### Dashboard安装(1分)
 
@@ -699,33 +478,26 @@ MainPID=1124 Id=neutron-server.service ActiveState=active
 
 **操作步骤**
 
-\[root@controller \~]# openstack-controller-dashboard.sh
-
-\[root@controller \~]# vim /etc/openstack-dashboard/local\_settings
-
-将SESSION\_ENGINE = 'django.contrib.sessions.backends.cache'修改为
-
+```
+[root@controller ~]# openstack-controller-dashboard.sh
+[root@controller ~]# vim /etc/openstack-dashboard/local_settings
+将SESSION_ENGINE = 'django.contrib.sessions.backends.cache'修改为
 django.contrib.sessions.backends.file
-
-\#重启
-
-\[root@controller \~]# systemctl restart httpd
+#重启
+[root@controller ~]# systemctl restart httpd
+```
 
 **答案**
 
-\[root@controller \~]# cat /etc/openstack-dashboard/local\_settings | grep -Ev '(#|^$)' | grep django
-
-from django.utils.translation import ugettext\_lazy as \_
-
-EMAIL\_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
+```
+[root@controller ~]# cat /etc/openstack-dashboard/local_settings | grep -Ev '(#|^$)' | grep django
+from django.utils.translation import ugettext_lazy as _
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 'django': {
-
 'django.db.backends': {
-
-SESSION\_ENGINE = 'django.contrib.sessions.backends.file'
-
+SESSION_ENGINE = 'django.contrib.sessions.backends.file'
 'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+```
 
 #### Cinder创建硬盘(1分)
 
@@ -735,97 +507,58 @@ SESSION\_ENGINE = 'django.contrib.sessions.backends.file'
 
 **操作步骤**
 
-\[root@controller \~]# openstack-controller-cinder.sh
-
-\[root@controller \~]# openstack-compute-cinder.sh
-
-\[root@compute \~]# lsblk
-
+```
+[root@controller ~]# openstack-controller-cinder.sh
+[root@controller ~]# openstack-compute-cinder.sh
+[root@compute ~]# lsblk
 NAME MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
-
 vda 253:0 0 200G 0 disk
-
 └─vda1 253:1 0 200G 0 part /
-
 vdb 253:16 0 200G 0 disk
-
 ├─vdb1 253:17 0 50G 0 part
-
-│ ├─cinder--volumes-cinder--volumes--pool\_tmeta 252:0 0 48M 0 lvm
-
+│ ├─cinder--volumes-cinder--volumes--pool_tmeta 252:0 0 48M 0 lvm
 │ │ └─cinder--volumes-cinder--volumes--pool 252:2 0 47.5G 0 lvm
-
-│ └─cinder--volumes-cinder--volumes--pool\_tdata 252:1 0 47.5G 0 lvm
-
+│ └─cinder--volumes-cinder--volumes--pool_tdata 252:1 0 47.5G 0 lvm
 │ └─cinder--volumes-cinder--volumes--pool 252:2 0 47.5G 0 lvm
-
 ├─vdb2 253:18 0 50G 0 part
-
 ├─vdb3 253:19 0 50G 0 part
-
 ├─vdb4 253:20 0 1K 0 part
-
 └─vdb5 253:21 0 5G 0 part
-
-\[root@compute \~]# pvcreate -f /dev/vdb5
-
+[root@compute ~]# pvcreate -f /dev/vdb5
 Physical volume "/dev/vdb5" successfully created.
-
-\[root@compute \~]# vgextend cinder-volumes /dev/vdb5
-
+[root@compute ~]# vgextend cinder-volumes /dev/vdb5
 Volume group "cinder-volumes" successfully extended
-
-\[root@compute \~]# lvextend /dev/cinder-volumes/cinder-volumes-pool /dev/vdb5
-
-Size of logical volume cinder-volumes/cinder-volumes-pool\_tdata changed from 47.50 GiB (12160 extents) to <52.50 GiB (13439 extents).
-
-Logical volume cinder-volumes/cinder-volumes-pool\_tdata successfully resized.
+[root@compute ~]# lvextend /dev/cinder-volumes/cinder-volumes-pool /dev/vdb5
+Size of logical volume cinder-volumes/cinder-volumes-pool_tdata changed from 47.50 GiB (12160 extents) to <52.50 GiB (13439 extents).
+Logical volume cinder-volumes/cinder-volumes-pool_tdata successfully resized.
+```
 
 **答案**
 
-\[root@compute \~]# openstack-service status cinder && vgdisplay
-
+```
+[root@compute ~]# openstack-service status cinder && vgdisplay
 MainPID=30265 Id=openstack-cinder-volume.service ActiveState=active
-
-\--- Volume group ---
-
+--- Volume group ---
 VG Name cinder-volumes
-
 System ID
-
 Format lvm2
-
 Metadata Areas 2
-
 Metadata Sequence No 6
-
 VG Access read/write
-
 VG Status resizable
-
 MAX LV 0
-
 Cur LV 1
-
 Open LV 0
-
 Max PV 0
-
 Cur PV 2
-
 Act PV 2
-
 VG Size 24.99 GiB
-
 PE Size 4.00 MiB
-
 Total PE 6398
-
 Alloc PE / Size 6398 / 24.99 GiB
-
 Free PE / Size 0 / 0
-
 VG UUID EqpUz4-36e4-QsxK-iBQ1-UIde-itHv-csMmZK
+```
 
 1. **Swift安装(2分)**
 
@@ -835,61 +568,40 @@ VG UUID EqpUz4-36e4-QsxK-iBQ1-UIde-itHv-csMmZK
 
 **操作步骤**
 
-\[root@controller \~]# openstack-controller-swift.sh
-
-\[root@controller \~]# openstack-compute-swift.sh
-
-\[root@controller \~]# swift post container
-
-\[root@controller \~]# swift upload -S 10000000 container cirros-0.3.4-x86\_64-disk.img
-
-cirros-0.3.4-x86\_64-disk.img segment 1
-
-cirros-0.3.4-x86\_64-disk.img segment 0
-
-cirros-0.3.4-x86\_64-disk.img
-
-\[root@controller \~]# swift stat container\_segments
-
-Account: AUTH\_55c418b9592a41d3a6402c92263315b7
-
-Container: container\_segments
-
+```
+[root@controller ~]# openstack-controller-swift.sh
+[root@controller ~]# openstack-compute-swift.sh
+[root@controller ~]# swift post container
+[root@controller ~]# swift upload -S 10000000 container cirros-0.3.4-x86_64-disk.img
+cirros-0.3.4-x86_64-disk.img segment 1
+cirros-0.3.4-x86_64-disk.img segment 0
+cirros-0.3.4-x86_64-disk.img
+[root@controller ~]# swift stat container_segments
+Account: AUTH_55c418b9592a41d3a6402c92263315b7
+Container: container_segments
 Objects: 2
-
 Bytes: 13287936
-
 Read ACL:
-
 Write ACL:
-
 Sync To:
-
 Sync Key:
-
 Accept-Ranges: bytes
-
 X-Storage-Policy: Policy-0
-
 Last-Modified: Tue, 05 Sep 2023 06:56:20 GMT
-
 X-Timestamp: 1693896979.72677
-
 X-Trans-Id: tx4f54354ad5f04a75b64fc-0064f6d11d
-
 Content-Type: application/json; charset=utf-8
-
 X-Openstack-Request-Id: tx4f54354ad5f04a75b64fc-0064f6d11d
+```
 
 **答案**
 
-\[root@controller \~]# source /root/admin-openrc && openstack-service status swift && swift list container\_segments
-
+```
+[root@controller ~]# source /root/admin-openrc && openstack-service status swift && swift list container_segments
 MainPID=23848 Id=openstack-swift-proxy.service ActiveState=active
-
-cirros-0.3.4-x86\_64-disk.img/1657759800.000000/13287936/10000000/00000000
-
-cirros-0.3.4-x86\_64-disk.img/1657759800.000000/13287936/10000000/00000001
+cirros-0.3.4-x86_64-disk.img/1657759800.000000/13287936/10000000/00000000
+cirros-0.3.4-x86_64-disk.img/1657759800.000000/13287936/10000000/00000001
+```
 
 #### Manila服务安装与使用(1分)
 
@@ -899,151 +611,85 @@ cirros-0.3.4-x86\_64-disk.img/1657759800.000000/13287936/10000000/00000001
 
 **操作步骤**
 
-\[root@controller \~]# openstack-controller-manila.sh
-
-\[root@compute \~]# openstack-compute-manila.sh
-
-\#创建共享类型
-
-\[root@controller \~]# manila type-create default\_share\_type false
-
-\+----------------------+--------------------------------------+
-
-\| Property | Value |
-
-\+----------------------+--------------------------------------+
-
-\| required\_extra\_specs | driver\_handles\_share\_servers : False |
-
-\| Name | default\_share\_type |
-
-\| Visibility | public |
-
-\| is\_default | YES |
-
-\| ID | 1660d2c2-7e25-4fa4-abdc-9025bd5cee95 |
-
-\| optional\_extra\_specs | |
-
-\| Description | None |
-
-\+----------------------+--------------------------------------+
-
-\#创建共享存储
-
-\[root@controller \~]# manila create NFS 2 --name share01
-
-\+---------------------------------------+--------------------------------------+
-
-\| Property | Value |
-
-\+---------------------------------------+--------------------------------------+
-
-\| status | creating |
-
-\| share\_type\_name | default\_share\_type |
-
-\| description | None |
-
-\| availability\_zone | None |
-
-\| share\_network\_id | None |
-
-\| share\_server\_id | None |
-
-\| share\_group\_id | None |
-
-\| host | |
-
-\| revert\_to\_snapshot\_support | False |
-
-\| access\_rules\_status | active |
-
-\| snapshot\_id | None |
-
-\| create\_share\_from\_snapshot\_support | False |
-
-\| is\_public | False |
-
-\| task\_state | None |
-
-\| snapshot\_support | False |
-
-\| id | 59b6d2bc-334f-42a5-8b97-c9bb84070fb1 |
-
-\| size | 2 |
-
-\| source\_share\_group\_snapshot\_member\_id | None |
-
-\| user\_id | 9c75a25a9d644ed0a6a0f1c2d82550b8 |
-
-\| name | share01 |
-
-\| share\_type | 1660d2c2-7e25-4fa4-abdc-9025bd5cee95 |
-
-\| has\_replicas | False |
-
-\| replication\_type | None |
-
-\| created\_at | 2023-09-05T07:55:55.000000 |
-
-\| share\_proto | NFS |
-
-\| mount\_snapshot\_support | False |
-
-\| project\_id | 55c418b9592a41d3a6402c92263315b7 |
-
-\| metadata | {} |
-
-\+---------------------------------------+--------------------------------------+
-
-\[root@controller \~]# manila access-allow share01 ip 10.0.3.0/24 --access-level rw
-
-\+--------------+--------------------------------------+
-
-\| Property | Value |
-
-\+--------------+--------------------------------------+
-
-\| access\_key | None |
-
-\| share\_id | 59b6d2bc-334f-42a5-8b97-c9bb84070fb1 |
-
-\| created\_at | 2023-09-05T07:56:06.000000 |
-
-\| updated\_at | None |
-
-\| access\_type | ip |
-
-\| access\_to | 10.0.3.0/24 |
-
-\| access\_level | rw |
-
-\| state | queued\_to\_apply |
-
-\| id | 7f496fe3-53d7-48cf-a613-833e367647f4 |
-
-\| metadata | {} |
-
-\+--------------+--------------------------------------+
+```
+[root@controller ~]# openstack-controller-manila.sh
+[root@compute ~]# openstack-compute-manila.sh
+#创建共享类型
+[root@controller ~]# manila type-create default_share_type false
++----------------------+--------------------------------------+
+| Property | Value |
++----------------------+--------------------------------------+
+| required_extra_specs | driver_handles_share_servers : False |
+| Name | default_share_type |
+| Visibility | public |
+| is_default | YES |
+| ID | 1660d2c2-7e25-4fa4-abdc-9025bd5cee95 |
+| optional_extra_specs | |
+| Description | None |
++----------------------+--------------------------------------+
+#创建共享存储
+[root@controller ~]# manila create NFS 2 --name share01
++---------------------------------------+--------------------------------------+
+| Property | Value |
++---------------------------------------+--------------------------------------+
+| status | creating |
+| share_type_name | default_share_type |
+| description | None |
+| availability_zone | None |
+| share_network_id | None |
+| share_server_id | None |
+| share_group_id | None |
+| host | |
+| revert_to_snapshot_support | False |
+| access_rules_status | active |
+| snapshot_id | None |
+| create_share_from_snapshot_support | False |
+| is_public | False |
+| task_state | None |
+| snapshot_support | False |
+| id | 59b6d2bc-334f-42a5-8b97-c9bb84070fb1 |
+| size | 2 |
+| source_share_group_snapshot_member_id | None |
+| user_id | 9c75a25a9d644ed0a6a0f1c2d82550b8 |
+| name | share01 |
+| share_type | 1660d2c2-7e25-4fa4-abdc-9025bd5cee95 |
+| has_replicas | False |
+| replication_type | None |
+| created_at | 2023-09-05T07:55:55.000000 |
+| share_proto | NFS |
+| mount_snapshot_support | False |
+| project_id | 55c418b9592a41d3a6402c92263315b7 |
+| metadata | {} |
++---------------------------------------+--------------------------------------+
+[root@controller ~]# manila access-allow share01 ip 10.0.3.0/24 --access-level rw
++--------------+--------------------------------------+
+| Property | Value |
++--------------+--------------------------------------+
+| access_key | None |
+| share_id | 59b6d2bc-334f-42a5-8b97-c9bb84070fb1 |
+| created_at | 2023-09-05T07:56:06.000000 |
+| updated_at | None |
+| access_type | ip |
+| access_to | 10.0.3.0/24 |
+| access_level | rw |
+| state | queued_to_apply |
+| id | 7f496fe3-53d7-48cf-a613-833e367647f4 |
+| metadata | {} |
++--------------+--------------------------------------+
+```
 
 **答案**
 
-\[root@controller \~]# source /root/admin-openrc && openstack-service status manila && manila access-list share01
-
+```
+[root@controller ~]# source /root/admin-openrc && openstack-service status manila && manila access-list share01
 MainPID=3928 Id=openstack-manila-api.service ActiveState=active
-
 MainPID=3931 Id=openstack-manila-scheduler.service ActiveState=active
-
-\+--------------------------------------+-------------+------------------+--------------+--------+------------+----------------------------+------------+
-
-\| id | access\_type | access\_to | access\_level | state | access\_key | created\_at | updated\_at |
-
-\+--------------------------------------+-------------+------------------+--------------+--------+------------+----------------------------+------------+
-
-\| c38b78fa-cc81-42a7-a070-761a392af43f | ip | 192.168.200.0/24 | rw | active | None | 2024-07-02T13:31:36.000000 | None |
-
-\+--------------------------------------+-------------+------------------+--------------+--------+------------+----------------------------+------------+
++--------------------------------------+-------------+------------------+--------------+--------+------------+----------------------------+------------+
+| id | access_type | access_to | access_level | state | access_key | created_at | updated_at |
++--------------------------------------+-------------+------------------+--------------+--------+------------+----------------------------+------------+
+| c38b78fa-cc81-42a7-a070-761a392af43f | ip | 192.168.200.0/24 | rw | active | None | 2024-07-02T13:31:36.000000 | None |
++--------------------------------------+-------------+------------------+--------------+--------+------------+----------------------------+------------+
+```
 
 ### 任务2 OpenStack私有云服务运维(12分)
 
@@ -1055,67 +701,43 @@ MainPID=3931 Id=openstack-manila-scheduler.service ActiveState=active
 
 **操作步骤**
 
-\[root@controller \~]# mdadm -C /dev/md5 -l5 -n3 /dev/sdb{1,2,3} -x1 /dev/sdb5
-
+```
+[root@controller ~]# mdadm -C /dev/md5 -l5 -n3 /dev/sdb{1,2,3} -x1 /dev/sdb5
 mdadm: Defaulting to version 1.2 metadata
-
 mdadm: array /dev/md5 started.
+```
 
 **答案**
 
-\[root@controller \~]# mdadm -D /dev/md5
-
+```
+[root@controller ~]# mdadm -D /dev/md5
 /dev/md5:
-
 Version : 1.2
-
 Creation Time : Tue Jul 2 13:33:36 2024
-
 Raid Level : raid5
-
 Array Size : 20953088 (19.98 GiB 21.46 GB)
-
 Used Dev Size : 10476544 (9.99 GiB 10.73 GB)
-
 Raid Devices : 3
-
 Total Devices : 4
-
 Persistence : Superblock is persistent
-
 Update Time : Tue Jul 2 13:37:02 2024
-
 State : clean
-
 Active Devices : 3
-
 Working Devices : 4
-
 Failed Devices : 0
-
 Spare Devices : 1
-
 Layout : left-symmetric
-
 Chunk Size : 512K
-
 Consistency Policy : resync
-
 Name : controller:5 (local to host controller)
-
 UUID : defd7616:d2639b68:fe9493f6:6dd71f19
-
 Events : 18
-
 Number Major Minor RaidDevice State
-
 0 8 17 0 active sync /dev/sdb1
-
 1 8 18 1 active sync /dev/sdb2
-
 4 8 19 2 active sync /dev/sdb3
-
 3 8 21 - spare /dev/sdb5
+```
 
 #### Keystone优化-优化token失效时间(1分)
 
@@ -1125,25 +747,22 @@ openstack api server在处理请求前会校验token是否合法，除了校验t
 
 **操作步骤**
 
-\[root@controller \~]# vim /etc/keystone/keystone.conf
-
-\[revoke]
-
-expiration\_buffer = 3600
-
-cache\_time = 7200
+```
+[root@controller ~]# vim /etc/keystone/keystone.conf
+[revoke]
+expiration_buffer = 3600
+cache_time = 7200
+```
 
 **答案**
 
-\[root@controller \~]# cat /etc/keystone/keystone.conf | grep -Ev ^'(#|$|\\\[)'
-
+```
+[root@controller ~]# cat /etc/keystone/keystone.conf | grep -Ev ^'(#|$|\[)'
 connection = mysql+pymysql://keystone:000000@controller/keystone
-
-expiration\_buffer = 3600
-
-cache\_time = 7200
-
+expiration_buffer = 3600
+cache_time = 7200
 provider = fernet
+```
 
 #### Keystone权限控制(1分)
 
@@ -1153,19 +772,19 @@ provider = fernet
 
 **操作步骤**
 
-\[root@controller \~]# vim /etc/glance/policy.json
-
-\#修改
-
-"add\_image": "role:admin",
-
-"delete\_image": "role:admin",
+```
+[root@controller ~]# vim /etc/glance/policy.json
+#修改
+"add_image": "role:admin",
+"delete_image": "role:admin",
+```
 
 **答案**
 
-\[root@controller \~]# source /root/demo-openrc && openstack image create --container-format bare --disk-format qcow2 test\_CentOS7.9
-
-HTTP 403 Forbidden: You are not authorized to complete add\_image action.
+```
+[root@controller ~]# source /root/demo-openrc && openstack image create --container-format bare --disk-format qcow2 test_CentOS7.9
+HTTP 403 Forbidden: You are not authorized to complete add_image action.
+```
 
 #### 修改文件句柄数(1分)
 
@@ -1175,25 +794,22 @@ Linux服务器大并发时，往往需要预先调优Linux参数。默认情况�
 
 **操作步骤**
 
-\[root@controller \~]# ulimit -n 655355
-
-\[root@controller \~]# echo "\* soft nofile 65535 " >> /etc/security/limits.conf
-
-\[root@controller \~]# echo "\* hard nofile 65535 " >> /etc/security/limits.conf
+```
+[root@controller ~]# ulimit -n 655355
+[root@controller ~]# echo "* soft nofile 65535 " >> /etc/security/limits.conf
+[root@controller ~]# echo "* hard nofile 65535 " >> /etc/security/limits.conf
+```
 
 **答案**
 
-\[root@controller \~]# ulimit -n && cat /etc/security/limits.conf | grep -Ev ^'(#|$)'
-
+```
+[root@controller ~]# ulimit -n && cat /etc/security/limits.conf | grep -Ev ^'(#|$)'
 655355
-
 rabbitmq soft nofile 10240
-
 rabbitmq hard nofile 10240
-
-\* soft nofile 65535
-
-\* hard nofile 65535
+* soft nofile 65535
+* hard nofile 65535
+```
 
 #### 镜像转换(1分)
 
@@ -1203,19 +819,19 @@ rabbitmq hard nofile 10240
 
 **操作步骤**
 
-\[root@controller \~]# qemu-img convert -f qcow2 -O raw CentOS\_7.9\_x86\_64\_GJ.qcow2 /root/CentOS7.9.raw
+```
+[root@controller ~]# qemu-img convert -f qcow2 -O raw CentOS_7.9_x86_64_GJ.qcow2 /root/CentOS7.9.raw
+```
 
 **答案**
 
-\[root@controller \~]# qemu-img info /root/CentOS7.9.raw
-
+```
+[root@controller ~]# qemu-img info /root/CentOS7.9.raw
 image: /root/CentOS7.9.raw
-
 file format: raw
-
 virtual size: 8.0G (8589934592 bytes)
-
 disk size: 953M
+```
 
 #### OpenStack镜像压缩(1分)
 
@@ -1225,33 +841,26 @@ disk size: 953M
 
 **操作步骤**
 
-\[root@controller \~]# qemu-img convert -c -O qcow2 CentOS-7-x86\_64-GenericCloud-2009.qcow2 /root/CentOS-GenericCloud-2009.qcow2
-
-\[root@controller \~]# systemctl restart openstack-glance-api.service
+```
+[root@controller ~]# qemu-img convert -c -O qcow2 CentOS-7-x86_64-GenericCloud-2009.qcow2 /root/CentOS-GenericCloud-2009.qcow2
+[root@controller ~]# systemctl restart openstack-glance-api.service
+```
 
 **答案**
 
-\[root@controller \~]# qemu-img info /root/CentOS-GenericCloud-2009.qcow2
-
+```
+[root@controller ~]# qemu-img info /root/CentOS-GenericCloud-2009.qcow2
 image: CentOS-GenericCloud-2009.qcow2
-
 file format: qcow2
-
 virtual size: 8.0G (8589934592 bytes)
-
 disk size: 378M
-
-cluster\_size: 65536
-
+cluster_size: 65536
 Format specific information:
-
 compat: 1.1
-
 lazy refcounts: false
-
 refcount bits: 16
-
 corrupt: false
+```
 
 #### Nova优化-优化数据库连接(1分)
 
@@ -1261,31 +870,25 @@ corrupt: false
 
 **操作步骤**
 
-\[root@controller \~]# vim /etc/nova/nova.conf
-
-\[database]
-
-max\_pool\_size=10
-
-max\_overflow=10
-
-\#重启服务
-
-\[root@controller \~]# systemctl restart openstack-nova-\*
+```
+[root@controller ~]# vim /etc/nova/nova.conf
+[database]
+max_pool_size=10
+max_overflow=10
+#重启服务
+[root@controller ~]# systemctl restart openstack-nova-*
+```
 
 **答案**
 
-\[root@controller \~]# cat /etc/nova/nova.conf | grep -Ev ^'(#|$|\\\[)' | grep 10
-
-my\_ip = 192.168.100.4
-
-max\_pool\_size=10
-
-max\_overflow=10
-
-server\_listen = 192.168.100.4
-
-server\_proxyclient\_address = 192.168.100.4
+```
+[root@controller ~]# cat /etc/nova/nova.conf | grep -Ev ^'(#|$|\[)' | grep 10
+my_ip = 192.168.100.4
+max_pool_size=10
+max_overflow=10
+server_listen = 192.168.100.4
+server_proxyclient_address = 192.168.100.4
+```
 
 #### Nova保持云主机状态(1分)
 
@@ -1295,23 +898,21 @@ OpenStack平台若意外断电，在电力系统恢复后，OpenStack平台可�
 
 **操作步骤**
 
-\[root@controller \~]# vim /etc/nova/nova.conf
-
-\[DEFAULT]
-
-resume\_guests\_state\_on\_host\_boot=true
-
-\[root@controller \~]# openstack-service restart nova
+```
+[root@controller ~]# vim /etc/nova/nova.conf
+[DEFAULT]
+resume_guests_state_on_host_boot=true
+[root@controller ~]# openstack-service restart nova
+```
 
 **答案**
 
-\[root@controller \~]# cat /etc/nova/nova.conf | grep -Ev ^'(#|$|\\\[)' | grep true
-
-resume\_guests\_state\_on\_host\_boot=true
-
-service\_metadata\_proxy = true
-
+```
+[root@controller ~]# cat /etc/nova/nova.conf | grep -Ev ^'(#|$|\[)' | grep true
+resume_guests_state_on_host_boot=true
+service_metadata_proxy = true
 enabled = true
+```
 
 1. **Nova自动清理镜像缓存(1分)**
 
@@ -1321,111 +922,65 @@ enabled = true
 
 **操作步骤**
 
-\[root@compute \~]# vim /etc/nova/nova.conf
-
-\#修改
-
-remove\_unused\_base\_images=True
-
-remove\_unused\_original\_minimum\_age\_seconds=3
-
-image\_cache\_manager\_interval=5
-
-\#remove\_unused\_base\_images用于开启自动清理镜像缓存。
-
-\#remove\_unused\_original\_minimum\_age\_seconds也是为了缩短测试时间，默认是超过247个消失的无用base镜像才会被删除。
-
-\#image\_cache\_manager\_interval是为了缩短测试时间才需要设置，默认40分钟才检查一次
-
-\[root@compute \~]# systemctl restart openstack-nova-compute
+```
+[root@compute ~]# vim /etc/nova/nova.conf
+#修改
+remove_unused_base_images=True
+remove_unused_original_minimum_age_seconds=3
+image_cache_manager_interval=5
+#remove_unused_base_images用于开启自动清理镜像缓存。
+#remove_unused_original_minimum_age_seconds也是为了缩短测试时间，默认是超过247个消失的无用base镜像才会被删除。
+#image_cache_manager_interval是为了缩短测试时间才需要设置，默认40分钟才检查一次
+[root@compute ~]# systemctl restart openstack-nova-compute
+```
 
 **答案**
 
-\[root@compute \~]# cat /etc/nova/nova.conf | grep -Ev ^'(#|$|\\\[)'
-
-enabled\_apis = osapi\_compute,metadata
-
-transport\_url = rabbit://openstack:000000@controller
-
-my\_ip = 192.168.100.10
-
-use\_neutron = True
-
-firewall\_driver = nova.virt.firewall.NoopFirewallDriver
-
-remove\_unused\_base\_images=true
-
-remove\_unused\_original\_minimum\_age\_seconds=3
-
-reserved\_host\_memory\_mb=4096
-
-image\_cache\_manager\_interval=5
-
-auth\_strategy = keystone
-
-api\_servers = http://controller:9292
-
-www\_authenticate\_uri = http://controller:5000
-
-auth\_url = http://controller:5000
-
-memcached\_servers = controller:11211
-
-auth\_type = password
-
-project\_domain\_name = demo
-
-user\_domain\_name = demo
-
-project\_name = service
-
+```
+[root@compute ~]# cat /etc/nova/nova.conf | grep -Ev ^'(#|$|\[)'
+enabled_apis = osapi_compute,metadata
+transport_url = rabbit://openstack:000000@controller
+my_ip = 192.168.100.10
+use_neutron = True
+firewall_driver = nova.virt.firewall.NoopFirewallDriver
+remove_unused_base_images=true
+remove_unused_original_minimum_age_seconds=3
+reserved_host_memory_mb=4096
+image_cache_manager_interval=5
+auth_strategy = keystone
+api_servers = http://controller:9292
+www_authenticate_uri = http://controller:5000
+auth_url = http://controller:5000
+memcached_servers = controller:11211
+auth_type = password
+project_domain_name = demo
+user_domain_name = demo
+project_name = service
 username = nova
-
 password = 000000
-
-auth\_url = http://controller:5000
-
-auth\_type = password
-
-project\_domain\_name = demo
-
-user\_domain\_name = demo
-
-region\_name = RegionOne
-
-project\_name = service
-
+auth_url = http://controller:5000
+auth_type = password
+project_domain_name = demo
+user_domain_name = demo
+region_name = RegionOne
+project_name = service
 username = neutron
-
 password = 000000
-
-lock\_path = /var/lib/nova/tmp
-
-region\_name = RegionOne
-
-project\_domain\_name = demo
-
-project\_name = service
-
-auth\_type = password
-
-user\_domain\_name = demo
-
-auth\_url = http://controller:5000/v3
-
+lock_path = /var/lib/nova/tmp
+region_name = RegionOne
+project_domain_name = demo
+project_name = service
+auth_type = password
+user_domain_name = demo
+auth_url = http://controller:5000/v3
 username = placement
-
 password = 000000
-
-discover\_hosts\_in\_cells\_interval = 300
-
+discover_hosts_in_cells_interval = 300
 enabled = True
-
-server\_listen = 0.0.0.0
-
-server\_proxyclient\_address = 192.168.100.20
-
-novncproxy\_base\_url = http://192.168.100.10:6080/vnc\_auto.html
+server_listen = 0.0.0.0
+server_proxyclient_address = 192.168.100.20
+novncproxy_base_url = http://192.168.100.10:6080/vnc_auto.html
+```
 
 #### Cinder限速(1分)
 
@@ -1435,59 +990,39 @@ novncproxy\_base\_url = http://192.168.100.10:6080/vnc\_auto.html
 
 **操作步骤**
 
-\[root@compute \~]# vim /etc/cinder/cinder.conf
-
-\#修改
-
-volume\_copy\_bps\_limit = 100000000
-
-\[root@compute \~]# systemctl restart openstack-cinder-volume\*
+```
+[root@compute ~]# vim /etc/cinder/cinder.conf
+#修改
+volume_copy_bps_limit = 100000000
+[root@compute ~]# systemctl restart openstack-cinder-volume*
+```
 
 **答案**
 
-\[root@compute \~]# cat /etc/cinder/cinder.conf | grep -Ev ^'(#|$|\\\[)'
-
-transport\_url = rabbit://openstack:000000@controller
-
-auth\_strategy = keystone
-
-my\_ip = 192.168.100.20
-
-enabled\_backends = lvm
-
-glance\_api\_servers = http://controller:9292
-
-volume\_copy\_bps\_limit = 100000000
-
+```
+[root@compute ~]# cat /etc/cinder/cinder.conf | grep -Ev ^'(#|$|\[)'
+transport_url = rabbit://openstack:000000@controller
+auth_strategy = keystone
+my_ip = 192.168.100.20
+enabled_backends = lvm
+glance_api_servers = http://controller:9292
+volume_copy_bps_limit = 100000000
 connection = mysql+pymysql://cinder:000000@controller/cinder
-
-www\_authenticate\_uri = http://controller:5000
-
-auth\_url = http://controller:5000
-
-memcached\_servers = controller:11211
-
-auth\_type = password
-
-project\_domain\_name = demo
-
-user\_domain\_name = demo
-
-project\_name = service
-
+www_authenticate_uri = http://controller:5000
+auth_url = http://controller:5000
+memcached_servers = controller:11211
+auth_type = password
+project_domain_name = demo
+user_domain_name = demo
+project_name = service
 username = cinder
-
 password = 000000
-
-lock\_path = /var/lib/cinder/tmp
-
-volume\_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
-
-volume\_group = cinder-volumes
-
-target\_protocol = iscsi
-
-target\_helper = lioadm
+lock_path = /var/lib/cinder/tmp
+volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
+volume_group = cinder-volumes
+target_protocol = iscsi
+target_helper = lioadm
+```
 
 #### 使用Heat模板创建用户(2分)
 
@@ -1497,79 +1032,49 @@ target\_helper = lioadm
 
 **操作步骤**
 
-\[root@controller \~]# vim create\_user.yaml
-
-heat\_template\_version: 2014-10-16
-
+```
+[root@controller ~]# vim create_user.yaml
+heat_template_version: 2014-10-16
 resources:
-
 user:
-
 type: OS::Keystone::User
-
 properties:
-
 name: heat-user
-
 password: "123456"
-
 domain: demo
-
-default\_project: admin
-
-roles: \[{"role": admin, "project": admin}]
+default_project: admin
+roles: [{"role": admin, "project": admin}]
+```
 
 **答案**
 
-\[root@controller \~]# source admin-openrc && openstack-service status heat && openstack stack create -t /root/create\_user.yaml test-user && cat /root/create\_user.yaml
-
+```
+[root@controller ~]# source admin-openrc && openstack-service status heat && openstack stack create -t /root/create_user.yaml test-user && cat /root/create_user.yaml
 MainPID=964 Id=openstack-heat-api-cfn.service ActiveState=active
-
 MainPID=972 Id=openstack-heat-api.service ActiveState=active
-
 MainPID=982 Id=openstack-heat-engine.service ActiveState=active
-
-\+---------------------+--------------------------------------+
-
-\| Field | Value |
-
-\+---------------------+--------------------------------------+
-
-\| id | ed1c7f33-ac2b-4c86-ac9c-d6b4d6a07c11 |
-
-\| stack\_name | test-user |
-
-\| description | No description |
-
-\| creation\_time | 2024-06-24T08:37:24Z |
-
-\| updated\_time | None |
-
-\| stack\_status | CREATE\_IN\_PROGRESS |
-
-\| stack\_status\_reason | Stack CREATE started |
-
-\+---------------------+--------------------------------------+
-
-heat\_template\_version: 2014-10-16
-
++---------------------+--------------------------------------+
+| Field | Value |
++---------------------+--------------------------------------+
+| id | ed1c7f33-ac2b-4c86-ac9c-d6b4d6a07c11 |
+| stack_name | test-user |
+| description | No description |
+| creation_time | 2024-06-24T08:37:24Z |
+| updated_time | None |
+| stack_status | CREATE_IN_PROGRESS |
+| stack_status_reason | Stack CREATE started |
++---------------------+--------------------------------------+
+heat_template_version: 2014-10-16
 resources:
-
 user:
-
 type: OS::Keystone::User
-
 properties:
-
 name: heat-user
-
 password: "123456"
-
 domain: demo
-
-default\_project: admin
-
-roles: \[{"role": admin, "project": admin}]
+default_project: admin
+roles: [{"role": admin, "project": admin}]
+```
 
 ### 任务3 OpenStack私有云运维开发(7分)
 
@@ -1581,41 +1086,30 @@ roles: \[{"role": admin, "project": admin}]
 
 **操作步骤**
 
-\[root@controller \~]# yum install python3 -y
-
-\[root@controller python-depend]# pip3 install certifi-2019.11.28-py2.py3-none-any.whl
-
-\[root@controller python-depend]# pip3 install urllib3-1.25.11-py3-none-any.whl
-
-\[root@controller python-depend]# pip3 install idna-2.8-py2.py3-none-any.whl
-
-\[root@controller python-depend]# pip3 install chardet-3.0.4-py2.py3-none-any.whl
-
-\[root@controller python-depend]# pip3 install requests-2.24.0-py2.py3-none-any.whl
+```
+[root@controller ~]# yum install python3 -y
+[root@controller python-depend]# pip3 install certifi-2019.11.28-py2.py3-none-any.whl
+[root@controller python-depend]# pip3 install urllib3-1.25.11-py3-none-any.whl
+[root@controller python-depend]# pip3 install idna-2.8-py2.py3-none-any.whl
+[root@controller python-depend]# pip3 install chardet-3.0.4-py2.py3-none-any.whl
+[root@controller python-depend]# pip3 install requests-2.24.0-py2.py3-none-any.whl
+```
 
 **答案**
 
-\[root@controller \~]# python3 --version && pip3 --version && pip3 list
-
+```
+[root@controller ~]# python3 --version && pip3 --version && pip3 list
 Python 3.6.8
-
 pip 9.0.3 from /usr/lib/python3.6/site-packages (python 3.6)
-
-DEPRECATION: The default format will switch to columns in the future. You can use --format=(legacy|columns) (or define a format=(legacy|columns) in your pip.conf under the \[list] section) to disable this warning.
-
+DEPRECATION: The default format will switch to columns in the future. You can use --format=(legacy|columns) (or define a format=(legacy|columns) in your pip.conf under the [list] section) to disable this warning.
 certifi (2019.11.28)
-
 chardet (3.0.4)
-
 idna (2.8)
-
 pip (9.0.3)
-
 requests (2.24.0)
-
 setuptools (39.2.0)
-
 urllib3 (1.25.11)
+```
 
 #### Python运维开发：基于OpenStack API实现镜像上传(3分)
 
@@ -1625,179 +1119,103 @@ urllib3 (1.25.11)
 
 **操作步骤**
 
-\[root@controller \~]# python3 create\_image.py
-
+```
+[root@controller ~]# python3 create_image.py
 请输入访问openstack平台控制节点IP地址：(xx.xx.xx.xx)
-
 10.0.3.40
-
 创建镜像成功，id为：57913340-fbce-4198-9210-697d44bf88bd
-
 镜像文件上传成功
+```
 
 **答案**
 
-\[root@controller \~]# cat /root/create\_image.py && source /root/admin-openrc && openstack image list
-
+```
+[root@controller ~]# cat /root/create_image.py && source /root/admin-openrc && openstack image list
 import requests,json,time
 
-\# \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*全局变量IP\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
+# *******************全局变量IP*****************************
+#执行代码前，请修改controller_ip的IP地址，与指定router，IP可以input，也可以写成静态
+controller_ip = input("请输入访问openstack平台控制节点IP地址：(xx.xx.xx.xx)\n")
 
-\#执行代码前，请修改controller\_ip的IP地址，与指定router，IP可以input，也可以写成静态
-
-controller\_ip = input("请输入访问openstack平台控制节点IP地址：(xx.xx.xx.xx)\n")
-
-image\_name = "cirros\_python"
-
-file\_path = "/root/cirros-0.3.4-x86\_64-disk.img"
+image_name = "cirros_python"
+file_path = "/root/cirros-0.3.4-x86_64-disk.img"
 
 try:
-
-url = f"http://{controller\_ip}:5000/v3/auth/tokens"
-
-body = {
-
-"auth": {
-
-"identity": {
-
-"methods":\["password"],
-
-"password": {
-
-"user": {
-
-"domain":{
-
-"name": "demo"
-
-},
-
-"name": "admin",
-
-"password": "000000"
-
-}
-
-}
-
-},
-
-"scope": {
-
-"project": {
-
-"domain": {
-
-"name": "demo"
-
-},
-
-"name": "admin"
-
-}
-
-}
-
-}
-
-}
-
-headers = {"Content-Type": "application/json"}
-
-Token = requests.post(url, data=json.dumps(body), headers=headers).headers\['X-Subject-Token']
-
-headers = {"X-Auth-Token": Token}
-
+        url  = f"http://{controller_ip}:5000/v3/auth/tokens"
+        body = {
+                "auth": {
+                        "identity": {
+                                "methods":["password"],
+                                "password": {
+                                        "user": {
+                                                "domain":{
+                                                        "name": "demo"
+                                                },
+                                                "name": "admin",
+                                                "password": "000000"
+                                        }
+                                }
+                        },
+                        "scope": {
+                                "project": {
+                                        "domain": {
+                                                "name": "demo"
+                                        },
+                                        "name": "admin"
+                                }
+                        }
+                }
+        }
+        headers = {"Content-Type": "application/json"}
+        Token = requests.post(url, data=json.dumps(body), headers=headers).headers['X-Subject-Token']
+        headers = {"X-Auth-Token": Token}
 except Exception as e:
+        print(f"获取Token值失败，请检查访问云主机控制节点IP是否正确？输出错误信息如下：{str(e)}")
+        exit(0)
 
-print(f"获取Token值失败，请检查访问云主机控制节点IP是否正确？输出错误信息如下：{str(e)}")
-
-exit(0)
-
-class glance\_api:
-
-def \_\_init\_\_(self, headers: dict, resUrl: str):
-
-self.headers = headers
-
-self.resUrl = resUrl
-
-\#创建glance镜像
-
-def create\_glance(self, container\_format="bare", disk\_format="qcow2"):
-
-body = {
-
-"container\_format": container\_format,
-
-"disk\_format": disk\_format,
-
-"name": image\_name,
-
-}
-
-status\_code = requests.post(self.resUrl, data=json.dumps(body), headers=self.headers).status\_code
-
-if(status\_code == 201):
-
-return f"创建镜像成功，id为：{glance\_api.get\_glance\_id()}"
-
-else:
-
-return "创建镜像失败"
-
-\#获取glance镜像id
-
-def get\_glance\_id(self):
-
-result = json.loads(requests.get(self.resUrl,headers=self.headers).text)
-
-for item in result\['images']:
-
-if(item\['name'] == image\_name):
-
-return item\['id']
-
-\#上传glance镜像
-
-def update\_glance(self):
-
-self.resUrl=self.resUrl+"/"+self.get\_glance\_id()+"/file"
-
-self.headers\['Content-Type'] = "application/octet-stream"
-
-status\_code = requests.put(self.resUrl,data=open(file\_path,'rb').read(),headers=self.headers).status\_code
-
-if(status\_code == 204):
-
-return "镜像文件上传成功"
-
-else:
-
-return "镜像文件上传失败"
-
-glance\_api = glance\_api(headers,f"http://{controller\_ip}:9292/v2/images")
-
-print(glance\_api.create\_glance()) #调用glance-api中创建镜像方法
-
-print(glance\_api.update\_glance())
-
-\+--------------------------------------+---------------+--------+
-
-\| ID | Name | Status |
-
-\+--------------------------------------+---------------+--------+
-
-\| 17e77a03-6fb9-41df-835e-f20cc380ed77 | cirros | active |
-
-\| 2b5bc39d-1ada-47b5-8ea4-6f010802c86f | cirros-swift | active |
-
-\| 57913340-fbce-4198-9210-697d44bf88bd | cirros\_python | active |
-
-\| 8e27da65-6f4e-4a62-85d7-c6b163d1ad98 | cirrossave | active |
-
-\+--------------------------------------+---------------+--------+
+class glance_api:
+        def __init__(self, headers: dict, resUrl: str):
+                self.headers = headers
+                self.resUrl = resUrl
+        #创建glance镜像
+        def create_glance(self, container_format="bare", disk_format="qcow2"):
+                body = {
+                        "container_format": container_format,
+                        "disk_format": disk_format,
+                        "name": image_name,
+        }
+                status_code = requests.post(self.resUrl, data=json.dumps(body), headers=self.headers).status_code
+                if(status_code == 201):
+                        return f"创建镜像成功，id为：{glance_api.get_glance_id()}"
+                else:
+                        return "创建镜像失败"
+        #获取glance镜像id
+        def get_glance_id(self):
+                result = json.loads(requests.get(self.resUrl,headers=self.headers).text)
+                for item in result['images']:
+                        if(item['name'] == image_name):
+                                return item['id']
+        #上传glance镜像
+        def update_glance(self):
+                self.resUrl=self.resUrl+"/"+self.get_glance_id()+"/file"
+                self.headers['Content-Type'] = "application/octet-stream"
+                status_code = requests.put(self.resUrl,data=open(file_path,'rb').read(),headers=self.headers).status_code
+                if(status_code == 204):
+                        return "镜像文件上传成功"
+                else:
+                        return "镜像文件上传失败"
+glance_api = glance_api(headers,f"http://{controller_ip}:9292/v2/images")
+print(glance_api.create_glance())  #调用glance-api中创建镜像方法
+print(glance_api.update_glance())
++--------------------------------------+---------------+--------+
+| ID                                   | Name          | Status |
++--------------------------------------+---------------+--------+
+| 17e77a03-6fb9-41df-835e-f20cc380ed77 | cirros        | active |
+| 2b5bc39d-1ada-47b5-8ea4-6f010802c86f | cirros-swift  | active |
+| 57913340-fbce-4198-9210-697d44bf88bd | cirros_python | active |
+| 8e27da65-6f4e-4a62-85d7-c6b163d1ad98 | cirrossave    | active |
++--------------------------------------+---------------+--------+
+```
 
 #### Python运维开发：基于Openstack API创建用户(3分)
 
@@ -1807,235 +1225,134 @@ print(glance\_api.update\_glance())
 
 **操作步骤**
 
-\[root@controller \~]# python3 create\_user.py
-
+```
+[root@controller ~]# python3 create_user.py 
 请输入访问openstack平台控制节点IP地址：(xx.xx.xx.xx)
-
 10.0.3.40
-
 用户 gjbs 创建成功,ID为674a75c3dee642fbae395d58b8a14562
-
 该平台的用户为：
-
 gjbs
-
 admin
-
 demo
-
 glance
-
 nova
-
 competition
-
 placement
-
 neutron
-
 cinder
-
 swift
-
 heat
-
-heat\_domain\_admin
+heat_domain_admin
+```
 
 **答案**
 
-\[root@controller \~]# cat /root/create\_user.py && source admin-openrc && openstack user list
-
+```
+[root@controller ~]# cat /root/create_user.py && source admin-openrc && openstack user list
 import requests,json,time
 
-\# \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*全局变量IP\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-\#执行代码前，请修改controller\_ip的IP地址，与指定router，IP可以input，也可以写成静态
-
-controller\_ip = input("请输入访问openstack平台控制节点IP地址：(xx.xx.xx.xx)\n")
+# *******************全局变量IP*****************************
+#执行代码前，请修改controller_ip的IP地址，与指定router，IP可以input，也可以写成静态
+controller_ip = input("请输入访问openstack平台控制节点IP地址：(xx.xx.xx.xx)\n")
 
 try:
-
-url = f"http://{controller\_ip}:5000/v3/auth/tokens"
-
-body = {
-
-"auth": {
-
-"identity": {
-
-"methods":\["password"],
-
-"password": {
-
-"user": {
-
-"domain":{
-
-"name": "demo"
-
-},
-
-"name": "admin",
-
-"password": "000000"
-
-}
-
-}
-
-},
-
-"scope": {
-
-"project": {
-
-"domain": {
-
-"name": "demo"
-
-},
-
-"name": "admin"
-
-}
-
-}
-
-}
-
-}
-
-headers = {"Content-Type": "application/json"}
-
-Token = requests.post(url, data=json.dumps(body), headers=headers).headers\['X-Subject-Token']
-
-headers = {"X-Auth-Token": Token}
-
+        url  = f"http://{controller_ip}:5000/v3/auth/tokens"
+        body = {
+                "auth": {
+                        "identity": {
+                                "methods":["password"],
+                                "password": {
+                                        "user": {
+                                                "domain":{
+                                                        "name": "demo"
+                                                },
+                                                "name": "admin",
+                                                "password": "000000"
+                                        }
+                                }
+                        },
+                        "scope": {
+                                "project": {
+                                        "domain": {
+                                                "name": "demo"
+                                        },
+                                        "name": "admin"
+                                }
+                        }
+                }
+        }
+        headers = {"Content-Type": "application/json"}
+        Token = requests.post(url, data=json.dumps(body), headers=headers).headers['X-Subject-Token']
+        headers = {"X-Auth-Token": Token}
 except Exception as e:
+        print(f"获取Token值失败，请检查访问云主机控制节点IP是否正确？输出错误信息如下：{str(e)}")
+        exit(0)
 
-print(f"获取Token值失败，请检查访问云主机控制节点IP是否正确？输出错误信息如下：{str(e)}")
+class openstack_user_api:
+    def __init__(self, handers: dict, resUrl: str):
+        self.headers = handers
+        self.resUrl = resUrl
+    def create_users(self, user_name):
+        body = {
+            "user": {
+                "description": "API create user!",
+                "domain_id": "default",
+                "name": user_name
+            }
+        }
+        status_code = requests.post(self.resUrl, data=json.dumps(body), headers=self.headers).text
+        result = json.loads(requests.get(self.resUrl, headers=self.headers).text)
+        user_name = user_name
+        for i in result['users']:
+            if i['name'] == user_name:
+                return f"用户 {user_name} 创建成功,ID为{i['id']}"
+    def list_users(self):
+        result = json.loads(requests.get(self.resUrl, headers=self.headers).text)
+        roles = []
+        for i in result['users']:
+            if i['name'] not in roles:
+                roles.append(i['name'])
+        return "该平台的用户为：\n"+'\n'.join(roles)
 
-exit(0)
+    def get_user_id(self, user_name):
+        result = json.loads(requests.get(self.resUrl, headers=self.headers).text)
+        user_name = user_name
+        for i in result['users']:
+            if i['name'] == user_name:
+                return (f"用户 {user_name} 的ID为{i['id']}")
 
-class openstack\_user\_api:
+    def delete_user(self, user_name):
+        result = json.loads(requests.get(self.resUrl, headers=self.headers).text)
+        for i in result['users']:
+            if i['name'] == user_name:
+                i = i['id']
+                status_code = requests.delete(f'http://{controller_ip}:5000/v3/users/{i}', headers=self.headers)
+                return f"用户 {user_name} 已删除！"
 
-def \_\_init\_\_(self, handers: dict, resUrl: str):
+openstack_user_api = openstack_user_api(headers, f"http://{controller_ip}:5000/v3/users")
 
-self.headers = handers
-
-self.resUrl = resUrl
-
-def create\_users(self, user\_name):
-
-body = {
-
-"user": {
-
-"description": "API create user!",
-
-"domain\_id": "default",
-
-"name": user\_name
-
-}
-
-}
-
-status\_code = requests.post(self.resUrl, data=json.dumps(body), headers=self.headers).text
-
-result = json.loads(requests.get(self.resUrl, headers=self.headers).text)
-
-user\_name = user\_name
-
-for i in result\['users']:
-
-if i\['name'] == user\_name:
-
-return f"用户 {user\_name} 创建成功,ID为{i\['id']}"
-
-def list\_users(self):
-
-result = json.loads(requests.get(self.resUrl, headers=self.headers).text)
-
-roles = \[]
-
-for i in result\['users']:
-
-if i\['name'] not in roles:
-
-roles.append(i\['name'])
-
-return "该平台的用户为：\n"+'\n'.join(roles)
-
-def get\_user\_id(self, user\_name):
-
-result = json.loads(requests.get(self.resUrl, headers=self.headers).text)
-
-user\_name = user\_name
-
-for i in result\['users']:
-
-if i\['name'] == user\_name:
-
-return (f"用户 {user\_name} 的ID为{i\['id']}")
-
-def delete\_user(self, user\_name):
-
-result = json.loads(requests.get(self.resUrl, headers=self.headers).text)
-
-for i in result\['users']:
-
-if i\['name'] == user\_name:
-
-i = i\['id']
-
-status\_code = requests.delete(f'http://{controller\_ip}:5000/v3/users/{i}', headers=self.headers)
-
-return f"用户 {user\_name} 已删除！"
-
-openstack\_user\_api = openstack\_user\_api(headers, f"http://{controller\_ip}:5000/v3/users")
-
-print(openstack\_user\_api.create\_users("gjbs"))
-
-print(openstack\_user\_api.list\_users())
-
-\#print(openstack\_user\_api.delete\_user("gjbs"))
-
-\+----------------------------------+-------------------+
-
-\| ID | Name |
-
-\+----------------------------------+-------------------+
-
-\| fc2723632cb542bc8feebcad9e39b694 | gjbs |
-
-\| b014a12c9f9e4c64bf5b05c6c559de04 | admin |
-
-\| c3e56fba030549d0a2d678a84c9a672d | demo |
-
-\| 8d51a119470a4c7899997baff50ffee9 | competition |
-
-\| 232278a6da6549ed9171a35332af9e60 | glance |
-
-\| f00bfb6493a4479b9165f4f11052e3da | nova |
-
-\| 40249277d2a446649f7833abcb829cad | placement |
-
-\| 809ea9c5fa714787b86dcf5469e31490 | neutron |
-
-\| 2f77e75cf908412a9906579fd0aaea59 | cinder |
-
-\| 2610a2821b1249978cf0d248c512cd0d | swift |
-
-\| da7155a091b940e8876e4ddcfffd7c1f | manila |
-
-\| 386ca446983940d5ba7cc369732b7fbc | heat |
-
-\| 8716f4f490594d02bd242b888b5469bd | heat\_domain\_admin |
-
-\| 5f3428cd4ebf4996ac7e6d5b3323e841 | cloudkitty |
-
-\+----------------------------------+-------------------+
+print(openstack_user_api.create_users("gjbs"))
+print(openstack_user_api.list_users())
+#print(openstack_user_api.delete_user("gjbs"))
++----------------------------------+-------------------+
+| ID                               | Name              |
++----------------------------------+-------------------+
+| fc2723632cb542bc8feebcad9e39b694 | gjbs     |
+| b014a12c9f9e4c64bf5b05c6c559de04 | admin             |
+| c3e56fba030549d0a2d678a84c9a672d | demo              |
+| 8d51a119470a4c7899997baff50ffee9 | competition       |
+| 232278a6da6549ed9171a35332af9e60 | glance            |
+| f00bfb6493a4479b9165f4f11052e3da | nova              |
+| 40249277d2a446649f7833abcb829cad | placement         |
+| 809ea9c5fa714787b86dcf5469e31490 | neutron           |
+| 2f77e75cf908412a9906579fd0aaea59 | cinder            |
+| 2610a2821b1249978cf0d248c512cd0d | swift             |
+| da7155a091b940e8876e4ddcfffd7c1f | manila            |
+| 386ca446983940d5ba7cc369732b7fbc | heat              |
+| 8716f4f490594d02bd242b888b5469bd | heat_domain_admin |
+| 5f3428cd4ebf4996ac7e6d5b3323e841 | cloudkitty        |
++----------------------------------+-------------------+
+```
 
 ### B模块：容器云平台部署与运维（30分）
 
@@ -2066,209 +1383,118 @@ print(openstack\_user\_api.list\_users())
 
 **操作步骤：**
 
+```
 Master节点
-
-\[root@master \~]# hostnamectl set-hostname master
-
-\[root@master \~]# vi /etc/hosts
-
+[root@master ~]# hostnamectl set-hostname master
+[root@master ~]# vi /etc/hosts
 127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4
-
 ::1 localhost localhost.localdomain localhost6 localhost6.localdomain6
-
 192.168.200.10 master
-
 192.168.200.20 node
-
-\[root@master \~]# mkdir /opt/centos
-
-\[root@master \~]# mount CentOS-7-x86\_64-DVD-2009.iso /opt/centos/
-
-\[root@master \~]# mount kubernetes\_v1.6.iso /mnt/
-
-\[root@master \~]# cp -rvf /mnt/\* /opt/
-
-\[root@master \~]# rm -rf /etc/yum.repos.d/\*
-
-\[root@master \~]# vi /etc/yum.repos.d/local.repo
-
-\[local]
-
+[root@master ~]# mkdir /opt/centos
+[root@master ~]# mount CentOS-7-x86_64-DVD-2009.iso /opt/centos/
+[root@master ~]# mount kubernetes_v1.6.iso /mnt/
+[root@master ~]# cp -rvf /mnt/* /opt/
+[root@master ~]# rm -rf /etc/yum.repos.d/*
+[root@master ~]# vi /etc/yum.repos.d/local.repo
+[local]
 name=local
-
 gpgcheck=0
-
 enabled=1
-
 baseurl=file:///opt/centos
-
-\[k8s]
-
+[k8s]
 name=k8s
-
 gpgcheck=0
-
 enabled=1
-
 baseurl=file:///opt/kubernetes-repo
-
-\[root@master \~]# cd /opt/
-
-\[root@master opt]# ./k8s\_harbor\_install.sh
-
-\[root@master opt]# ./k8s\_image\_push.sh
-
+[root@master ~]# cd /opt/
+[root@master opt]# ./k8s_harbor_install.sh
+[root@master opt]# ./k8s_image_push.sh
 输入镜像仓库地址(不加http/https): 192.168.200.10
-
 输入镜像仓库用户名: admin
-
 输入镜像仓库用户密码: Harbor12345
-
 您设置的仓库地址为: 192.168.200.10,用户名: admin,密码: xxx
-
 是否确认(Y/N): Y
-
-\[root@master opt]# ./k8s\_master\_install.sh
-
-\[root@master \~]# scp /opt/k8s\_node\_install.sh node:/root/
-
-\[root@master \~]# yum install -y vsftpd
-
-\[root@master \~]# echo "anon\_root=/opt" >> /etc/vsftpd/vsftpd.conf
-
-\[root@master \~]# systemctl restart vsftpd
-
+[root@master opt]# ./k8s_master_install.sh
+[root@master ~]# scp /opt/k8s_node_install.sh node:/root/
+[root@master ~]# yum install -y vsftpd
+[root@master ~]# echo "anon_root=/opt" >> /etc/vsftpd/vsftpd.conf
+[root@master ~]# systemctl restart vsftpd
 Node节点
-
-\[root@node \~]# hostnamectl set-hostname node
-
-\[root@node \~]## rm -rf /etc/yum.repos.d/\*
-
-\[root@node \~]# vi /etc/hosts
-
+[root@node ~]# hostnamectl set-hostname node
+[root@node ~]## rm -rf /etc/yum.repos.d/*
+[root@node ~]# vi /etc/hosts
 127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4
-
 ::1 localhost localhost.localdomain localhost6 localhost6.localdomain6
-
 192.168.200.10 master
-
 192.168.200.20 node
-
-\[root@node \~]# vi /etc/yum.repos.d/local.repo
-
-\[centos]
-
+[root@node ~]# vi /etc/yum.repos.d/local.repo
+[centos]
 name=centos
-
 gpgcheck=0
-
 enabled=1
-
 baseurl=ftp://192.168.200.10/centos
-
-\[k8s]
-
+[k8s]
 name=k8s
-
 gpgcheck=0
-
 enabled=1
-
 baseurl=ftp://192.168.200.10/kubernetes-repo
-
-\[root@node \~]# ./k8s\_node\_install.sh
-
-\# 安装部署istio和kubevirt
-
-\[root@master opt]# ./k8s\_project \_install.sh
+[root@node ~]# ./k8s_node_install.sh
+# 安装部署istio和kubevirt
+[root@master opt]# ./k8s_project _install.sh
+```
 
 **答案**
 
-\[root@master \~]# kubectl cluster-info&\&kubectl -n istio-system get all&\&kubectl -n kubevirt get deployment
-
+```
+[root@master ~]# kubectl cluster-info&&kubectl -n istio-system get all&&kubectl -n kubevirt get deployment
 Kubernetes control plane is running at https://192.168.100.105:6443
-
 CoreDNS is running at https://192.168.100.105:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 
 To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
-
 Warning: kubevirt.io/v1 VirtualMachineInstancePresets is now deprecated and will be removed in v2.
+NAME                                       READY   STATUS    RESTARTS   AGE
+pod/grafana-56bdf8bf85-cjtnw               1/1     Running   0          2m46s
+pod/istio-egressgateway-85649899f8-svrkj   1/1     Running   0          2m52s
+pod/istio-ingressgateway-f56888458-gpk6h   1/1     Running   0          2m52s
+pod/istiod-64848b6c78-ng8vf                1/1     Running   0          2m56s
+pod/jaeger-76cd7c7566-hflpz                1/1     Running   0          2m46s
+pod/kiali-646db7568f-5k8vs                 1/1     Running   0          2m46s
+pod/prometheus-85949fddb-z7c7v             2/2     Running   0          2m46s
 
-NAME READY STATUS RESTARTS AGE
+NAME                           TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                                                                      AGE
+service/grafana                ClusterIP      10.108.78.249    <none>        3000/TCP                                                                     2m46s
+service/istio-egressgateway    ClusterIP      10.98.41.83      <none>        80/TCP,443/TCP                                                               2m52s
+service/istio-ingressgateway   LoadBalancer   10.96.228.3      <pending>     15021:31902/TCP,80:30125/TCP,443:32162/TCP,31400:31827/TCP,15443:31436/TCP   2m52s
+service/istiod                 ClusterIP      10.100.163.50    <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP                                        2m56s
+service/jaeger-collector       ClusterIP      10.107.163.161   <none>        14268/TCP,14250/TCP,9411/TCP                                                 2m46s
+service/kiali                  ClusterIP      10.106.85.34     <none>        20001/TCP,9090/TCP                                                           2m46s
+service/prometheus             ClusterIP      10.108.246.214   <none>        9090/TCP                                                                     2m46s
+service/tracing                ClusterIP      10.98.9.225      <none>        80/TCP,16685/TCP                                                             2m46s
+service/zipkin                 ClusterIP      10.110.212.28    <none>        9411/TCP                                                                     2m46s
 
-pod/grafana-56bdf8bf85-cjtnw 1/1 Running 0 2m46s
+NAME                                   READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/grafana                1/1     1            1           2m46s
+deployment.apps/istio-egressgateway    1/1     1            1           2m52s
+deployment.apps/istio-ingressgateway   1/1     1            1           2m52s
+deployment.apps/istiod                 1/1     1            1           2m56s
+deployment.apps/jaeger                 1/1     1            1           2m46s
+deployment.apps/kiali                  1/1     1            1           2m46s
+deployment.apps/prometheus             1/1     1            1           2m46s
 
-pod/istio-egressgateway-85649899f8-svrkj 1/1 Running 0 2m52s
-
-pod/istio-ingressgateway-f56888458-gpk6h 1/1 Running 0 2m52s
-
-pod/istiod-64848b6c78-ng8vf 1/1 Running 0 2m56s
-
-pod/jaeger-76cd7c7566-hflpz 1/1 Running 0 2m46s
-
-pod/kiali-646db7568f-5k8vs 1/1 Running 0 2m46s
-
-pod/prometheus-85949fddb-z7c7v 2/2 Running 0 2m46s
-
-NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE
-
-service/grafana ClusterIP 10.108.78.249 \<none> 3000/TCP 2m46s
-
-service/istio-egressgateway ClusterIP 10.98.41.83 \<none> 80/TCP,443/TCP 2m52s
-
-service/istio-ingressgateway LoadBalancer 10.96.228.3 \<pending> 15021:31902/TCP,80:30125/TCP,443:32162/TCP,31400:31827/TCP,15443:31436/TCP 2m52s
-
-service/istiod ClusterIP 10.100.163.50 \<none> 15010/TCP,15012/TCP,443/TCP,15014/TCP 2m56s
-
-service/jaeger-collector ClusterIP 10.107.163.161 \<none> 14268/TCP,14250/TCP,9411/TCP 2m46s
-
-service/kiali ClusterIP 10.106.85.34 \<none> 20001/TCP,9090/TCP 2m46s
-
-service/prometheus ClusterIP 10.108.246.214 \<none> 9090/TCP 2m46s
-
-service/tracing ClusterIP 10.98.9.225 \<none> 80/TCP,16685/TCP 2m46s
-
-service/zipkin ClusterIP 10.110.212.28 \<none> 9411/TCP 2m46s
-
-NAME READY UP-TO-DATE AVAILABLE AGE
-
-deployment.apps/grafana 1/1 1 1 2m46s
-
-deployment.apps/istio-egressgateway 1/1 1 1 2m52s
-
-deployment.apps/istio-ingressgateway 1/1 1 1 2m52s
-
-deployment.apps/istiod 1/1 1 1 2m56s
-
-deployment.apps/jaeger 1/1 1 1 2m46s
-
-deployment.apps/kiali 1/1 1 1 2m46s
-
-deployment.apps/prometheus 1/1 1 1 2m46s
-
-NAME DESIRED CURRENT READY AGE
-
-replicaset.apps/grafana-56bdf8bf85 1 1 1 2m46s
-
-replicaset.apps/istio-egressgateway-85649899f8 1 1 1 2m52s
-
-replicaset.apps/istio-ingressgateway-f56888458 1 1 1 2m52s
-
-replicaset.apps/istiod-64848b6c78 1 1 1 2m56s
-
-replicaset.apps/jaeger-76cd7c7566 1 1 1 2m46s
-
-replicaset.apps/kiali-646db7568f 1 1 1 2m46s
-
-replicaset.apps/prometheus-85949fddb 1 1 1 2m46s
-
-NAME READY UP-TO-DATE AVAILABLE AGE
-
-virt-api 2/2 2 2 94s
-
-virt-controller 2/2 2 2 69s
-
-virt-operator 2/2 2 2 2m
+NAME                                             DESIRED   CURRENT   READY   AGE
+replicaset.apps/grafana-56bdf8bf85               1         1         1       2m46s
+replicaset.apps/istio-egressgateway-85649899f8   1         1         1       2m52s
+replicaset.apps/istio-ingressgateway-f56888458   1         1         1       2m52s
+replicaset.apps/istiod-64848b6c78                1         1         1       2m56s
+replicaset.apps/jaeger-76cd7c7566                1         1         1       2m46s
+replicaset.apps/kiali-646db7568f                 1         1         1       2m46s
+replicaset.apps/prometheus-85949fddb             1         1         1       2m46s
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+virt-api          2/2     2            2           94s
+virt-controller   2/2     2            2           69s
+virt-operator     2/2     2            2           2m
+```
 
 ### 任务2 容器云服务运维（18分）
 
@@ -2290,67 +1516,43 @@ virt-operator 2/2 2 2 2m
 
 **答案**
 
-\[root@master Monitor]# docker run -d --name exporter-test monitor-exporter:v1.0 && sleep 5 && docker exec exporter-test ps -aux && docker rm -f exporter-test
-
+```
+[root@master Monitor]# docker run -d --name exporter-test monitor-exporter:v1.0 && sleep 5 && docker exec exporter-test ps -aux && docker rm -f exporter-test
 b1bc70566251b1b9d6feb8b8b088ac149ea38e855ebebfd82c164659b952effd
-
 USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
-
-root 1 0.4 0.0 113932 5176 ? Ssl 14:33 0:00 node\_exporter
-
+root 1 0.4 0.0 113932 5176 ? Ssl 14:33 0:00 node_exporter
 root 11 0.0 0.0 51732 1700 ? Rs 14:33 0:00 ps -aux
-
 exporter-test
+```
 
 **操作步骤**
 
-\[root@master Monitor]# cat Dockerfile-exporter
-
+```
+[root@master Monitor]# cat Dockerfile-exporter
 FROM centos:centos7.9.2009
-
-ADD node\_exporter-0.18.1.linux-amd64.tar.gz /root/
-
-RUN mv /root/node\_exporter-0.18.1.linux-amd64/node\_exporter /usr/local/bin
-
+ADD node_exporter-0.18.1.linux-amd64.tar.gz /root/
+RUN mv /root/node_exporter-0.18.1.linux-amd64/node_exporter /usr/local/bin
 EXPOSE 9100
-
-ENTRYPOINT \["node\_exporter"]
-
-\[root@master Monitor]# cd /root/Monitor && docker build -t monitor-exporter:v1.0 -f Dockerfile-exporter .
-
+ENTRYPOINT ["node_exporter"]
+[root@master Monitor]# cd /root/Monitor && docker build -t monitor-exporter:v1.0 -f Dockerfile-exporter .
 Sending build context to Docker daemon 741MB
-
 Step 1/5 : FROM centos:centos7.9.2009
-
-\---> eeb6ee3f44bd
-
-Step 2/5 : ADD node\_exporter-0.18.1.linux-amd64.tar.gz /root/
-
-\---> Using cache
-
-\---> d15d0198c74c
-
-Step 3/5 : RUN mv /root/node\_exporter-0.18.1.linux-amd64/node\_exporter /usr/local/bin
-
-\---> Using cache
-
-\---> 1341329663e0
-
+---> eeb6ee3f44bd
+Step 2/5 : ADD node_exporter-0.18.1.linux-amd64.tar.gz /root/
+---> Using cache
+---> d15d0198c74c
+Step 3/5 : RUN mv /root/node_exporter-0.18.1.linux-amd64/node_exporter /usr/local/bin
+---> Using cache
+---> 1341329663e0
 Step 4/5 : EXPOSE 9100
-
-\---> Using cache
-
-\---> 3f07edb7a5bc
-
-Step 5/5 : ENTRYPOINT \["node\_exporter"]
-
-\---> Using cache
-
-\---> 444b36432c64
-
+---> Using cache
+---> 3f07edb7a5bc
+Step 5/5 : ENTRYPOINT ["node_exporter"]
+---> Using cache
+---> 444b36432c64
 Successfully built 444b36432c64
-
 Successfully tagged monitor-exporter:v1.0
+```
 
 #### 容器化部署Alertmanager（1分）
 
@@ -2370,83 +1572,51 @@ Successfully tagged monitor-exporter:v1.0
 
 **答案**
 
-\[root@master Monitor]# docker run -d --name alert-test monitor-alert:v1.0 && sleep 5 && docker exec alert-test ps -aux && docker rm -f alert-test
-
+```
+[root@master Monitor]# docker run -d --name alert-test monitor-alert:v1.0 && sleep 5 && docker exec alert-test ps -aux && docker rm -f alert-test
 4c47c6e364ae32f9132e331d0ff5f792f20172aa562358682e5baae3005ff8fa
-
 USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
-
 root 1 1.8 0.1 123664 16172 ? Ssl 14:34 0:00 ./alertmanager
-
 root 19 0.0 0.0 51732 1700 ? Rs 14:34 0:00 ps -aux
-
 alert-test
+```
 
 **操作步骤**
 
-\[root@master Monitor]# cat Dockerfile-alert
-
+```
+[root@master Monitor]# cat Dockerfile-alert
 FROM centos:centos7.9.2009
-
 ADD alertmanager-0.19.0.linux-amd64.tar.gz /usr/local/bin
-
 WORKDIR /usr/local/bin/alertmanager-0.19.0.linux-amd64
-
 EXPOSE 9093 9094
-
-ENTRYPOINT \["./alertmanager"]
-
-\[root@master Monitor]# cd /root/Monitor && docker build -t monitor-alert:v1.0 -f Dockerfile-alert .
-
+ENTRYPOINT ["./alertmanager"]
+[root@master Monitor]# cd /root/Monitor && docker build -t monitor-alert:v1.0 -f Dockerfile-alert .
 Sending build context to Docker daemon 360.5MB
-
 Step 1/5 : FROM centos:centos7.9.2009
-
-\---> eeb6ee3f44bd
-
+---> eeb6ee3f44bd
 Step 2/5 : ADD alertmanager-0.19.0.linux-amd64.tar.gz /usr/local/bin
-
-\---> 963a3838e418
-
+---> 963a3838e418
 Step 3/5 : WORKDIR /usr/local/bin/alertmanager-0.19.0.linux-amd64
-
-\---> Running in ff84e607dbc1
-
+---> Running in ff84e607dbc1
 Removing intermediate container ff84e607dbc1
-
-\---> c5f37060220a
-
+---> c5f37060220a
 Step 4/5 : EXPOSE 9093 9094
-
-\---> Running in 19b6aca86b79
-
+---> Running in 19b6aca86b79
 Removing intermediate container 19b6aca86b79
-
-\---> 57eec22f50d9
-
-Step 5/5 : ENTRYPOINT \["./alertmanager"]
-
-\---> Running in ca8d983ded0a
-
+---> 57eec22f50d9
+Step 5/5 : ENTRYPOINT ["./alertmanager"]
+---> Running in ca8d983ded0a
 Removing intermediate container ca8d983ded0a
-
-\---> b036d073b0d3
-
+---> b036d073b0d3
 Successfully built b036d073b0d3
-
 Successfully tagged monitor-alert:v1.0
-
-\[root@master Monitor]# docker run -d --name alert-test monitor-alert:v1.0 && sleep 5 && docker exec alert-test ps -aux && docker rm -f alert-test
-
+[root@master Monitor]# docker run -d --name alert-test monitor-alert:v1.0 && sleep 5 && docker exec alert-test ps -aux && docker rm -f alert-test
 6cec1f0cb4618fc934169c033c439e5826e7575c316c0932b8b2faea9f30e342
-
 USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
-
 root 1 2.8 0.1 123664 16424 ? Ssl 15:44 0:00 ./alertmanager
-
 root 20 0.0 0.0 51732 1700 ? Rs 15:44 0:00 ps -aux
-
 alert-test
+```
 
 #### 容器化部署Grafana（1分）
 
@@ -2466,79 +1636,49 @@ alert-test
 
 **答案**
 
-\[root@master Monitor]# docker run -d --name grafana-test monitor-grafana:v1.0 && sleep 5 && docker exec grafana-test ps -aux && docker rm -f grafana-test
-
+```
+[root@master Monitor]# docker run -d --name grafana-test monitor-grafana:v1.0 && sleep 5 && docker exec grafana-test ps -aux && docker rm -f grafana-test
 73288553358ae0d3f62466ff78576637e499c06f3e68faf0035cce0491921e10
-
 USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
-
 root 1 5.2 0.1 644488 28876 ? Ssl 14:35 0:00 ./grafana-server
-
 root 18 0.0 0.0 51732 1696 ? Rs 14:35 0:00 ps -aux
-
 grafana-test
+```
 
 **操作步骤**
 
-\[root@master Monitor]# cat Dockerfile-grafana
-
+```
+[root@master Monitor]# cat Dockerfile-grafana
 FROM centos:centos7.9.2009
-
 ADD grafana-6.4.1.linux-amd64.tar.gz /usr/local/bin
-
 EXPOSE 3000
-
 WORKDIR /usr/local/bin/grafana-6.4.1/bin
-
-ENTRYPOINT \["./grafana-server"]
-
-\[root@master Monitor]# cd /root/Monitor/ && docker build -t monitor-grafana:v1.0 -f Dockerfile-grafana .
-
+ENTRYPOINT ["./grafana-server"]
+[root@master Monitor]# cd /root/Monitor/ && docker build -t monitor-grafana:v1.0 -f Dockerfile-grafana .
 Sending build context to Docker daemon 741MB
-
 Step 1/5 : FROM centos:centos7.9.2009
-
-\---> eeb6ee3f44bd
-
+---> eeb6ee3f44bd
 Step 2/5 : ADD grafana-6.4.1.linux-amd64.tar.gz /usr/local/bin
-
-\---> Using cache
-
-\---> 13fa73252116
-
+---> Using cache
+---> 13fa73252116
 Step 3/5 : EXPOSE 3000
-
-\---> Using cache
-
-\---> ee9b8fab46be
-
+---> Using cache
+---> ee9b8fab46be
 Step 4/5 : WORKDIR /usr/local/bin/grafana-6.4.1/bin
-
-\---> Using cache
-
-\---> d7a55b3e7067
-
-Step 5/5 : ENTRYPOINT \["./grafana-server"]
-
-\---> Using cache
-
-\---> cb4ad90c5e57
-
+---> Using cache
+---> d7a55b3e7067
+Step 5/5 : ENTRYPOINT ["./grafana-server"]
+---> Using cache
+---> cb4ad90c5e57
 Successfully built cb4ad90c5e57
-
 Successfully tagged monitor-grafana:v1.0
-
-\[root@master Monitor]# docker run -d --name grafana-test monitor-grafana:v1.0 && sleep 5 && docker exec grafana-test ps -aux && docker rm -f grafana-test
-
+[root@master Monitor]# docker run -d --name grafana-test monitor-grafana:v1.0 && sleep 5 && docker exec grafana-test ps -aux && docker rm -f grafana-test
 802f08eddc73903d003c0b83a3c7134c2c78ae75e1892cfcc31dc2248d33dd62
-
 USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
-
 root 1 7.6 0.1 423368 17472 ? Ssl 15:54 0:00 ./grafana-server
-
 root 17 0.0 0.0 51732 1696 ? Rs 15:54 0:00 ps -aux
-
 grafana-test
+```
 
 #### 容器化部署Prometheus（2分）
 
@@ -2560,161 +1700,90 @@ grafana-test
 
 **答案**
 
-\[root@master Monitor]# docker run -d --name prometheus-test monitor-prometheus:v1.0 && sleep 5 && docker exec prometheus-test ps -aux && docker rm -f prometheus-test
-
+```
+[root@master Monitor]# docker run -d --name prometheus-test monitor-prometheus:v1.0 && sleep 5 && docker exec prometheus-test ps -aux && docker rm -f prometheus-test
 4deb3de5abf883531ab77522e61e89af8fb996768e4b5e3d9d17084b0ffedea8
-
 USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
-
 root 1 1.6 0.1 161028 27332 ? Ssl 14:41 0:00 ./prometheus --config.file=/data/prometheus/prometheus.yml
-
 root 19 0.0 0.0 51732 1696 ? Rs 14:41 0:00 ps -aux
-
 prometheus-test
+```
 
 **操作步骤**
 
-\[root@master Monitor]# cat Dockerfile-prometheus
-
+```
+[root@master Monitor]# cat Dockerfile-prometheus
 FROM centos:centos7.9.2009
-
 ADD prometheus-2.13.0.linux-amd64.tar.gz /usr/local/bin
-
 WORKDIR /usr/local/bin/prometheus-2.13.0.linux-amd64
-
 RUN mkdir -p /data/prometheus/
-
 COPY prometheus.yml /usr/local/bin/prometheus-2.13.0.linux-amd64
-
 COPY prometheus.yml /data/prometheus/
-
 EXPOSE 9090
-
-CMD \["./prometheus","--config.file=/data/prometheus/prometheus.yml"]
-
-\[root@master Monitor]# cat prometheus.yml
-
-\# prometheus.yml配置文件示例
-
-\# my global config
-
+CMD ["./prometheus","--config.file=/data/prometheus/prometheus.yml"]
+[root@master Monitor]# cat prometheus.yml
+# prometheus.yml配置文件示例
+# my global config
 global:
-
-scrape\_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-
-evaluation\_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
-
-\# scrape\_timeout is set to the global default (10s).
-
-\# Alertmanager configuration
-
+scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+# scrape_timeout is set to the global default (10s).
+# Alertmanager configuration
 alerting:
-
 alertmanagers:
-
-\- static\_configs:
-
-\- targets:
-
-\# - alertmanager:9093
-
-\# Load rules once and periodically evaluate them according to the global 'evaluation\_interval'.
-
-rule\_files:
-
-\# - "first\_rules.yml"
-
-\# - "second\_rules.yml"
-
-\# A scrape configuration containing exactly one endpoint to scrape:
-
-\# Here it's Prometheus itself.
-
-scrape\_configs:
-
-\- job\_name: 'prometheus'
-
-static\_configs:
-
-\- targets: \['172.16.20.228:9090']
-
-\- job\_name: 'node-exporter'
-
-static\_configs:
-
-\- targets: \['172.16.20.228:9100']
-
-\- job\_name: 'alertmanager'
-
-static\_configs:
-
-\- targets: \['172.16.20.228:9093']
-
-\[root@master Monitor]# cd /root/Monitor/ && docker build -t monitor-prometheus:v1.0 -f Dockerfile-prometheus .
-
+- static_configs:
+- targets:
+# - alertmanager:9093
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+# - "first_rules.yml"
+# - "second_rules.yml"
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+- job_name: 'prometheus'
+static_configs:
+- targets: ['172.16.20.228:9090']
+- job_name: 'node-exporter'
+static_configs:
+- targets: ['172.16.20.228:9100']
+- job_name: 'alertmanager'
+static_configs:
+- targets: ['172.16.20.228:9093']
+[root@master Monitor]# cd /root/Monitor/ && docker build -t monitor-prometheus:v1.0 -f Dockerfile-prometheus .
 Sending build context to Docker daemon 741MB
-
 Step 1/8 : FROM centos:centos7.9.2009
-
-\---> eeb6ee3f44bd
-
+---> eeb6ee3f44bd
 Step 2/8 : ADD prometheus-2.13.0.linux-amd64.tar.gz /usr/local/bin
-
-\---> Using cache
-
-\---> 8454034faa17
-
+---> Using cache
+---> 8454034faa17
 Step 3/8 : WORKDIR /usr/local/bin/prometheus-2.13.0.linux-amd64
-
-\---> Using cache
-
-\---> 945562bd51c1
-
+---> Using cache
+---> 945562bd51c1
 Step 4/8 : RUN mkdir -p /data/prometheus/
-
-\---> Using cache
-
-\---> b029764fd391
-
+---> Using cache
+---> b029764fd391
 Step 5/8 : COPY prometheus.yml /usr/local/bin/prometheus-2.13.0.linux-amd64
-
-\---> Using cache
-
-\---> fbe3acb68679
-
+---> Using cache
+---> fbe3acb68679
 Step 6/8 : COPY prometheus.yml /data/prometheus/
-
-\---> Using cache
-
-\---> fb9bc2298ed3
-
+---> Using cache
+---> fb9bc2298ed3
 Step 7/8 : EXPOSE 9090
-
-\---> Using cache
-
-\---> 145073db7c6a
-
-Step 8/8 : CMD \["./prometheus","--config.file=/data/prometheus/prometheus.yml"]
-
-\---> Using cache
-
-\---> 7977109c2467
-
+---> Using cache
+---> 145073db7c6a
+Step 8/8 : CMD ["./prometheus","--config.file=/data/prometheus/prometheus.yml"]
+---> Using cache
+---> 7977109c2467
 Successfully built 7977109c2467
-
 Successfully tagged monitor-prometheus:v1.0
-
-\[root@master Monitor]# docker run -d --name prometheus-test monitor-prometheus:v1.0 && sleep 5 && docker exec prometheus-test ps -aux && docker rm -f prometheus-test
-
+[root@master Monitor]# docker run -d --name prometheus-test monitor-prometheus:v1.0 && sleep 5 && docker exec prometheus-test ps -aux && docker rm -f prometheus-test
 440ededb7d23cb777e63888992225d4fd0ae28bb90da7509289f0beae077a42b
-
 USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
-
 root 1 4.0 0.2 161028 27408 ? Ssl 15:57 0:00 ./prometheus --config.file=/data/prometheus/prometheus.yml
-
 root 19 3.0 0.0 51732 1700 ? Rs 15:57 0:00 ps -aux
-
 prometheus-test
+```
 
 #### 编排部署监控系统（2分）
 
@@ -2734,141 +1803,83 @@ prometheus-test
 
 **答案**
 
-\[root@master Monitor]# docker-compose ps
-
+```
+[root@master Monitor]# docker-compose ps
 NAME COMMAND SERVICE STATUS PORTS
-
 monitor-alertmanager "./alertmanager" monitor-alertmanager running 0.0.0.0:9093->9093/tcp, :::9093->9093/tcp
-
 monitor-grafana "./grafana-server" monitor-grafana running 0.0.0.0:3000->3000/tcp, :::3000->3000/tcp
-
-monitor-node "node\_exporter" monitor-node running 0.0.0.0:9100->9100/tcp, :::9100->9100/tcp
-
+monitor-node "node_exporter" monitor-node running 0.0.0.0:9100->9100/tcp, :::9100->9100/tcp
 monitor-prometheus "./prometheus --conf…" monitor-prometheus running 0.0.0.0:9090->9090/tcp, :::9090->9090/tcp
-
-\[root@master Monitor]# curl -L http://$(hostname -i):9090/targets | grep up
-
+[root@master Monitor]# curl -L http://$(hostname -i):9090/targets | grep up
 % Total % Received % Xferd Average Speed Time Time Time Current
-
 Dload Upload Total Spent Left Speed
-
 100 9112 0 9112 0 0 2596k 0 --:--:-- --:--:-- --:--:-- 2966k
-
-\<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Status \<span class="caret">\</span>\</a>
-
-\<div id="showTargets" class="btn-group btn-group-toggle" data-toggle="buttons">
-
-\<a id="job-alertmanager" href="#job-alertmanager">alertmanager (1/1 up)\</a>
-
-\<span class="alert alert-success state\_indicator text-uppercase">up\</span>
-
-\<a id="job-node" href="#job-node">node (1/1 up)\</a>
-
-\<span class="alert alert-success state\_indicator text-uppercase">up\</span>
-
-\<a id="job-prometheus" href="#job-prometheus">prometheus (1/1 up)\</a>
-
-\<span class="alert alert-success state\_indicator text-uppercase">up\</span>
+<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Status <span class="caret"></span></a>
+<div id="showTargets" class="btn-group btn-group-toggle" data-toggle="buttons">
+<a id="job-alertmanager" href="#job-alertmanager">alertmanager (1/1 up)</a>
+<span class="alert alert-success state_indicator text-uppercase">up</span>
+<a id="job-node" href="#job-node">node (1/1 up)</a>
+<span class="alert alert-success state_indicator text-uppercase">up</span>
+<a id="job-prometheus" href="#job-prometheus">prometheus (1/1 up)</a>
+<span class="alert alert-success state_indicator text-uppercase">up</span>
+```
 
 **操作步骤**
 
-\[root@master Monitor]# cat docker-compose.yaml
-
+```
+[root@master Monitor]# cat docker-compose.yaml 
 version: '3'
-
 services:
+  monitor-node:
+    image: monitor-exporter:v1.0
+    container_name: monitor-node
+    ports:
+    - "9100:9100"
+  monitor-alertmanager:
+    image: monitor-alert:v1.0
+    container_name: monitor-alertmanager
+    ports:
+    - "9093:9093"
 
-monitor-node:
+  monitor-grafana:
+    image: monitor-grafana:v1.0
+    container_name: monitor-grafana
+    ports:
+    - "3000:3000"
+    depends_on:
+    - monitor-prometheus
 
-image: monitor-exporter:v1.0
+  monitor-prometheus:
+    image: monitor-prometheus:v1.0
+    container_name: monitor-prometheus
+    ports:
+    - "9090:9090"
+[root@master Monitor]# docker-compose up -d
+[+] Running 4/4
+ ⠿ Container monitor-prometheus    Started                                                                                  1.7s
+ ⠿ Container monitor-grafana       Started                                                                                  3.6s
+ ⠿ Container monitor-node          Started                                                                                  1.9s
+ ⠿ Container monitor-alertmanager  Started                                               
+[root@master Monitor]# docker-compose -f /root/Monitor/docker-compose.yaml ps
+NAME                   COMMAND                  SERVICE                STATUS              PORTS
+monitor-alertmanager   "./alertmanager"         monitor-alertmanager   running             0.0.0.0:9093->9093/tcp, :::9093->9093/tcp
+monitor-grafana        "./grafana-server"       monitor-grafana        running             0.0.0.0:3000->3000/tcp, :::3000->3000/tcp
+monitor-node           "node_exporter"          monitor-node           running             0.0.0.0:9100->9100/tcp, :::9100->9100/tcp
+monitor-prometheus     "./prometheus --conf…"   monitor-prometheus     running             0.0.0.0:9090->9090/tcp, :::9090->9090/tcp
 
-container\_name: monitor-node
-
-ports:
-
-\- "9100:9100"
-
-monitor-alertmanager:
-
-image: monitor-alert:v1.0
-
-container\_name: monitor-alertmanager
-
-ports:
-
-\- "9093:9093"
-
-monitor-grafana:
-
-image: monitor-grafana:v1.0
-
-container\_name: monitor-grafana
-
-ports:
-
-\- "3000:3000"
-
-depends\_on:
-
-\- monitor-prometheus
-
-monitor-prometheus:
-
-image: monitor-prometheus:v1.0
-
-container\_name: monitor-prometheus
-
-ports:
-
-\- "9090:9090"
-
-\[root@master Monitor]# docker-compose up -d
-
-\[+] Running 4/4
-
-⠿ Container monitor-prometheus Started 1.7s
-
-⠿ Container monitor-grafana Started 3.6s
-
-⠿ Container monitor-node Started 1.9s
-
-⠿ Container monitor-alertmanager Started
-
-\[root@master Monitor]# docker-compose -f /root/Monitor/docker-compose.yaml ps
-
-NAME COMMAND SERVICE STATUS PORTS
-
-monitor-alertmanager "./alertmanager" monitor-alertmanager running 0.0.0.0:9093->9093/tcp, :::9093->9093/tcp
-
-monitor-grafana "./grafana-server" monitor-grafana running 0.0.0.0:3000->3000/tcp, :::3000->3000/tcp
-
-monitor-node "node\_exporter" monitor-node running 0.0.0.0:9100->9100/tcp, :::9100->9100/tcp
-
-monitor-prometheus "./prometheus --conf…" monitor-prometheus running 0.0.0.0:9090->9090/tcp, :::9090->9090/tcp
-
-\[root@master Monitor]# curl -L http://$(hostname -i):9090/targets | grep up
-
-% Total % Received % Xferd Average Speed Time Time Time Current
-
-Dload Upload Total Spent Left Speed
-
-100 9112 0 9112 0 0 2596k 0 --:--:-- --:--:-- --:--:-- 2966k
-
-\<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Status \<span class="caret">\</span>\</a>
-
-\<div id="showTargets" class="btn-group btn-group-toggle" data-toggle="buttons">
-
-\<a id="job-alertmanager" href="#job-alertmanager">alertmanager (1/1 up)\</a>
-
-\<span class="alert alert-success state\_indicator text-uppercase">up\</span>
-
-\<a id="job-node" href="#job-node">node (1/1 up)\</a>
-
-\<span class="alert alert-success state\_indicator text-uppercase">up\</span>
-
-\<a id="job-prometheus" href="#job-prometheus">prometheus (1/1 up)\</a>
-
-\<span class="alert alert-success state\_indicator text-uppercase">up\</span>
+  [root@master Monitor]# curl -L http://$(hostname -i):9090/targets | grep up
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  9112    0  9112    0     0  2596k      0 --:--:-- --:--:-- --:--:-- 2966k
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Status <span class="caret"></span></a>
+    <div id="showTargets" class="btn-group btn-group-toggle" data-toggle="buttons">
+        <a id="job-alertmanager" href="#job-alertmanager">alertmanager (1/1 up)</a>
+              <span class="alert alert-success state_indicator text-uppercase">up</span>
+        <a id="job-node" href="#job-node">node (1/1 up)</a>
+              <span class="alert alert-success state_indicator text-uppercase">up</span>
+        <a id="job-prometheus" href="#job-prometheus">prometheus (1/1 up)</a>
+              <span class="alert alert-success state_indicator text-uppercase">up</span>
+```
 
 1. **导入jenkins镜像（1分）**
 
@@ -2878,23 +1889,21 @@ Dload Upload Total Spent Left Speed
 
 **答案**
 
-\[root@master Monitor]# docker images | grep jenkins
-
+```
+[root@master Monitor]# docker images | grep jenkins
 jenkins/jenkins 2.262-centos f04839b3e211 2 years ago 638MB
+```
 
 **操作步骤**
 
-\[root@master opt]#cd /opt
-
-\[root@master opt]# mv /root/CICD\_Offline.TAR /opt/
-
-\[root@master opt]#tar -zxvf CICD\_Offline.TAR
-
-\[root@master opt]# docker load -i jenkins.tar
-
-\[root@master opt]# docker images | grep jenkins
-
+```
+[root@master opt]#cd /opt
+[root@master opt]# mv /root/CICD_Offline.TAR /opt/
+[root@master opt]#tar -zxvf CICD_Offline.TAR
+[root@master opt]# docker load -i jenkins.tar
+[root@master opt]# docker images | grep jenkins
 jenkins/jenkins 2.262-centos f04839b3e211 2 years ago 638MB
+```
 
 1. **安装Jenkins（1分）**
 
@@ -2910,87 +1919,53 @@ jenkins/jenkins 2.262-centos f04839b3e211 2 years ago 638MB
 
 **答案**
 
-\[root@master jenkins]# docker-compose ps
-
+```
+[root@master jenkins]# docker-compose ps
 NAME COMMAND SERVICE STATUS PORTS
-
 jenkins "/sbin/tini -- /usr/…" jenkins running 0.0.0.0:8080->8080/tcp, :::8080->8080/tcp, 50000/tcp
+```
 
 **操作步骤**
 
-\[root@master \~]# mkdir jenkins
-
-\[root@master \~]# cd jenkins
-
-\[root@master jenkins]# vi docker-compose.yaml
-
+```
+[root@master ~]# mkdir jenkins
+[root@master ~]# cd jenkins
+[root@master jenkins]# vi docker-compose.yaml
 version: '3.1'
-
 services:
-
-jenkins:
-
-image: 'jenkins/jenkins:2.262-centos'
-
-volumes:
-
-\- /home/jenkins\_home:/var/jenkins\_home
-
-\- /var/run/docker.sock:/var/run/docker.sock
-
-\- /usr/bin/docker:/usr/bin/docker
-
-\- /usr/bin/kubectl:/usr/local/bin/kubectl
-
-\- /root/.kube:/root/.kube
-
-ports:
-
-\- "8080:8080"
-
-expose:
-
-\- "8080"
-
-\- "50000"
-
-privileged: true
-
-user: root
-
-restart: always
-
-container\_name: jenkins
-
+  jenkins:
+    image: 'jenkins/jenkins:2.262-centos'
+    volumes:
+      - /home/jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+      - /usr/bin/kubectl:/usr/local/bin/kubectl
+      - /root/.kube:/root/.kube
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+      - "50000"
+    privileged: true
+    user: root
+    restart: always
+    container_name: jenkins
 启动Jenkins：
-
-\[root@master jenkins]# docker-compose -f docker-compose.yaml up -d
-
-Creating network "root\_default" with the default driver
-
+[root@master jenkins]# docker-compose -f docker-compose.yaml up -d 
+Creating network "root_default" with the default driver
 Creating jenkins ... done
-
-\[root@master jenkins]# docker-compose up -d
-
-Creating network "jenkins\_default" with the default driver
-
+[root@master jenkins]# docker-compose up -d
+Creating network "jenkins_default" with the default driver
 Creating jenkins ... done
-
-\[root@master jenkins]# docker-compose ps
-
-Name Command State Ports
-
-\----------------------------------------------------------------------------------------------------------
-
-jenkins /sbin/tini -- /usr/local/b ... Up 50000/tcp, 0.0.0.0:8080->8080/tcp
-
+[root@master jenkins]# docker-compose ps
+ Name       Command             State                 Ports
+----------------------------------------------------------------------------------------------------------
+jenkins   /sbin/tini -- /usr/local/b ...      Up      50000/tcp, 0.0.0.0:8080->8080/tcp
 安装插件：
-
-\[root@master jenkins]# cp -rfv /opt/plugins/\* /home/jenkins\_home/plugins/
-
-\[root@master jenkins]# docker restart jenkins
-
+[root@master jenkins]# cp -rfv /opt/plugins/* /home/jenkins_home/plugins/
+[root@master jenkins]# docker restart jenkins
 Jenkins
+```
 
 在web端通过http://IP:8080访问Jenkins，如图所示：
 
@@ -2998,9 +1973,10 @@ Jenkins
 
 查看密码：
 
-\[root@master \~]# docker exec jenkins cat /var/jenkins\_home/secrets/initialAdminPassword
-
+```
+[root@master ~]# docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
 54670064056e42a2a47485a5e3356e57
+```
 
 输入密码并点击“继续”，如图所示：
 
@@ -3040,71 +2016,45 @@ Jenkins
 
 **答案**
 
-\[root@master gitlab]# docker-compose ps
-
+```
+[root@master gitlab]# docker-compose ps
 NAME COMMAND SERVICE STATUS PORTS
-
 gitlab "/assets/wrapper" gitlab running (healthy) 0.0.0.0:443->443/tcp, :::443->443/tcp, 0.0.0.0:1022->22/tcp, :::1022->22/tcp, 0.0.0.0:81->80/tcp, :::81->80/tcp
+```
 
 **操作步骤**
 
-\[root@master \~]# mkdir gitlab
-
-\[root@master \~]# cd gitlab/
-
-\[root@master gitlab]# vi docker-compose.yaml
-
+```
+[root@master ~]# mkdir gitlab
+[root@master ~]# cd gitlab/
+[root@master gitlab]# vi docker-compose.yaml
 version: '3'
-
 services:
-
-gitlab:
-
-image: 'gitlab/gitlab-ce:12.9.2-ce.0'
-
-container\_name: gitlab
-
-restart: always
-
-hostname: '192.168.100.10'
-
-privileged: true
-
-environment:
-
-TZ: 'Asia/Shanghai'
-
-ports:
-
-\- '81:80'
-
-\- '443:443'
-
-\- '1022:22'
-
-volumes:
-
-\- /srv/gitlab/config:/etc/gitlab
-
-\- /srv/gitlab/gitlab/logs:/var/log/gitlab
-
-\- /srv/gitlab/gitlab/data:/var/opt/gitlab
-
+  gitlab:
+    image: 'gitlab/gitlab-ce:12.9.2-ce.0'
+    container_name: gitlab
+    restart: always
+    hostname: '192.168.100.10'
+    privileged: true
+    environment:
+      TZ: 'Asia/Shanghai'
+    ports:
+      - '81:80'
+      - '443:443'
+      - '1022:22'
+    volumes:
+      - /srv/gitlab/config:/etc/gitlab
+      - /srv/gitlab/gitlab/logs:/var/log/gitlab
+      - /srv/gitlab/gitlab/data:/var/opt/gitlab
 启动Gitlab：
-
-\[root@master gitlab]# docker-compose up -d
-
-\[+] Running 2/2
-
-⠿ Network gitlab\_default Created 0.0s
-
-⠿ Container gitlab Started 0.3s
-
-\[root@master gitlab]# docker-compose ps
-
-NAME COMMAND SERVICE STATUS PORTS
-
-gitlab "/assets/wrapper" gitlab running (healthy) 0.0.0.0:443->443/tcp, :::443->443/tcp, 0.0.0.0:1022->22/tcp, :::1022->22/tcp, 0.0.0.0:81->80/tcp, :::81->80/tcp
+[root@master gitlab]#  docker-compose up -d
+[+] Running 2/2
+ ⠿ Network gitlab_default  Created                     0.0s
+ ⠿ Container gitlab        Started                     0.3s
+[root@master gitlab]# docker-compose ps
+NAME                COMMAND             SERVICE             STATUS              PORTS
+gitlab              "/assets/wrapper"   gitlab              running (healthy)   0.0.0.0:443->443/tcp, :::443->443/tcp, 0.0.0.0:1022->22/tcp, :::1022->22/tcp, 0.0.0.0:81->80/tcp, :::81->80/tcp
+```
 
 Gitlab启动较慢，启动完成后，在web端访问Gitlab（http://IP:81），如图所示：
 
@@ -3130,71 +2080,45 @@ push源代码到gitlab的springcloud项目，并完成相关配置。
 
 **答案**
 
-\[root@master springcloud]# git push -u origin master
-
+```
+[root@master springcloud]# git push -u origin master
 Username for 'http://192.168.200.115:81': root
-
 Password for 'http://root@192.168.200.115:81':
-
 Counting objects: 3192, done.
-
 Delta compression using up to 4 threads.
-
 Compressing objects: 100% (1428/1428), done.
-
 Writing objects: 100% (3192/3192), 1.40 MiB | 1.59 MiB/s, done.
-
 Total 3192 (delta 1233), reused 3010 (delta 1207)
-
 remote: Resolving deltas: 100% (1233/1233), done.
-
 To http://192.168.200.115:81/root/springcloud.git
-
-\* \[new branch] master -> master
-
+* [new branch] master -> master
 Branch master set up to track remote branch master from origin.
+```
 
 **操作步骤**
 
-\[root@master gitlab]# yum install -y git
-
-\[root@master gitlab]# cd /opt/springcloud/
-
-\[root@master springcloud]# git config --global user.name "administrator"
-
-\[root@master springcloud]# git config --global user.email "admin@example.com"
-
-\[root@master springcloud]# git remote remove origin
-
-\[root@master springcloud]# git remote add origin http://192.168.100.10:81/root/springcloud.git
-
-\[root@master springcloud]# git add .
-
-\[root@master springcloud]# git commit -m "initial commit"
-
-\[root@master springcloud]# git push -u origin master
-
+```
+[root@master gitlab]# yum install -y git
+[root@master gitlab]# cd /opt/springcloud/
+[root@master springcloud]# git config --global user.name "administrator"
+[root@master springcloud]# git config --global user.email "admin@example.com"
+[root@master springcloud]# git remote remove origin
+[root@master springcloud]# git remote add origin http://192.168.100.10:81/root/springcloud.git
+[root@master springcloud]# git add .
+[root@master springcloud]# git commit -m "initial commit"
+[root@master springcloud]# git push -u origin master
 Username for 'http://192.168.100.10:81': root
-
 Password for 'http://root@192.168.100.10:81':
-
 Counting objects: 3192, done.
-
 Delta compression using up to 4 threads.
-
 Compressing objects: 100% (1428/1428), done.
-
 Writing objects: 100% (3192/3192), 1.40 MiB | 0 bytes/s, done.
-
 Total 3192 (delta 1233), reused 3010 (delta 1207)
-
 remote: Resolving deltas: 100% (1233/1233), done.
-
 To http://192.168.100.10:81/root/springcloud.git
-
-\* （new branch） master -> master
-
+* （new branch） master -> master
 Branch master set up to track remote branch master from origin.
+```
 
 刷新网页，springcloud项目中文件已经更新了，如图所示：
 
@@ -3208,15 +2132,13 @@ Branch master set up to track remote branch master from origin.
 
 **答案**
 
+```
 Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
-
 Maven home: /usr/local/maven
-
-Java version: 1.8.0\_265, vendor: Oracle Corporation, runtime: /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8\_2.x86\_64/jre
-
-Default locale: en\_US, platform encoding: ANSI\_X3.4-1968
-
-OS name: "linux", version: "3.10.0-862.2.3.el7.x86\_64", arch: "amd64", family: "unix"
+Java version: 1.8.0_265, vendor: Oracle Corporation, runtime: /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre
+Default locale: en_US, platform encoding: ANSI_X3.4-1968
+OS name: "linux", version: "3.10.0-862.2.3.el7.x86_64", arch: "amd64", family: "unix"
+```
 
 **操作步骤**
 
@@ -3274,59 +2196,41 @@ OS name: "linux", version: "3.10.0-862.2.3.el7.x86\_64", arch: "amd64", family: 
 
 ![](../../.gitbook/assets/20.png)
 
-\[root@master \~]# cp -rf /opt/apache-maven-3.6.3-bin.tar.gz /home/jenkins\_home/
-
-\[root@master \~]# docker exec -it jenkins bash
-
-\[root@1a3190c3a8b2 /]# tar -zxvf /var/jenkins\_home/apache-maven-3.6.3-bin.tar.gz -C .
-
-\[root@1a3190c3a8b2 /]# mv apache-maven-3.6.3/ /usr/local/maven
-
-\[root@1a3190c3a8b2 /]# vi /etc/profile
-
-export M2\_HOME=/usr/local/maven # 行末添加两行
-
-export PATH=$PATH:$M2\_HOME/bin
-
-\[root@1a3190c3a8b2 /]# vi /root/.bashrc
-
-\# .bashrc
-
-\# User specific aliases and functions
-
+```
+[root@master ~]# cp -rf /opt/apache-maven-3.6.3-bin.tar.gz /home/jenkins_home/
+[root@master ~]# docker exec -it jenkins bash
+[root@1a3190c3a8b2 /]# tar -zxvf /var/jenkins_home/apache-maven-3.6.3-bin.tar.gz -C .
+[root@1a3190c3a8b2 /]# mv apache-maven-3.6.3/ /usr/local/maven
+[root@1a3190c3a8b2 /]# vi /etc/profile
+export M2_HOME=/usr/local/maven # 行末添加两行
+export PATH=$PATH:$M2_HOME/bin
+[root@1a3190c3a8b2 /]# vi /root/.bashrc
+# .bashrc
+# User specific aliases and functions
 alias rm='rm -i'
-
 alias cp='cp -i'
-
 alias mv='mv -i'
-
-\# Source global definitions
-
+# Source global definitions
 if （ -f /etc/bashrc ）; then
-
 . /etc/bashrc
-
 source /etc/profile # 添加本行
-
 fi
-
 退出容器重新进入：
-
-\[root@1a3190c3a8b2 /]# mvn -v
-
+[root@1a3190c3a8b2 /]# mvn -v
 Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
-
 Maven home: /usr/local/maven
-
-Java version: 1.8.0\_265, vendor: Oracle Corporation, runtime: /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8\_2.x86\_64/jre
-
-Default locale: en\_US, platform encoding: ANSI\_X3.4-1968
-
-OS name: "linux", version: "3.10.0-1160.el7.x86\_64", arch: "amd64", family: "unix"
+Java version: 1.8.0_265, vendor: Oracle Corporation, runtime: /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64/jre
+Default locale: en_US, platform encoding: ANSI_X3.4-1968
+OS name: "linux", version: "3.10.0-1160.el7.x86_64", arch: "amd64", family: "unix"
+```
 
 登录Jenkins首页，点击“系统管理”→“全局工具配置”，如图所示：
 
+<figure><img src="../../.gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
+
 点击“新增Maven”，如图所示。取消勾选“自动安装”，填入maven名称和安装路径，配置完成后点击“应用”。
+
+<figure><img src="../../.gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
 
 1. **配置并触发CI/CD（3分）**
 
@@ -3336,19 +2240,15 @@ OS name: "linux", version: "3.10.0-1160.el7.x86\_64", arch: "amd64", family: "un
 
 **答案**
 
-\[root@master \~]# curl \`kubectl get endpoints -n springcloud gateway |grep -v AGE| awk '{print $2}'\` | grep Pig
-
+```
+[root@master ~]# curl `kubectl get endpoints -n springcloud gateway |grep -v AGE| awk '{print $2}'` | grep Pig
 % Total % Received % Xferd Average Speed Time Time Time Current
-
 Dload Upload Total Spent Left Speed
-
-0 0 0 0 0 0 0 0 --:--:-- --:--:-- --:--:-- 0 \<title>Piggy Metrics\</title>
-
-100 32164 100 \<span class="frominfo" id="infosubtitle">Piggy Metrics is the new simple way to deal with personal finances\</span>
-
+0 0 0 0 0 0 0 0 --:--:-- --:--:-- --:--:-- 0 <title>Piggy Metrics</title>
+100 32164 100 <span class="frominfo" id="infosubtitle">Piggy Metrics is the new simple way to deal with personal finances</span>
 32164 0 0 1847k 0 --:--:-- --:--:-- --:--:-- 1963k
-
-\<a id="infofooter" href="https://github.com/sqshq/PiggyMetrics">\&copy; 2016 sqshq.com\</a>
+<a id="infofooter" href="https://github.com/sqshq/PiggyMetrics">&copy; 2016 sqshq.com</a>
+```
 
 **操作步骤**
 
@@ -3358,123 +2258,111 @@ Dload Upload Total Spent Left Speed
 
 登录Jenkins首页，点击左侧导航栏“新建任务”，如图所示，选择构建一个流水线。
 
+<figure><img src="../../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
+
 点击“确定”，配置构建触发器，如图所示：
+
+<figure><img src="../../.gitbook/assets/image (15).png" alt=""><figcaption></figcaption></figure>
 
 记录下GitLab webhook URL的地址（http://192.168.100.10:8080/project/springcloud），后期配置webhook需要使用。
 
 配置流水线，如图所示：
 
+<figure><img src="../../.gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
+
 点击“流水线语法”，如图所示，示例步骤选择“git：Git”，将springcloud项目地址填入仓库URL。
+
+<figure><img src="../../.gitbook/assets/image (19).png" alt=""><figcaption></figcaption></figure>
 
 点击“添加”→“jenkins”添加凭据，如图所示。类型选择“Username with password”，用户名和密码为Gitlab仓库的用户名和密码。
 
+<figure><img src="../../.gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
+
 添加凭据后选择凭据，如图所示：
 
+<figure><img src="../../.gitbook/assets/image (20).png" alt=""><figcaption></figcaption></figure>
+
 点击“生成流水线脚本”，如图所示：
+
+<figure><img src="../../.gitbook/assets/image (21).png" alt=""><figcaption></figcaption></figure>
 
 git credentialsId: '7a2472ee-2a20-494f-a6bc-42a5630afc9e', url: 'http://192.168.100.10:81/juzihh12/springcloud.git'
 
 记录生成的值，并将其写入流水线脚本中，完整的流水线脚本如下：
 
+```
 node{
 
-stage('git clone'){
-
-//check CODE
-
-git credentialsId: 'f30e738e-7795-4348-b3ee-eb73cd274add', url: 'http://192.168.100.10:81/root/springcloud.git'
-
+    stage('git clone'){
+        //check CODE
+        git credentialsId: 'f30e738e-7795-4348-b3ee-eb73cd274add', url: 'http://192.168.100.10:81/root/springcloud.git'
+    }
+    stage('maven build'){
+        sh '''/usr/local/maven/bin/mvn package -DskipTests -f /var/jenkins_home/workspace/springcloud'''
+    }
+    stage('image build'){
+        sh '''
+              echo $BUILD_ID
+              docker build -t 192.168.100.10/springcloud/gateway:$BUILD_ID -f /var/jenkins_home/workspace/springcloud/gateway/Dockerfile  /var/jenkins_home/workspace/springcloud/gateway
+              docker build -t 192.168.100.10/springcloud/config:$BUILD_ID -f /var/jenkins_home/workspace/springcloud/config/Dockerfile  /var/jenkins_home/workspace/springcloud/config'''
+    }
+    stage('test'){
+        sh '''docker run -itd --name gateway 192.168.100.10/springcloud/gateway:$BUILD_ID
+        docker ps -a|grep springcloud|grep Up
+        if （ $? -eq 0 ）;then
+            echo "Success!"
+            docker rm -f gateway
+        else
+            docker rm -f gateway
+            exit 1
+            fi
+        
+        '''
+    }
+    stage('upload registry'){
+        sh '''docker login 192.168.100.10 -u=admin -p=Harbor12345
+            docker push 192.168.100.10/springcloud/gateway:$BUILD_ID
+            docker push 192.168.100.10/springcloud/config:$BUILD_ID'''
+    }
+    stage('deploy Rancher'){
+        //执行部署脚本
+       sh 'sed -i "s/sqshq\\/piggymetrics-gateway/192.168.100.10\\/springcloud\\/gateway:$BUILD_ID/g" /var/jenkins_home/workspace/springcloud/yaml/deployment/gateway-deployment.yaml'
+       sh 'sed -i "s/sqshq\\/piggymetrics-config/192.168.100.10\\/springcloud\\/config:$BUILD_ID/g" /var/jenkins_home/workspace/springcloud/yaml/deployment/config-deployment.yaml'
+       sh 'kubectl create ns springcloud'
+       sh 'kubectl apply -f /var/jenkins_home/workspace/springcloud/yaml/deployment/gateway-deployment.yaml --kubeconfig=/root/.kube/config'
+       sh 'kubectl apply -f /var/jenkins_home/workspace/springcloud/yaml/deployment/config-deployment.yaml --kubeconfig=/root/.kube/config'
+       sh 'kubectl apply -f /var/jenkins_home/workspace/springcloud/yaml/svc/gateway-svc.yaml --kubeconfig=/root/.kube/config'
+       sh 'kubectl apply -f /var/jenkins_home/workspace/springcloud/yaml/svc/config-svc.yaml --kubeconfig=/root/.kube/config'
+        
+    }
 }
-
-stage('maven build'){
-
-sh '''/usr/local/maven/bin/mvn package -DskipTests -f /var/jenkins\_home/workspace/springcloud'''
-
-}
-
-stage('image build'){
-
-sh '''
-
-echo $BUILD\_ID
-
-docker build -t 192.168.100.10/springcloud/gateway:$BUILD\_ID -f /var/jenkins\_home/workspace/springcloud/gateway/Dockerfile /var/jenkins\_home/workspace/springcloud/gateway
-
-docker build -t 192.168.100.10/springcloud/config:$BUILD\_ID -f /var/jenkins\_home/workspace/springcloud/config/Dockerfile /var/jenkins\_home/workspace/springcloud/config'''
-
-}
-
-stage('test'){
-
-sh '''docker run -itd --name gateway 192.168.100.10/springcloud/gateway:$BUILD\_ID
-
-docker ps -a|grep springcloud|grep Up
-
-if （ $? -eq 0 ）;then
-
-echo "Success!"
-
-docker rm -f gateway
-
-else
-
-docker rm -f gateway
-
-exit 1
-
-fi
-
-'''
-
-}
-
-stage('upload registry'){
-
-sh '''docker login 192.168.100.10 -u=admin -p=Harbor12345
-
-docker push 192.168.100.10/springcloud/gateway:$BUILD\_ID
-
-docker push 192.168.100.10/springcloud/config:$BUILD\_ID'''
-
-}
-
-stage('deploy Rancher'){
-
-//执行部署脚本
-
-sh 'sed -i "s/sqshq\\\\/piggymetrics-gateway/192.168.100.10\\\\/springcloud\\\\/gateway:$BUILD\_ID/g" /var/jenkins\_home/workspace/springcloud/yaml/deployment/gateway-deployment.yaml'
-
-sh 'sed -i "s/sqshq\\\\/piggymetrics-config/192.168.100.10\\\\/springcloud\\\\/config:$BUILD\_ID/g" /var/jenkins\_home/workspace/springcloud/yaml/deployment/config-deployment.yaml'
-
-sh 'kubectl create ns springcloud'
-
-sh 'kubectl apply -f /var/jenkins\_home/workspace/springcloud/yaml/deployment/gateway-deployment.yaml --kubeconfig=/root/.kube/config'
-
-sh 'kubectl apply -f /var/jenkins\_home/workspace/springcloud/yaml/deployment/config-deployment.yaml --kubeconfig=/root/.kube/config'
-
-sh 'kubectl apply -f /var/jenkins\_home/workspace/springcloud/yaml/svc/gateway-svc.yaml --kubeconfig=/root/.kube/config'
-
-sh 'kubectl apply -f /var/jenkins\_home/workspace/springcloud/yaml/svc/config-svc.yaml --kubeconfig=/root/.kube/config'
-
-}
-
-}
+```
 
 脚本中所有IP均为Harbor仓库的地址。
 
 在网页写入完整的流水线脚本，如图所示，完成后点击“应用”。
 
+<figure><img src="../../.gitbook/assets/image (22).png" alt=""><figcaption></figcaption></figure>
+
 （2）开启Jenkins匿名访问
 
 登录Jenkins首页，点击“系统管理”→“全局安全配置”，配置授权策略允许匿名用户访问，如图所示。
+
+<figure><img src="../../.gitbook/assets/image (23).png" alt=""><figcaption></figcaption></figure>
 
 （3）配置Webhook
 
 登录Gitlab，进入springcloud项目，点击左侧导航栏“Settings”→“Webhooks”，将前面记录的GitLab webhook URL地址填入URL处，禁用SSL认证，如图所示。
 
+<figure><img src="../../.gitbook/assets/image (24).png" alt=""><figcaption></figcaption></figure>
+
 点击“Add webhook”添加webhook，完成后如图所示：
 
+<figure><img src="../../.gitbook/assets/image (25).png" alt=""><figcaption></figcaption></figure>
+
 点击“Test”→“Push events”进行测试，如图所示：
+
+<figure><img src="../../.gitbook/assets/image (26).png" alt=""><figcaption></figcaption></figure>
 
 结果返回HTTP 200则表明Webhook配置成功。
 
@@ -3482,77 +2370,77 @@ sh 'kubectl apply -f /var/jenkins\_home/workspace/springcloud/yaml/svc/config-sv
 
 登录Harbor，新建项目springcloud，访问级别设置为公开，创建完成后如图所示：
 
+<figure><img src="../../.gitbook/assets/image (27).png" alt=""><figcaption></figcaption></figure>
+
 进入项目查看镜像列表，如图所示，此时为空，无任何镜像：
+
+<figure><img src="../../.gitbook/assets/image (28).png" alt=""><figcaption></figcaption></figure>
 
 （1）触发构建
 
 上传代码触发自动构建：
 
-\[root@master \~]# docker cp /opt/repository/ jenkins:/root/.m2/
-
-\[root@master \~]# docker restart jenkins
-
+```
+[root@master ~]# docker cp /opt/repository/ jenkins:/root/.m2/
+[root@master ~]# docker restart jenkins
 jenkins
-
-\[root@master \~]# cd /opt/springcloud/
-
-\[root@master springcloud]# git add .
-
-\[root@master springcloud]# git commit -m "Initial commit"
-
-\# On branch master
-
+[root@master ~]# cd /opt/springcloud/
+[root@master springcloud]# git add .
+[root@master springcloud]# git commit -m "Initial commit"
+# On branch master
 nothing to commit, working directory clean
-
-\[root@master springcloud]# git push -u origin master
-
+[root@master springcloud]# git push -u origin master
 Username for 'http://192.168.100.10:81': root
-
-Password for 'http://root@192.168.100.10:81':
-
+Password for 'http://root@192.168.100.10:81': 
 Branch master set up to track remote branch master from origin.
-
 Everything up-to-date
-
-（2）Jenkins查
+```
 
 登录Jenkins，可以看到springcloud项目已经开始构建，如图所示：
 
+<figure><img src="../../.gitbook/assets/image (29).png" alt=""><figcaption></figcaption></figure>
+
 点击项目名称查看流水线阶段视图，如图所示：
+
+<figure><img src="../../.gitbook/assets/image (30).png" alt=""><figcaption></figcaption></figure>
 
 点击右侧“#1”可查看控制台输出，此处会显示构建的详细进程，如图所示：
 
+<figure><img src="../../.gitbook/assets/image (31).png" alt=""><figcaption></figcaption></figure>
+
 构建完成后控制台输出如图所示：
 
+<figure><img src="../../.gitbook/assets/image (32).png" alt=""><figcaption></figcaption></figure>
+
 返回项目查看流水线阶段视图，如图所示：
+
+<figure><img src="../../.gitbook/assets/image (33).png" alt=""><figcaption></figcaption></figure>
 
 （3）Harbor查看
 
 进入Harbor仓库springcloud项目查看镜像列表，可以看到已自动上传了一个gateway镜像，如图所示：
 
+<figure><img src="../../.gitbook/assets/image (34).png" alt=""><figcaption></figcaption></figure>
+
 （4）Kubernetes查看
 
 Pod的启动较慢，需等待3--5分钟。在命令行查看Pod：
 
-\[root@master \~]# kubectl -n springcloud get pods
-
+```
+[root@master ~]# kubectl -n springcloud get pods
 NAME READY STATUS RESTARTS AGE
-
 config-6c988c4dc5-2522c 1/1 Running 0 21m
-
 gateway-6545fc58c5-d6rgn 1/1 Running 0 21m
-
 查看service：
-
-\[root@master \~]# kubectl -n springcloud get service
-
+[root@master ~]# kubectl -n springcloud get service
 NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE
-
-config NodePort 10.101.42.47 \<none> 8888:30015/TCP 22m
-
-gateway NodePort 10.100.62.39 \<none> 4000:30010/TCP 22m
+config NodePort 10.101.42.47 <none> 8888:30015/TCP 22m
+gateway NodePort 10.100.62.39 <none> 4000:30010/TCP 22m
+```
 
 通过端口30010访问服务，如图所示：
+
+<figure><img src="../../.gitbook/assets/image (35).png" alt=""><figcaption></figcaption></figure>
 
 至此，完整的CI/CD流程就完成了。
 
@@ -3564,109 +2452,64 @@ gateway NodePort 10.100.62.39 \<none> 4000:30010/TCP 22m
 
 **答案**
 
-\[root@master \~]# curl -L http://$(hostname -i):$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports\[?(@.name=="http2")].nodePort}')/productpage | grep brand
-
+```
+[root@master ~]# curl -L http://$(hostname -i):$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')/productpage | grep brand
 % Total % Received % Xferd Average Speed Time Time Time Current
-
 Dload Upload Total Spent Left Speed
-
-100 5289 100 5289 0 0 9769 0 --:--:-- --:--:-- --:--:-- 9758 \<a class="navbar-brand" href="#">BookInfo Sample\</a>
-
-\<a class="navbar-brand" href="#">Microservices Fabric BookInfo Demo\</a>
-
+100 5289 100 5289 0 0 9769 0 --:--:-- --:--:-- --:--:-- 9758 <a class="navbar-brand" href="#">BookInfo Sample</a>
+<a class="navbar-brand" href="#">Microservices Fabric BookInfo Demo</a>
 100 5289 100 5289 0 0 9768 0 --:--:-- --:--:-- --:--:-- 9758
+```
 
 **操作步骤**
 
-\[root@master \~]# kubectl apply -f /opt/project/istio/istio-1.17.2/services/bookinfo.yaml
-
-\[root@master \~]# vi bookinfo-gateway.yaml
-
+```
+[root@master ~]# kubectl apply -f /opt/project/istio/istio-1.17.2/services/bookinfo.yaml
+[root@master ~]#  vi bookinfo-gateway.yaml
 apiVersion: networking.istio.io/v1alpha3
-
 kind: Gateway
-
 metadata:
-
-name: bookinfo-gateway
-
+  name: bookinfo-gateway
 spec:
-
-selector:
-
-istio: ingressgateway # use istio default controller
-
-servers:
-
-\- port:
-
-number: 80
-
-name: http
-
-protocol: HTTP
-
-hosts:
-
-\- "\*"
-
-\---
-
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
 apiVersion: networking.istio.io/v1alpha3
-
 kind: VirtualService
-
 metadata:
-
-name: bookinfo
-
+  name: bookinfo
 spec:
-
-hosts:
-
-\- "\*"
-
-gateways:
-
-\- bookinfo-gateway
-
-http:
-
-\- match:
-
-\- uri:
-
-exact: /productpage
-
-\- uri:
-
-prefix: /static
-
-\- uri:
-
-exact: /login
-
-\- uri:
-
-exact: /logout
-
-\- uri:
-
-prefix: /api/v1/products
-
-route:
-
-\- destination:
-
-host: productpage
-
-port:
-
-number: 9080
-
-\[root@master \~]# kubectl apply -f bookinfo-gateway.yaml
-
-\[root@master \~]# curl -L http://$(hostname -i):$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports\[?(@.name=="http2")].nodePort}')/productpage
+  hosts:
+  - "*"
+  gateways:
+  - bookinfo-gateway
+  http:
+  - match:
+    - uri:
+        exact: /productpage
+    - uri:
+        prefix: /static
+    - uri:
+        exact: /login
+    - uri:
+        exact: /logout
+    - uri:
+        prefix: /api/v1/products
+    route:
+    - destination:
+        host: productpage
+        port:
+          number: 9080
+[root@master ~]# kubectl apply -f bookinfo-gateway.yaml
+[root@master ~]# curl -L http://$(hostname -i):$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')/productpage
+```
 
 #### 服务网格：创建VirtualService（2分）
 
@@ -3684,339 +2527,187 @@ number: 9080
 
 **答案**
 
-\[root@master \~]# kubectl get namespace default --show-labels
+```
+[root@master ~]# kubectl get namespace default --show-labels
+NAME      STATUS   AGE    LABELS
+default   Active   4h5m   istio-injection=enabled,kubernetes.io/metadata.name=default
 
-NAME STATUS AGE LABELS
-
-default Active 4h5m istio-injection=enabled,kubernetes.io/metadata.name=default
-
-\[root@master \~]# kubectl describe vs reviews
-
-Name: reviews
-
-Namespace: default
-
-Labels: \<none>
-
-Annotations: \<none>
-
-API Version: networking.istio.io/v1beta1
-
-Kind: VirtualService
-
+[root@master ~]# kubectl describe vs reviews 
+Name:         reviews
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+API Version:  networking.istio.io/v1beta1
+Kind:         VirtualService
 Metadata:
-
-Creation Timestamp: 2023-09-07T14:28:18Z
-
-Generation: 1
-
-Managed Fields:
-
-API Version: networking.istio.io/v1alpha3
-
-Fields Type: FieldsV1
-
-fieldsV1:
-
-f:metadata:
-
-f:annotations:
-
-.:
-
-f:kubectl.kubernetes.io/last-applied-configuration:
-
-f:spec:
-
-.:
-
-f:hosts:
-
-f:http:
-
-Manager: kubectl-client-side-apply
-
-Operation: Update
-
-Time: 2023-09-07T14:28:18Z
-
-Resource Version: 41317
-
-UID: 295b72bf-2704-442d-8e8f-e9b8d9c20ab3
-
+  Creation Timestamp:  2023-09-07T14:28:18Z
+  Generation:          1
+  Managed Fields:
+    API Version:  networking.istio.io/v1alpha3
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .:
+          f:kubectl.kubernetes.io/last-applied-configuration:
+      f:spec:
+        .:
+        f:hosts:
+        f:http:
+    Manager:         kubectl-client-side-apply
+    Operation:       Update
+    Time:            2023-09-07T14:28:18Z
+  Resource Version:  41317
+  UID:               295b72bf-2704-442d-8e8f-e9b8d9c20ab3
 Spec:
-
-Hosts:
-
-reviews
-
-Http:
-
-Route:
-
-Destination:
-
-Host: reviews
-
-Subset: v1
-
-Events: \<none>
+  Hosts:
+    reviews
+  Http:
+    Route:
+      Destination:
+        Host:    reviews
+        Subset:  v1
+Events:          <none>
+```
 
 **操作步骤**
 
-\[root@master \~]# kubectl label namespace default istio-injection=enabled
-
+```
+[root@master ~]# kubectl label namespace default  istio-injection=enabled
 namespace/default labeled
-
-\[root@master \~]# kubectl delete pod --all
-
-\[root@master \~]# vi dr.yaml
-
+[root@master ~]# kubectl delete pod --all
+[root@master ~]# vi dr.yaml 
 apiVersion: networking.istio.io/v1alpha3
-
 kind: DestinationRule
-
 metadata:
-
-name: productpage
-
+  name: productpage
 spec:
+  host: productpage
+  subsets:
+  - name: v1
+    labels:
+      version: v1
 
-host: productpage
-
-subsets:
-
-\- name: v1
-
-labels:
-
-version: v1
-
-\---
-
+---
 apiVersion: networking.istio.io/v1alpha3
-
 kind: DestinationRule
-
 metadata:
-
-name: reviews
-
+  name: reviews
 spec:
-
-host: reviews
-
-subsets:
-
-\- name: v1
-
-labels:
-
-version: v1
-
-\- name: v2
-
-labels:
-
-version: v2
-
-\- name: v3
-
-labels:
-
-version: v3
-
-\---
-
+  host: reviews
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+  - name: v3
+    labels:
+      version: v3
+---
 apiVersion: networking.istio.io/v1alpha3
-
 kind: DestinationRule
-
 metadata:
-
-name: ratings
-
+  name: ratings
 spec:
+  host: ratings
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+  - name: v2-mysql
+    labels:
+      version: v2-mysql
+  - name: v2-mysql-vm
+    labels:
+      version: v2-mysql-vm
 
-host: ratings
-
-subsets:
-
-\- name: v1
-
-labels:
-
-version: v1
-
-\- name: v2
-
-labels:
-
-version: v2
-
-\- name: v2-mysql
-
-labels:
-
-version: v2-mysql
-
-\- name: v2-mysql-vm
-
-labels:
-
-version: v2-mysql-vm
-
-\---
-
+---
 apiVersion: networking.istio.io/v1alpha3
-
 kind: DestinationRule
-
 metadata:
-
-name: details
-
+  name: details
 spec:
-
-host: details
-
-subsets:
-
-\- name: v1
-
-labels:
-
-version: v1
-
-\- name: v2
-
-labels:
-
-version: v2
-
-\[root@master \~]# vi vs.yaml
+  host: details
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+[root@master ~]# vi vs.yaml 
 
 apiVersion: networking.istio.io/v1alpha3
-
 kind: VirtualService
-
 metadata:
-
-name: productpage
-
+  name: productpage
 spec:
+  hosts:
+  - productpage
+  http:
+  - route:
+    - destination:
+        host: productpage
+        subset: v1
 
-hosts:
-
-\- productpage
-
-http:
-
-\- route:
-
-\- destination:
-
-host: productpage
-
-subset: v1
-
-\---
-
+---
 apiVersion: networking.istio.io/v1alpha3
-
 kind: VirtualService
-
 metadata:
-
-name: reviews
-
+  name: reviews
 spec:
+  hosts:
+  - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
 
-hosts:
-
-\- reviews
-
-http:
-
-\- route:
-
-\- destination:
-
-host: reviews
-
-subset: v1
-
-\---
-
+---
 apiVersion: networking.istio.io/v1alpha3
-
 kind: VirtualService
-
 metadata:
-
-name: ratings
-
+  name: ratings
 spec:
+  hosts:
+  - ratings
+  http:
+  - route:
+    - destination:
+        host: ratings
+        subset: v1
 
-hosts:
-
-\- ratings
-
-http:
-
-\- route:
-
-\- destination:
-
-host: ratings
-
-subset: v1
-
-\---
-
+---
 apiVersion: networking.istio.io/v1alpha3
-
 kind: VirtualService
-
 metadata:
-
-name: details
-
+  name: details
 spec:
+  hosts:
+  - details
+  http:
+  - route:
+    - destination:
+        host: details
+        subset: v1
 
-hosts:
-
-\- details
-
-http:
-
-\- route:
-
-\- destination:
-
-host: details
-
-subset: v1
-
-\[root@master \~]# kubectl apply -f dr.yaml
-
+[root@master ~]# kubectl apply -f dr.yaml  
 destinationrule.networking.istio.io/productpage created
-
 destinationrule.networking.istio.io/reviews created
-
 destinationrule.networking.istio.io/ratings created
-
 destinationrule.networking.istio.io/details created
-
-\[root@master \~]# kubectl apply -f vs.yaml
-
+[root@master ~]# kubectl apply -f vs.yaml 
 virtualservice.networking.istio.io/productpage created
-
 virtualservice.networking.istio.io/reviews created
-
 virtualservice.networking.istio.io/ratings created
-
 virtualservice.networking.istio.io/details created
+```
 
 #### KubeVirt运维：创建VM（2分）
 
@@ -4028,557 +2719,289 @@ virtualservice.networking.istio.io/details created
 
 **答案**
 
-\[root@master \~]# kubectl edit kubevirts.kubevirt.io -n kubevirt kubevirt
-
-configuration:
-
-developerConfiguration:
-
-useEmulation: true
-
-\[root@master \~]# kubectl describe vm test-vm
-
-Name: test-vm
-
-Namespace: default
-
-Labels: \<none>
-
-Annotations: kubevirt.io/latest-observed-api-version: v1
-
-kubevirt.io/storage-observed-api-version: v1alpha3
-
-API Version: kubevirt.io/v1
-
-Kind: VirtualMachine
-
+```
+[root@master ~]# kubectl edit kubevirts.kubevirt.io -n kubevirt kubevirt
+ configuration:
+    developerConfiguration:
+      useEmulation: true
+[root@master ~]# kubectl describe vm test-vm
+Name:         test-vm
+Namespace:    default
+Labels:       <none>
+Annotations:  kubevirt.io/latest-observed-api-version: v1
+              kubevirt.io/storage-observed-api-version: v1alpha3
+API Version:  kubevirt.io/v1
+Kind:         VirtualMachine
 Metadata:
-
-Creation Timestamp: 2023-05-21T20:03:15Z
-
-Finalizers:
-
-kubevirt.io/virtualMachineControllerFinalize
-
-Generation: 1
-
-Managed Fields:
-
-API Version: kubevirt.io/v1alpha3
-
-Fields Type: FieldsV1
-
-fieldsV1:
-
-f:metadata:
-
-f:annotations:
-
-f:kubevirt.io/latest-observed-api-version:
-
-f:kubevirt.io/storage-observed-api-version:
-
-f:finalizers:
-
-.:
-
-v:"kubevirt.io/virtualMachineControllerFinalize":
-
-Manager: Go-http-client
-
-Operation: Update
-
-Time: 2023-05-21T20:03:15Z
-
-API Version: kubevirt.io/v1
-
-Fields Type: FieldsV1
-
-fieldsV1:
-
-f:metadata:
-
-f:annotations:
-
-.:
-
-f:kubectl.kubernetes.io/last-applied-configuration:
-
-f:spec:
-
-.:
-
-f:runStrategy:
-
-f:template:
-
-.:
-
-f:spec:
-
-.:
-
-f:domain:
-
-.:
-
-f:devices:
-
-.:
-
-f:disks:
-
-f:resources:
-
-.:
-
-f:requests:
-
-.:
-
-f:memory:
-
-f:volumes:
-
-Manager: kubectl-client-side-apply
-
-Operation: Update
-
-Time: 2023-05-21T20:03:15Z
-
-API Version: kubevirt.io/v1alpha3
-
-Fields Type: FieldsV1
-
-fieldsV1:
-
-f:status:
-
-.:
-
-f:conditions:
-
-f:created:
-
-f:desiredGeneration:
-
-f:observedGeneration:
-
-f:printableStatus:
-
-f:ready:
-
-f:volumeSnapshotStatuses:
-
-Manager: Go-http-client
-
-Operation: Update
-
-Subresource: status
-
-Time: 2023-05-21T20:42:03Z
-
-Resource Version: 58020
-
-UID: e9cfd677-9ca2-47df-9d17-313978636ebc
-
+  Creation Timestamp:  2023-05-21T20:03:15Z
+  Finalizers:
+    kubevirt.io/virtualMachineControllerFinalize
+  Generation:  1
+  Managed Fields:
+    API Version:  kubevirt.io/v1alpha3
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:kubevirt.io/latest-observed-api-version:
+          f:kubevirt.io/storage-observed-api-version:
+        f:finalizers:
+          .:
+          v:"kubevirt.io/virtualMachineControllerFinalize":
+    Manager:      Go-http-client
+    Operation:    Update
+    Time:         2023-05-21T20:03:15Z
+    API Version:  kubevirt.io/v1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .:
+          f:kubectl.kubernetes.io/last-applied-configuration:
+      f:spec:
+        .:
+        f:runStrategy:
+        f:template:
+          .:
+          f:spec:
+            .:
+            f:domain:
+              .:
+              f:devices:
+                .:
+                f:disks:
+              f:resources:
+                .:
+                f:requests:
+                  .:
+                  f:memory:
+            f:volumes:
+    Manager:      kubectl-client-side-apply
+    Operation:    Update
+    Time:         2023-05-21T20:03:15Z
+    API Version:  kubevirt.io/v1alpha3
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:status:
+        .:
+        f:conditions:
+        f:created:
+        f:desiredGeneration:
+        f:observedGeneration:
+        f:printableStatus:
+        f:ready:
+        f:volumeSnapshotStatuses:
+    Manager:         Go-http-client
+    Operation:       Update
+    Subresource:     status
+    Time:            2023-05-21T20:42:03Z
+  Resource Version:  58020
+  UID:               e9cfd677-9ca2-47df-9d17-313978636ebc
 Spec:
-
-Run Strategy: Manual
-
-Template:
-
-Metadata:
-
-Creation Timestamp: \<nil>
-
-Spec:
-
-Domain:
-
-Devices:
-
-Disks:
-
-Disk:
-
-Bus: virtio
-
-Name: containerdisk
-
-Machine:
-
-Type: q35
-
-Resources:
-
-Requests:
-
-Memory: 1Gi
-
-Volumes:
-
-Container Disk:
-
-Image: fedora-virt:v1.0
-
-Image Pull Policy: IfNotPresent
-
-Name: containerdisk
-
+  Run Strategy:  Manual
+  Template:
+    Metadata:
+      Creation Timestamp:  <nil>
+    Spec:
+      Domain:
+        Devices:
+          Disks:
+            Disk:
+              Bus:  virtio
+            Name:   containerdisk
+        Machine:
+          Type:  q35
+        Resources:
+          Requests:
+            Memory:  1Gi
+      Volumes:
+        Container Disk:
+          Image:              fedora-virt:v1.0
+          Image Pull Policy:  IfNotPresent
+        Name:                 containerdisk
 Status:
-
-Conditions:
-
-Last Probe Time: \<nil>
-
-Last Transition Time: 2023-05-21T20:42:02Z
-
-Status: True
-
-Type: Ready
-
-Last Probe Time: \<nil>
-
-Last Transition Time: \<nil>
-
-Message: cannot migrate VMI which does not use masquerade to connect to the pod network or bridge with kubevirt.io/allow-pod-bridge-network-live-migration VM annotation
-
-Reason: InterfaceNotLiveMigratable
-
-Status: False
-
-Type: LiveMigratable
-
-Created: true
-
-Desired Generation: 1
-
-Observed Generation: 1
-
-Printable Status: Running
-
-Ready: true
-
-Volume Snapshot Statuses:
-
-Enabled: false
-
-Name: containerdisk
-
-Reason: Snapshot is not supported for this volumeSource type \[containerdisk]
-
+  Conditions:
+    Last Probe Time:       <nil>
+    Last Transition Time:  2023-05-21T20:42:02Z
+    Status:                True
+    Type:                  Ready
+    Last Probe Time:       <nil>
+    Last Transition Time:  <nil>
+    Message:               cannot migrate VMI which does not use masquerade to connect to the pod network or bridge with kubevirt.io/allow-pod-bridge-network-live-migration VM annotation
+    Reason:                InterfaceNotLiveMigratable
+    Status:                False
+    Type:                  LiveMigratable
+  Created:                 true
+  Desired Generation:      1
+  Observed Generation:     1
+  Printable Status:        Running
+  Ready:                   true
+  Volume Snapshot Statuses:
+    Enabled:  false
+    Name:     containerdisk
+    Reason:   Snapshot is not supported for this volumeSource type [containerdisk]
 Events:
-
-Type Reason Age From Message
-
-\---- ------ ---- ---- -------
-
-Normal SuccessfulDelete 37m virtualmachine-controller Stopped the virtual machine by deleting the virtual machine instance dbcdbd0c-b49b-40fa-b779-f9c2a4be7390
+  Type    Reason            Age               From                       Message
+  ----    ------            ----              ----                       -------
+  Normal  SuccessfulDelete  37m               virtualmachine-controller  Stopped the virtual machine by deleting the virtual machine instance dbcdbd0c-b49b-40fa-b779-f9c2a4be7390
+```
 
 **操作步骤**
 
-\[root@master \~]# kubectl edit kubevirts.kubevirt.io -n kubevirt kubevirt
+```
+[root@master ~]# kubectl edit kubevirts.kubevirt.io -n kubevirt kubevirt
+ configuration:
+    developerConfiguration:
+      useEmulation: true
 
-configuration:
-
-developerConfiguration:
-
-useEmulation: true
-
-\[root@master \~]# cat vm.yaml
-
+[root@master ~]# cat vm.yaml 
 apiVersion: kubevirt.io/v1
-
 kind: VirtualMachine
-
 metadata:
-
-name: test-vm
-
+  name: test-vm
 spec:
-
-runStrategy: Manual
-
-template:
-
-spec:
-
-domain:
-
-resources:
-
-requests:
-
-memory: 1Gi
-
-devices:
-
-disks:
-
-\- name: containerdisk
-
-disk:
-
-bus: virtio
-
-volumes:
-
-\- name: containerdisk
-
-containerDisk:
-
-image: fedora-virt:v1.0
-
-imagePullPolicy: IfNotPresent
-
-\[root@master \~]# kubectl apply -f vm.yaml
-
-virtualmachine.kubevirt.io/test-vm created
-
-\[root@master \~]# virtctl start test-vm
-
+  runStrategy: Manual
+  template:
+    spec:
+      domain:
+        resources:
+          requests:
+            memory: 1Gi
+        devices:
+          disks:
+          - name: containerdisk
+            disk:
+              bus: virtio
+      volumes:
+        - name: containerdisk
+          containerDisk:
+            image: fedora-virt:v1.0
+            imagePullPolicy: IfNotPresent
+[root@master ~]# kubectl apply -f vm.yaml
+virtualmachine.kubevirt.io/test-vm created                                                       
+[root@master ~]# virtctl start test-vm
 VM test-vm was scheduled to start
-
-\[root@master \~]# kubectl describe vm test-vm
-
-Name: test-vm
-
-Namespace: default
-
-Labels: \<none>
-
-Annotations: kubevirt.io/latest-observed-api-version: v1
-
-kubevirt.io/storage-observed-api-version: v1alpha3
-
-API Version: kubevirt.io/v1
-
-Kind: VirtualMachine
-
+[root@master ~]# kubectl describe vm test-vm
+Name:         test-vm
+Namespace:    default
+Labels:       <none>
+Annotations:  kubevirt.io/latest-observed-api-version: v1
+              kubevirt.io/storage-observed-api-version: v1alpha3
+API Version:  kubevirt.io/v1
+Kind:         VirtualMachine
 Metadata:
-
-Creation Timestamp: 2023-05-21T20:03:15Z
-
-Finalizers:
-
-kubevirt.io/virtualMachineControllerFinalize
-
-Generation: 1
-
-Managed Fields:
-
-API Version: kubevirt.io/v1alpha3
-
-Fields Type: FieldsV1
-
-fieldsV1:
-
-f:metadata:
-
-f:annotations:
-
-f:kubevirt.io/latest-observed-api-version:
-
-f:kubevirt.io/storage-observed-api-version:
-
-f:finalizers:
-
-.:
-
-v:"kubevirt.io/virtualMachineControllerFinalize":
-
-Manager: Go-http-client
-
-Operation: Update
-
-Time: 2023-05-21T20:03:15Z
-
-API Version: kubevirt.io/v1
-
-Fields Type: FieldsV1
-
-fieldsV1:
-
-f:metadata:
-
-f:annotations:
-
-.:
-
-f:kubectl.kubernetes.io/last-applied-configuration:
-
-f:spec:
-
-.:
-
-f:runStrategy:
-
-f:template:
-
-.:
-
-f:spec:
-
-.:
-
-f:domain:
-
-.:
-
-f:devices:
-
-.:
-
-f:disks:
-
-f:resources:
-
-.:
-
-f:requests:
-
-.:
-
-f:memory:
-
-f:volumes:
-
-Manager: kubectl-client-side-apply
-
-Operation: Update
-
-Time: 2023-05-21T20:03:15Z
-
-API Version: kubevirt.io/v1alpha3
-
-Fields Type: FieldsV1
-
-fieldsV1:
-
-f:status:
-
-.:
-
-f:conditions:
-
-f:created:
-
-f:desiredGeneration:
-
-f:observedGeneration:
-
-f:printableStatus:
-
-f:ready:
-
-f:volumeSnapshotStatuses:
-
-Manager: Go-http-client
-
-Operation: Update
-
-Subresource: status
-
-Time: 2023-05-21T20:42:03Z
-
-Resource Version: 58020
-
-UID: e9cfd677-9ca2-47df-9d17-313978636ebc
-
+  Creation Timestamp:  2023-05-21T20:03:15Z
+  Finalizers:
+    kubevirt.io/virtualMachineControllerFinalize
+  Generation:  1
+  Managed Fields:
+    API Version:  kubevirt.io/v1alpha3
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:kubevirt.io/latest-observed-api-version:
+          f:kubevirt.io/storage-observed-api-version:
+        f:finalizers:
+          .:
+          v:"kubevirt.io/virtualMachineControllerFinalize":
+    Manager:      Go-http-client
+    Operation:    Update
+    Time:         2023-05-21T20:03:15Z
+    API Version:  kubevirt.io/v1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .:
+          f:kubectl.kubernetes.io/last-applied-configuration:
+      f:spec:
+        .:
+        f:runStrategy:
+        f:template:
+          .:
+          f:spec:
+            .:
+            f:domain:
+              .:
+              f:devices:
+                .:
+                f:disks:
+              f:resources:
+                .:
+                f:requests:
+                  .:
+                  f:memory:
+            f:volumes:
+    Manager:      kubectl-client-side-apply
+    Operation:    Update
+    Time:         2023-05-21T20:03:15Z
+    API Version:  kubevirt.io/v1alpha3
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:status:
+        .:
+        f:conditions:
+        f:created:
+        f:desiredGeneration:
+        f:observedGeneration:
+        f:printableStatus:
+        f:ready:
+        f:volumeSnapshotStatuses:
+    Manager:         Go-http-client
+    Operation:       Update
+    Subresource:     status
+    Time:            2023-05-21T20:42:03Z
+  Resource Version:  58020
+  UID:               e9cfd677-9ca2-47df-9d17-313978636ebc
 Spec:
-
-Run Strategy: Manual
-
-Template:
-
-Metadata:
-
-Creation Timestamp: \<nil>
-
-Spec:
-
-Domain:
-
-Devices:
-
-Disks:
-
-Disk:
-
-Bus: virtio
-
-Name: containerdisk
-
-Machine:
-
-Type: q35
-
-Resources:
-
-Requests:
-
-Memory: 1Gi
-
-Volumes:
-
-Container Disk:
-
-Image: fedora-virt:v1.0
-
-Image Pull Policy: IfNotPresent
-
-Name: containerdisk
-
+  Run Strategy:  Manual
+  Template:
+    Metadata:
+      Creation Timestamp:  <nil>
+    Spec:
+      Domain:
+        Devices:
+          Disks:
+            Disk:
+              Bus:  virtio
+            Name:   containerdisk
+        Machine:
+          Type:  q35
+        Resources:
+          Requests:
+            Memory:  1Gi
+      Volumes:
+        Container Disk:
+          Image:              fedora-virt:v1.0
+          Image Pull Policy:  IfNotPresent
+        Name:                 containerdisk
 Status:
-
-Conditions:
-
-Last Probe Time: \<nil>
-
-Last Transition Time: 2023-05-21T20:42:02Z
-
-Status: True
-
-Type: Ready
-
-Last Probe Time: \<nil>
-
-Last Transition Time: \<nil>
-
-Message: cannot migrate VMI which does not use masquerade to connect to the pod network or bridge with kubevirt.io/allow-pod-bridge-network-live-migration VM annotation
-
-Reason: InterfaceNotLiveMigratable
-
-Status: False
-
-Type: LiveMigratable
-
-Created: true
-
-Desired Generation: 1
-
-Observed Generation: 1
-
-Printable Status: Running
-
-Ready: true
-
-Volume Snapshot Statuses:
-
-Enabled: false
-
-Name: containerdisk
-
-Reason: Snapshot is not supported for this volumeSource type \[containerdisk]
-
+  Conditions:
+    Last Probe Time:       <nil>
+    Last Transition Time:  2023-05-21T20:42:02Z
+    Status:                True
+    Type:                  Ready
+    Last Probe Time:       <nil>
+    Last Transition Time:  <nil>
+    Message:               cannot migrate VMI which does not use masquerade to connect to the pod network or bridge with kubevirt.io/allow-pod-bridge-network-live-migration VM annotation
+    Reason:                InterfaceNotLiveMigratable
+    Status:                False
+    Type:                  LiveMigratable
+  Created:                 true
+  Desired Generation:      1
+  Observed Generation:     1
+  Printable Status:        Running
+  Ready:                   true
+  Volume Snapshot Statuses:
+    Enabled:  false
+    Name:     containerdisk
+    Reason:   Snapshot is not supported for this volumeSource type [containerdisk]
 Events:
-
-Type Reason Age From Message
-
-\---- ------ ---- ---- -------
-
-Normal SuccessfulDelete 37m virtualmachine-controller Stopped the virtual machine by deleting the virtual machine instance dbcdbd0c-b49b-40fa-b779-f9c2a4be7390
+  Type    Reason            Age               From                       Message
+  ----    ------            ----              ----                       -------
+  Normal  SuccessfulDelete  37m               virtualmachine-controller  Stopped the virtual machine by deleting the virtual machine instance dbcdbd0c-b49b-40fa-b779-f9c2a4be7390
+```
 
 #### KubeVirt运维：开启功能优化（1分）
 
@@ -4598,261 +3021,140 @@ Normal SuccessfulDelete 37m virtualmachine-controller Stopped the virtual machin
 
 **答案**
 
-\[root@master \~]# kubectl describe kubevirt kubevirt -n kubevirt
-
-Name: kubevirt
-
-Namespace: kubevirt
-
-Labels: \<none>
-
-Annotations: kubevirt.io/latest-observed-api-version: v1
-
-kubevirt.io/storage-observed-api-version: v1alpha3
-
-API Version: kubevirt.io/v1
-
-Kind: KubeVirt
-
+```
+[root@master ~]# kubectl describe kubevirt kubevirt -n kubevirt 
+Name:         kubevirt
+Namespace:    kubevirt
+Labels:       <none>
+Annotations:  kubevirt.io/latest-observed-api-version: v1
+              kubevirt.io/storage-observed-api-version: v1alpha3
+API Version:  kubevirt.io/v1
+Kind:         KubeVirt
 Metadata:
-
-Creation Timestamp: 2023-09-07T10:29:47Z
-
-Finalizers:
-
-foregroundDeleteKubeVirt
-
-Generation: 3
-
-Managed Fields:
-
-API Version: kubevirt.io/v1
-
-Fields Type: FieldsV1
-
-fieldsV1:
-
-f:metadata:
-
-f:annotations:
-
-.:
-
-f:kubectl.kubernetes.io/last-applied-configuration:
-
-f:spec:
-
-.:
-
-f:certificateRotateStrategy:
-
-f:configuration:
-
-.:
-
-f:developerConfiguration:
-
-f:customizeComponents:
-
-f:imagePullPolicy:
-
-f:workloadUpdateStrategy:
-
-Manager: kubectl-client-side-apply
-
-Operation: Update
-
-Time: 2023-09-07T10:29:47Z
-
-API Version: kubevirt.io/v1alpha3
-
-Fields Type: FieldsV1
-
-fieldsV1:
-
-f:metadata:
-
-f:annotations:
-
-f:kubevirt.io/latest-observed-api-version:
-
-f:kubevirt.io/storage-observed-api-version:
-
-f:finalizers:
-
-.:
-
-v:"foregroundDeleteKubeVirt":
-
-Manager: Go-http-client
-
-Operation: Update
-
-Time: 2023-09-07T10:30:13Z
-
-API Version: kubevirt.io/v1
-
-Fields Type: FieldsV1
-
-fieldsV1:
-
-f:spec:
-
-f:configuration:
-
-f:developerConfiguration:
-
-f:featureGates:
-
-Manager: kubectl-edit
-
-Operation: Update
-
-Time: 2023-09-07T15:08:48Z
-
-API Version: kubevirt.io/v1alpha3
-
-Fields Type: FieldsV1
-
-fieldsV1:
-
-f:status:
-
-.:
-
-f:conditions:
-
-f:generations:
-
-f:observedDeploymentConfig:
-
-f:observedDeploymentID:
-
-f:observedGeneration:
-
-f:observedKubeVirtRegistry:
-
-f:observedKubeVirtVersion:
-
-f:operatorVersion:
-
-f:outdatedVirtualMachineInstanceWorkloads:
-
-f:phase:
-
-f:targetDeploymentConfig:
-
-f:targetDeploymentID:
-
-f:targetKubeVirtRegistry:
-
-f:targetKubeVirtVersion:
-
-Manager: Go-http-client
-
-Operation: Update
-
-Subresource: status
-
-Time: 2023-09-07T15:09:02Z
-
-Resource Version: 48407
-
-UID: 927cbaa5-0e26-4dbc-9584-7353cf5e5420
-
+  Creation Timestamp:  2023-09-07T10:29:47Z
+  Finalizers:
+    foregroundDeleteKubeVirt
+  Generation:  3
+  Managed Fields:
+    API Version:  kubevirt.io/v1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .:
+          f:kubectl.kubernetes.io/last-applied-configuration:
+      f:spec:
+        .:
+        f:certificateRotateStrategy:
+        f:configuration:
+          .:
+          f:developerConfiguration:
+        f:customizeComponents:
+        f:imagePullPolicy:
+        f:workloadUpdateStrategy:
+    Manager:      kubectl-client-side-apply
+    Operation:    Update
+    Time:         2023-09-07T10:29:47Z
+    API Version:  kubevirt.io/v1alpha3
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:kubevirt.io/latest-observed-api-version:
+          f:kubevirt.io/storage-observed-api-version:
+        f:finalizers:
+          .:
+          v:"foregroundDeleteKubeVirt":
+    Manager:      Go-http-client
+    Operation:    Update
+    Time:         2023-09-07T10:30:13Z
+    API Version:  kubevirt.io/v1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:spec:
+        f:configuration:
+          f:developerConfiguration:
+            f:featureGates:
+    Manager:      kubectl-edit
+    Operation:    Update
+    Time:         2023-09-07T15:08:48Z
+    API Version:  kubevirt.io/v1alpha3
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:status:
+        .:
+        f:conditions:
+        f:generations:
+        f:observedDeploymentConfig:
+        f:observedDeploymentID:
+        f:observedGeneration:
+        f:observedKubeVirtRegistry:
+        f:observedKubeVirtVersion:
+        f:operatorVersion:
+        f:outdatedVirtualMachineInstanceWorkloads:
+        f:phase:
+        f:targetDeploymentConfig:
+        f:targetDeploymentID:
+        f:targetKubeVirtRegistry:
+        f:targetKubeVirtVersion:
+    Manager:         Go-http-client
+    Operation:       Update
+    Subresource:     status
+    Time:            2023-09-07T15:09:02Z
+  Resource Version:  48407
+  UID:               927cbaa5-0e26-4dbc-9584-7353cf5e5420
 Spec:
-
-Certificate Rotate Strategy:
-
-Configuration:
-
-Developer Configuration:
-
-Feature Gates:
-
-Snapshot
-
-HotplugVolumes
-
-LiveMigration
-
-Sidecar
-
-HostDisk
-
-Customize Components:
-
-Image Pull Policy: IfNotPresent
+  Certificate Rotate Strategy:
+  Configuration:
+    Developer Configuration:
+      Feature Gates:
+        Snapshot
+        HotplugVolumes
+        LiveMigration
+        Sidecar
+        HostDisk
+  Customize Components:
+  Image Pull Policy:  IfNotPresent
+```
 
 **操作步骤**
 
-\[root@master \~]# kubectl edit kubevirt kubevirt -n kubevirt
-
-\# Please edit the object below. Lines beginning with a '#' will be ignored,
-
-\# and an empty file will abort the edit. If an error occurs while saving this file will be
-
-\# reopened with the relevant failures.
-
-\#
-
+```
+[root@master ~]# kubectl edit kubevirt kubevirt -n kubevirt                    
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
 apiVersion: kubevirt.io/v1
-
 kind: KubeVirt
-
 metadata:
-
-annotations:
-
-kubectl.kubernetes.io/last-applied-configuration: |
-
-{"apiVersion":"kubevirt.io/v1","kind":"KubeVirt","metadata":{"annotations":{},"name":"kubevirt","namespace":"kubevirt"},
-
-"spec":{"certificateRotateStrategy":{},"configuration":{"developerConfiguration":{"featureGates":\[]\}},"customizeComponents":{}
-
-,"imagePullPolicy":"IfNotPresent","workloadUpdateStrategy":{\}}}
-
-kubevirt.io/latest-observed-api-version: v1
-
-kubevirt.io/storage-observed-api-version: v1alpha3
-
-creationTimestamp: "2023-09-07T10:29:47Z"
-
-finalizers:
-
-\- foregroundDeleteKubeVirt
-
-generation: 3
-
-name: kubevirt
-
-namespace: kubevirt
-
-resourceVersion: "48407"
-
-uid: 927cbaa5-0e26-4dbc-9584-7353cf5e5420
-
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"kubevirt.io/v1","kind":"KubeVirt","metadata":{"annotations":{},"name":"kubevirt","namespace":"kubevirt"},
+"spec":{"certificateRotateStrategy":{},"configuration":{"developerConfiguration":{"featureGates":[]}},"customizeComponents":{}
+,"imagePullPolicy":"IfNotPresent","workloadUpdateStrategy":{}}}
+    kubevirt.io/latest-observed-api-version: v1
+    kubevirt.io/storage-observed-api-version: v1alpha3
+  creationTimestamp: "2023-09-07T10:29:47Z"
+  finalizers:
+  - foregroundDeleteKubeVirt
+  generation: 3
+  name: kubevirt
+  namespace: kubevirt
+  resourceVersion: "48407"
+  uid: 927cbaa5-0e26-4dbc-9584-7353cf5e5420
 spec:
-
-certificateRotateStrategy: {}
-
-configuration:
-
-developerConfiguration:
-
-featureGates:
-
-\- Snapshot
-
-\- HotplugVolumes
-
-\- LiveMigration
-
-\- Sidecar
-
-\- HostDisk
-
-customizeComponents: {}
+  certificateRotateStrategy: {}
+  configuration:
+    developerConfiguration:
+      featureGates:
+      - Snapshot
+      - HotplugVolumes
+      - LiveMigration
+      - Sidecar
+      - HostDisk
+  customizeComponents: {}
+```
 
 #### Deployment管理：创建deployment（2分）
 
@@ -4868,187 +3170,104 @@ customizeComponents: {}
 
 **答案**
 
-\[root@master \~]# cat deployment.yaml &\&kubectl describe deployment test-deployment
-
+```
+[root@master ~]# cat deployment.yaml &&kubectl describe deployment test-deployment
 apiVersion: apps/v1
-
 kind: Deployment
-
 metadata:
-
-name: test-deployment
-
-namespace: default
-
+  name: test-deployment
+  namespace: default
 spec:
-
-selector:
-
-matchLabels:
-
-app: nginx
-
-template:
-
-metadata:
-
-labels:
-
-app: nginx
-
-spec:
-
-containers:
-
-\- name: nginx
-
-image: 192.168.200.10/library/nginx:latest
-
-imagePullPolicy: IfNotPresent
-
-affinity:
-
-nodeAffinity:
-
-requiredDuringSchedulingIgnoredDuringExecution:
-
-nodeSelectorTerms:
-
-\- matchExpressions:
-
-\- key: tty
-
-operator: In
-
-values:
-
-\- master
-
-Name: test-deployment
-
-Namespace: default
-
-CreationTimestamp: Thu, 07 Sep 2023 12:29:43 -0400
-
-Labels: \<none>
-
-Annotations: deployment.kubernetes.io/revision: 3
-
-Selector: app=nginx
-
-Replicas: 1 desired | 1 updated | 1 total | 1 available | 0 unavailable
-
-StrategyType: RollingUpdate
-
-MinReadySeconds: 0
-
-RollingUpdateStrategy: 25% max unavailable, 25% max surge
-
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: 192.168.200.10/library/nginx:latest
+        imagePullPolicy: IfNotPresent
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: tty
+                operator: In
+                values:
+                - master
+Name:                   test-deployment
+Namespace:              default
+CreationTimestamp:      Thu, 07 Sep 2023 12:29:43 -0400
+Labels:                 <none>
+Annotations:            deployment.kubernetes.io/revision: 3
+Selector:               app=nginx
+Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
 Pod Template:
-
-Labels: app=nginx
-
-Containers:
-
-nginx:
-
-Image: 192.168.200.10/library/nginx:latest
-
-Port: \<none>
-
-Host Port: \<none>
-
-Environment: \<none>
-
-Mounts: \<none>
-
-Volumes: \<none>
-
+  Labels:  app=nginx
+  Containers:
+   nginx:
+    Image:        192.168.200.10/library/nginx:latest
+    Port:         <none>
+    Host Port:    <none>
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
 Conditions:
-
-Type Status Reason
-
-\---- ------ ------
-
-Available True MinimumReplicasAvailable
-
-Progressing True NewReplicaSetAvailable
-
-OldReplicaSets: \<none>
-
-NewReplicaSet: test-deployment-6b49cc498f (1/1 replicas created)
-
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   test-deployment-6b49cc498f (1/1 replicas created)
 Events:
-
-Type Reason Age From Message
-
-\---- ------ ---- ---- -------
-
-Normal ScalingReplicaSet 14m deployment-controller Scaled up replica set test-deployment-575667d677 to 1
+  Type    Reason             Age    From                   Message
+  ----    ------             ----   ----                   -------
+  Normal  ScalingReplicaSet  14m    deployment-controller  Scaled up replica set test-deployment-575667d677 to 1
+```
 
 **操作步骤**
 
-\[root@master \~]# kubectl label nodes master tty=master
+```
+[root@master ~]# kubectl label nodes master tty=master
 
-\[root@master \~]# cat deployment.yaml
-
+[root@master ~]# cat deployment.yaml 
 apiVersion: apps/v1
-
 kind: Deployment
-
 metadata:
-
-name: test-deployment
-
-namespace: default
-
+  name: test-deployment
+  namespace: default
 spec:
-
-selector:
-
-matchLabels:
-
-app: nginx
-
-template:
-
-metadata:
-
-labels:
-
-app: nginx
-
-spec:
-
-containers:
-
-\- name: nginx
-
-image: 192.168.200.10/library/nginx:latest
-
-imagePullPolicy: IfNotPresent
-
-affinity:
-
-nodeAffinity:
-
-requiredDuringSchedulingIgnoredDuringExecution:
-
-nodeSelectorTerms:
-
-\- matchExpressions:
-
-\- key: tty
-
-operator: In
-
-values:
-
-\- master
-
-\[root@master \~]# kubectl apply -f deployment.yaml
-
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: 192.168.200.10/library/nginx:latest
+        imagePullPolicy: IfNotPresent
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: tty
+                operator: In
+                values:
+                - master
+[root@master ~]# kubectl apply -f deployment.yaml
 deployment.apps/test-deployment created
+```
 
 #### PV卷管理：创建PV卷（1分）
 
@@ -5058,111 +3277,65 @@ deployment.apps/test-deployment created
 
 **答案**
 
-\[root@master \~]# kubectl describe pv
-
-Name: app-config
-
-Labels: \<none>
-
-Annotations: \<none>
-
-Finalizers: \[kubernetes.io/pv-protection]
-
-StorageClass:
-
-Status: Available
-
-Claim:
-
-Reclaim Policy: Retain
-
-Access Modes: RWX
-
-VolumeMode: Filesystem
-
-Capacity: 2Gi
-
-Node Affinity: \<none>
-
-Message:
-
+```
+[root@master ~]# kubectl describe pv
+Name:            app-config	
+Labels:          <none>
+Annotations:     <none>
+Finalizers:      [kubernetes.io/pv-protection]
+StorageClass:    
+Status:          Available
+Claim:           
+Reclaim Policy:  Retain
+Access Modes:    RWX
+VolumeMode:      Filesystem
+Capacity:        2Gi
+Node Affinity:   <none>
+Message:         
 Source:
-
-Type: HostPath (bare host directory volume)
-
-Path: /srv/app-config
-
-HostPathType:
-
-Events: \<none>
+    Type:          HostPath (bare host directory volume)
+    Path:          /srv/app-config
+    HostPathType:  
+Events:            <none>
+```
 
 **操作步骤**
 
-\[root@master exam-test1]# mkdir -pv /srv/app-config
-
-\[root@master exam-test1]# vi pv.yaml
-
+```
+[root@master exam-test1]# mkdir -pv /srv/app-config
+[root@master exam-test1]# vi pv.yaml 
 apiVersion: v1
-
 kind: PersistentVolume
-
 metadata:
-
-name: app-config
-
+  name: app-config
 spec:
-
-capacity:
-
-storage: 2Gi
-
-accessModes:
-
-\- ReadWriteMany
-
-hostPath:
-
-path: "/srv/app-config"
-
-\[root@master exam-test1]# kubectl apply -f pv.yaml
-
-\[root@master exam-test1]# kubectl describe pv
-
-Name: app-config
-
-Labels: \<none>
-
-Annotations: \<none>
-
-Finalizers: \[kubernetes.io/pv-protection]
-
-StorageClass:
-
-Status: Available
-
-Claim:
-
-Reclaim Policy: Retain
-
-Access Modes: RWX
-
-VolumeMode: Filesystem
-
-Capacity: 2Gi
-
-Node Affinity: \<none>
-
-Message:
-
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/srv/app-config"
+[root@master exam-test1]# kubectl apply -f pv.yaml
+[root@master exam-test1]# kubectl describe pv
+Name:            app-config
+Labels:          <none>
+Annotations:     <none>
+Finalizers:      [kubernetes.io/pv-protection]
+StorageClass:    
+Status:          Available
+Claim:           
+Reclaim Policy:  Retain
+Access Modes:    RWX
+VolumeMode:      Filesystem
+Capacity:        2Gi
+Node Affinity:   <none>
+Message:         
 Source:
-
-Type: HostPath (bare host directory volume)
-
-Path: /srv/app-config
-
-HostPathType:
-
-Events: \<none>
+    Type:          HostPath (bare host directory volume)
+    Path:          /srv/app-config
+    HostPathType:  
+Events:            <none>
+```
 
 #### Ingress资源管理：创建Ingress（1分）
 
@@ -5178,111 +3351,65 @@ Events: \<none>
 
 **答案**
 
-\[root@master exam-test1]# kubectl describe ingress -n ing-internal
-
-Name: pong
-
-Labels: \<none>
-
-Namespace: ing-internal
-
-Address:
-
-Ingress Class: nginx
-
-Default backend: \<default>
-
+```
+[root@master exam-test1]# kubectl describe ingress -n ing-internal
+Name:             pong
+Labels:           <none>
+Namespace:        ing-internal
+Address:          
+Ingress Class:    nginx
+Default backend:  <default>
 Rules:
-
-Host Path Backends
-
-\---- ---- --------
-
-\*
-
-/hello test:5678
-
-Annotations: nginx.ingress.kubernetes.io/rewrite-target: /
-
-Events: \<none>
+  Host        Path  Backends
+  ----        ----  --------
+  *           
+              /hello   test:5678 
+Annotations:  nginx.ingress.kubernetes.io/rewrite-target: /
+Events:       <none>
+```
 
 **操作步骤**
 
-\[root@master exam-test1]# kubectl create ns ing-internal
-
+```
+[root@master exam-test1]# kubectl create ns ing-internal
 namespace/ing-internal created
-
-\[root@master exam-test1]# vi ingress.yaml
-
+[root@master exam-test1]# vi ingress.yaml
 apiVersion: networking.k8s.io/v1
-
 kind: Ingress
-
 metadata:
-
-name: pong
-
-namespace: ing-internal
-
-annotations:
-
-nginx.ingress.kubernetes.io/rewrite-target: /
-
+  name: pong                    
+  namespace: ing-internal       
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-
-ingressClassName: nginx
-
-rules:
-
-\- http:
-
-paths:
-
-\- path: /hello
-
-pathType: Prefix
-
-backend:
-
-service:
-
-name: test
-
-port:
-
-number: 5678
-
-\[root@master exam-test1]# kubectl apply -f ingress.yaml
-
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /hello            
+        pathType: Prefix
+        backend:
+          service:
+            name: test
+            port:
+              number: 5678  
+[root@master exam-test1]# kubectl apply -f ingress.yaml 
 ingress.networking.k8s.io/pong created
-
-\[root@master exam-test1]# kubectl describe ingress -n ing-internal
-
-Name: pong
-
-Labels: \<none>
-
-Namespace: ing-internal
-
-Address:
-
-Ingress Class: nginx
-
-Default backend: \<default>
-
+[root@master exam-test1]# kubectl describe ingress -n ing-internal
+Name:             pong
+Labels:           <none>
+Namespace:        ing-internal
+Address:          
+Ingress Class:    nginx
+Default backend:  <default>
 Rules:
-
-Host Path Backends
-
-\---- ---- --------
-
-\*
-
-/hello test:5678
-
-Annotations: nginx.ingress.kubernetes.io/rewrite-target: /
-
-Events: \<none>
+  Host        Path  Backends
+  ----        ----  --------
+  *           
+              /hello   test:5678
+Annotations:  nginx.ingress.kubernetes.io/rewrite-target: /
+Events:       <none>
+```
 
 ### 任务3 部署Owncloud网盘服务（6分）
 
@@ -5298,67 +3425,44 @@ ownCloud 是一个开源免费专业的私有云存储项目，它能帮你快�
 
 **操作步骤**
 
-\# cat owncloud-pvc.yaml
-
+```
+# cat owncloud-pvc.yaml
 apiVersion: v1
-
 kind: PersistentVolume
-
 metadata:
-
-name: owncloud-pv
-
+  name: owncloud-pv
 spec:
-
-accessModes:
-
-\- ReadWriteOnce
-
-capacity:
-
-storage: 5Gi
-
-hostPath:
-
-path: /data/owncloud
-
-\---
-
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: /data/owncloud
+---
 apiVersion: v1
-
 kind: PersistentVolumeClaim
-
 metadata:
-
-name: owncloud-pvc
-
+  name: owncloud-pvc
 spec:
-
-accessModes:
-
-\- ReadWriteOnce
-
-resources:
-
-requests:
-
-storage: 5Gi
-
-\# kubectl apply -f owncloud-pvc.yaml
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+# kubectl apply -f owncloud-pvc.yaml
+```
 
 **答案**
 
-\[root@master \~]# kubectl get pv,pvc
+```
+[root@master ~]# kubectl get pv,pvc
+NAME                           CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM                  STORAGECLASS   REASON   AGE
+persistentvolume/app-config    2Gi        RWX            Retain           Available                                                  2m25s
+persistentvolume/owncloud-pv   5Gi        RWO            Retain           Bound       default/owncloud-pvc                           18s
 
-NAME CAPACITY ACCESS MODES RECLAIM POLICY STATUS CLAIM STORAGECLASS REASON AGE
-
-persistentvolume/app-config 2Gi RWX Retain Available 2m25s
-
-persistentvolume/owncloud-pv 5Gi RWO Retain Bound default/owncloud-pvc 18s
-
-NAME STATUS VOLUME CAPACITY ACCESS MODES STORAGECLASS AGE
-
-persistentvolumeclaim/owncloud-pvc Bound owncloud-pv 5Gi RWO 18s
+NAME                                 STATUS   VOLUME        CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+persistentvolumeclaim/owncloud-pvc   Bound    owncloud-pv   5Gi        RWO                           18s
+```
 
 #### 配置ConfigMap（1分）
 
@@ -5368,35 +3472,27 @@ persistentvolumeclaim/owncloud-pvc Bound owncloud-pv 5Gi RWO 18s
 
 **操作步骤**
 
-\# cat owncloud-configmap.yaml
-
+```
+# cat owncloud-configmap.yaml
 apiVersion: v1
-
 kind: ConfigMap
-
 metadata:
-
-name: owncloud-config
-
+  name: owncloud-config
 data:
-
-OWNCLOUD\_ADMIN\_USERNAME: “admin”
-
-OWNCLOUD\_ADMIN\_PASSWORD: “123456”
-
-\# kubectl apply -f owncloud-configmap.yaml
+  OWNCLOUD_ADMIN_USERNAME: “admin”
+  OWNCLOUD_ADMIN_PASSWORD: “123456”
+# kubectl apply -f  owncloud-configmap.yaml
+```
 
 **答案**
 
-\[root@master \~]# kubectl get ConfigMap
-
-NAME DATA AGE
-
-istio-ca-root-cert 1 34m
-
-kube-root-ca.crt 1 40m
-
-owncloud-config 2 7s
+```
+[root@master ~]# kubectl get ConfigMap
+NAME                 DATA   AGE
+istio-ca-root-cert   1      34m
+kube-root-ca.crt     1      40m
+owncloud-config      2      7s
+```
 
 #### 创建Secret（1分）
 
@@ -5406,35 +3502,27 @@ owncloud-config 2 7s
 
 **操作步骤**
 
-\# echo 123456 | base64
-
+```
+# echo 123456 | base64
 MTIzNDU2Cg==
-
-\# cat owncloud-secret.yaml
-
+# cat owncloud-secret.yaml
 apiVersion: v1
-
 kind: Secret
-
 metadata:
-
-name: owncloud-db-password
-
+  name: owncloud-db-password
 type: Opaque
-
 data:
-
-password: MTIzNDU2Cg==
-
-\# kubectl apply -f owncloud-secret.yaml
+  password: MTIzNDU2Cg==
+# kubectl apply -f owncloud-secret.yaml
+```
 
 **答案**
 
-\[root@master \~]# kubectl get Secret
-
-NAME TYPE DATA AGE
-
-owncloud-db-password Opaque 1 2s
+```
+[root@master ~]# kubectl get Secret
+NAME                   TYPE     DATA   AGE
+owncloud-db-password   Opaque   1      2s
+```
 
 #### 部署Owncloud Deployment应用（2分）
 
@@ -5444,517 +3532,270 @@ owncloud-db-password Opaque 1 2s
 
 **操作步骤**
 
-\# cat owncloud-deploy.yaml
-
+```
+# cat owncloud-deploy.yaml
 apiVersion: apps/v1
-
 kind: Deployment
-
 metadata:
-
-name: owncloud-deployment
-
+  name: owncloud-deployment
 spec:
-
-replicas: 1
-
-selector:
-
-matchLabels:
-
-app: owncloud
-
-template:
-
-metadata:
-
-labels:
-
-app: owncloud
-
-spec:
-
-containers:
-
-\- name: owncloud
-
-image: 192.168.100.91/library/owncloud:latest
-
-imagePullPolicy: IfNotPresent
-
-envFrom:
-
-\- configMapRef:
-
-name: owncloud-config
-
-env:
-
-\- name: OWNCLOUD\_DB\_PASSWORD
-
-valueFrom:
-
-secretKeyRef:
-
-name: owncloud-db-password
-
-key: password
-
-ports:
-
-\- containerPort: 80
-
-volumeMounts:
-
-\- name: owncloud-pv
-
-mountPath: /var/www/html
-
-volumes:
-
-\- name: owncloud-pv
-
-persistentVolumeClaim:
-
-claimName: owncloud-pvc
-
-\# kubectl apply -f owncloud-deploy.yaml
+  replicas: 1
+  selector:
+    matchLabels:
+      app: owncloud
+  template:
+    metadata:
+      labels:
+        app: owncloud
+    spec:
+      containers:
+      - name: owncloud
+        image: 192.168.100.91/library/owncloud:latest
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: owncloud-config
+        env:
+        - name: OWNCLOUD_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: owncloud-db-password
+              key: password
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: owncloud-pv
+          mountPath: /var/www/html
+      volumes:
+      - name: owncloud-pv
+        persistentVolumeClaim:
+          claimName: owncloud-pvc
+# kubectl apply -f owncloud-deploy.yaml
+```
 
 **答案**
 
-\[root@master \~]# kubectl describe pod $(kubectl get pod | grep owncloud-deployment | awk -F \ '{print $1}')
-
-Name: owncloud-deployment-7d5b747db7-mk2zf
-
-Namespace: default
-
-Priority: 0
-
-Service Account: default
-
-Node: node/192.168.100.74
-
-Start Time: Tue, 18 Jun 2024 09:55:59 +0000
-
-Labels: app=owncloud
-
-pod-template-hash=7d5b747db7
-
-security.istio.io/tlsMode=istio
-
-service.istio.io/canonical-name=owncloud
-
-service.istio.io/canonical-revision=latest
-
-Annotations: k8s.v1.cni.cncf.io/network-status:
-
-\[{
-
-"name": "cbr0",
-
-"interface": "eth0",
-
-"ips": \[
-
-"10.244.1.26"
-
-],
-
-"mac": "4a:e5:03:7a:2b:3a",
-
-"default": true,
-
-"dns": {}
-
-}]
-
-k8s.v1.cni.cncf.io/networks-status:
-
-\[{
-
-"name": "cbr0",
-
-"interface": "eth0",
-
-"ips": \[
-
-"10.244.1.26"
-
-],
-
-"mac": "4a:e5:03:7a:2b:3a",
-
-"default": true,
-
-"dns": {}
-
-}]
-
-kubectl.kubernetes.io/default-container: owncloud
-
-kubectl.kubernetes.io/default-logs-container: owncloud
-
-prometheus.io/path: /stats/prometheus
-
-prometheus.io/port: 15020
-
-prometheus.io/scrape: true
-
-sidecar.istio.io/status:
-
-{"initContainers":\["istio-init"],"containers":\["istio-proxy"],"volumes":\["workload-socket","credential-socket","workload-certs","istio-env...
-
-Status: Running
-
-IP: 10.244.1.26
-
+```
+[root@master ~]# kubectl describe pod $(kubectl get pod | grep owncloud-deployment | awk -F \  '{print $1}')
+Name:             owncloud-deployment-7d5b747db7-mk2zf
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             node/192.168.100.74
+Start Time:       Tue, 18 Jun 2024 09:55:59 +0000
+Labels:           app=owncloud
+                  pod-template-hash=7d5b747db7
+                  security.istio.io/tlsMode=istio
+                  service.istio.io/canonical-name=owncloud
+                  service.istio.io/canonical-revision=latest
+Annotations:      k8s.v1.cni.cncf.io/network-status:
+                    [{
+                        "name": "cbr0",
+                        "interface": "eth0",
+                        "ips": [
+                            "10.244.1.26"
+                        ],
+                        "mac": "4a:e5:03:7a:2b:3a",
+                        "default": true,
+                        "dns": {}
+                    }]
+                  k8s.v1.cni.cncf.io/networks-status:
+                    [{
+                        "name": "cbr0",
+                        "interface": "eth0",
+                        "ips": [
+                            "10.244.1.26"
+                        ],
+                        "mac": "4a:e5:03:7a:2b:3a",
+                        "default": true,
+                        "dns": {}
+                    }]
+                  kubectl.kubernetes.io/default-container: owncloud
+                  kubectl.kubernetes.io/default-logs-container: owncloud
+                  prometheus.io/path: /stats/prometheus
+                  prometheus.io/port: 15020
+                  prometheus.io/scrape: true
+                  sidecar.istio.io/status:
+                    {"initContainers":["istio-init"],"containers":["istio-proxy"],"volumes":["workload-socket","credential-socket","workload-certs","istio-env...
+Status:           Running
+IP:               10.244.1.26
 IPs:
-
-IP: 10.244.1.26
-
-Controlled By: ReplicaSet/owncloud-deployment-7d5b747db7
-
+  IP:           10.244.1.26
+Controlled By:  ReplicaSet/owncloud-deployment-7d5b747db7
 Init Containers:
-
-istio-init:
-
-Container ID: containerd://c5ae2544514459bad93c5362081ccc5676fdd6e4a66b0d84dbd1f3a8082e8f41
-
-Image: docker.io/istio/proxyv2:1.17.2
-
-Image ID: sha256:3944a6baf515cabc77e05986b76d498f77b5c47a65aa736cb6c7086f368b8339
-
-Port: \<none>
-
-Host Port: \<none>
-
-Args:
-
-istio-iptables
-
-\-p
-
-15001
-
-\-z
-
-15006
-
-\-u
-
-1337
-
-\-m
-
-REDIRECT
-
-\-i
-
-\*
-
-\-x
-
-\-b
-
-\*
-
-\-d
-
-15090,15021,15020
-
-\--log\_output\_level=default:info
-
-State: Terminated
-
-Reason: Completed
-
-Exit Code: 0
-
-Started: Tue, 18 Jun 2024 09:55:59 +0000
-
-Finished: Tue, 18 Jun 2024 09:55:59 +0000
-
-Ready: True
-
-Restart Count: 0
-
-Limits:
-
-cpu: 2
-
-memory: 1Gi
-
-Requests:
-
-cpu: 10m
-
-memory: 40Mi
-
-Environment: \<none>
-
-Mounts:
-
-/var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-sxj5s (ro)
-
+  istio-init:
+    Container ID:  containerd://c5ae2544514459bad93c5362081ccc5676fdd6e4a66b0d84dbd1f3a8082e8f41
+    Image:         docker.io/istio/proxyv2:1.17.2
+    Image ID:      sha256:3944a6baf515cabc77e05986b76d498f77b5c47a65aa736cb6c7086f368b8339
+    Port:          <none>
+    Host Port:     <none>
+    Args:
+      istio-iptables
+      -p
+      15001
+      -z
+      15006
+      -u
+      1337
+      -m
+      REDIRECT
+      -i
+      *
+      -x
+      
+      -b
+      *
+      -d
+      15090,15021,15020
+      --log_output_level=default:info
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Tue, 18 Jun 2024 09:55:59 +0000
+      Finished:     Tue, 18 Jun 2024 09:55:59 +0000
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     2
+      memory:  1Gi
+    Requests:
+      cpu:        10m
+      memory:     40Mi
+    Environment:  <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-sxj5s (ro)
 Containers:
-
-owncloud:
-
-Container ID: containerd://d0a69114686b4b18b713a7f3bccb2ee3c2985f2d5de94045f9f35264d59dfe72
-
-Image: 192.168.100.56/library/owncloud:latest
-
-Image ID: 192.168.100.56/library/owncloud@sha256:5c77bfdf8cfaf99ec94309be2687032629f4f985d6bd388354dfd85475aa5f21
-
-Port: 80/TCP
-
-Host Port: 0/TCP
-
-State: Running
-
-Started: Tue, 18 Jun 2024 09:56:07 +0000
-
-Ready: True
-
-Restart Count: 0
-
-Environment Variables from:
-
-owncloud-config ConfigMap Optional: false
-
-Environment:
-
-OWNCLOUD\_DB\_PASSWORD: \<set to the key 'password' in secret 'owncloud-db-password'> Optional: false
-
-Mounts:
-
-/var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-sxj5s (ro)
-
-/var/www/html from owncloud-pv (rw)
-
-istio-proxy:
-
-Container ID: containerd://3fac8e5b39188ed3be3b898449ae5020b49f5e720d9065fc71794be9a3a5bdda
-
-Image: docker.io/istio/proxyv2:1.17.2
-
-Image ID: sha256:3944a6baf515cabc77e05986b76d498f77b5c47a65aa736cb6c7086f368b8339
-
-Port: 15090/TCP
-
-Host Port: 0/TCP
-
-Args:
-
-proxy
-
-sidecar
-
-\--domain
-
-$(POD\_NAMESPACE).svc.cluster.local
-
-\--proxyLogLevel=warning
-
-\--proxyComponentLogLevel=misc:error
-
-\--log\_output\_level=default:info
-
-\--concurrency
-
-2
-
-State: Running
-
-Started: Tue, 18 Jun 2024 09:56:08 +0000
-
-Ready: True
-
-Restart Count: 0
-
-Limits:
-
-cpu: 2
-
-memory: 1Gi
-
-Requests:
-
-cpu: 10m
-
-memory: 40Mi
-
-Readiness: http-get http://:15021/healthz/ready delay=1s timeout=3s period=2s #success=1 #failure=30
-
-Environment:
-
-JWT\_POLICY: third-party-jwt
-
-PILOT\_CERT\_PROVIDER: istiod
-
-CA\_ADDR: istiod.istio-system.svc:15012
-
-POD\_NAME: owncloud-deployment-7d5b747db7-mk2zf (v1:metadata.name)
-
-POD\_NAMESPACE: default (v1:metadata.namespace)
-
-INSTANCE\_IP: (v1:status.podIP)
-
-SERVICE\_ACCOUNT: (v1:spec.serviceAccountName)
-
-HOST\_IP: (v1:status.hostIP)
-
-PROXY\_CONFIG: {}
-
-ISTIO\_META\_POD\_PORTS: \[
-
-{"containerPort":80,"protocol":"TCP"}
-
-]
-
-ISTIO\_META\_APP\_CONTAINERS: owncloud
-
-ISTIO\_META\_CLUSTER\_ID: Kubernetes
-
-ISTIO\_META\_NODE\_NAME: (v1:spec.nodeName)
-
-ISTIO\_META\_INTERCEPTION\_MODE: REDIRECT
-
-ISTIO\_META\_WORKLOAD\_NAME: owncloud-deployment
-
-ISTIO\_META\_OWNER: kubernetes://apis/apps/v1/namespaces/default/deployments/owncloud-deployment
-
-ISTIO\_META\_MESH\_ID: cluster.local
-
-TRUST\_DOMAIN: cluster.local
-
-Mounts:
-
-/etc/istio/pod from istio-podinfo (rw)
-
-/etc/istio/proxy from istio-envoy (rw)
-
-/var/lib/istio/data from istio-data (rw)
-
-/var/run/secrets/credential-uds from credential-socket (rw)
-
-/var/run/secrets/istio from istiod-ca-cert (rw)
-
-/var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-sxj5s (ro)
-
-/var/run/secrets/tokens from istio-token (rw)
-
-/var/run/secrets/workload-spiffe-credentials from workload-certs (rw)
-
-/var/run/secrets/workload-spiffe-uds from workload-socket (rw)
-
+  owncloud:
+    Container ID:   containerd://d0a69114686b4b18b713a7f3bccb2ee3c2985f2d5de94045f9f35264d59dfe72
+    Image:          192.168.100.56/library/owncloud:latest
+    Image ID:       192.168.100.56/library/owncloud@sha256:5c77bfdf8cfaf99ec94309be2687032629f4f985d6bd388354dfd85475aa5f21
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Tue, 18 Jun 2024 09:56:07 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment Variables from:
+      owncloud-config  ConfigMap  Optional: false
+    Environment:
+      OWNCLOUD_DB_PASSWORD:  <set to the key 'password' in secret 'owncloud-db-password'>  Optional: false
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-sxj5s (ro)
+      /var/www/html from owncloud-pv (rw)
+  istio-proxy:
+    Container ID:  containerd://3fac8e5b39188ed3be3b898449ae5020b49f5e720d9065fc71794be9a3a5bdda
+    Image:         docker.io/istio/proxyv2:1.17.2
+    Image ID:      sha256:3944a6baf515cabc77e05986b76d498f77b5c47a65aa736cb6c7086f368b8339
+    Port:          15090/TCP
+    Host Port:     0/TCP
+    Args:
+      proxy
+      sidecar
+      --domain
+      $(POD_NAMESPACE).svc.cluster.local
+      --proxyLogLevel=warning
+      --proxyComponentLogLevel=misc:error
+      --log_output_level=default:info
+      --concurrency
+      2
+    State:          Running
+      Started:      Tue, 18 Jun 2024 09:56:08 +0000
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     2
+      memory:  1Gi
+    Requests:
+      cpu:      10m
+      memory:   40Mi
+    Readiness:  http-get http://:15021/healthz/ready delay=1s timeout=3s period=2s #success=1 #failure=30
+    Environment:
+      JWT_POLICY:                    third-party-jwt
+      PILOT_CERT_PROVIDER:           istiod
+      CA_ADDR:                       istiod.istio-system.svc:15012
+      POD_NAME:                      owncloud-deployment-7d5b747db7-mk2zf (v1:metadata.name)
+      POD_NAMESPACE:                 default (v1:metadata.namespace)
+      INSTANCE_IP:                    (v1:status.podIP)
+      SERVICE_ACCOUNT:                (v1:spec.serviceAccountName)
+      HOST_IP:                        (v1:status.hostIP)
+      PROXY_CONFIG:                  {}
+                                     
+      ISTIO_META_POD_PORTS:          [
+                                         {"containerPort":80,"protocol":"TCP"}
+                                     ]
+      ISTIO_META_APP_CONTAINERS:     owncloud
+      ISTIO_META_CLUSTER_ID:         Kubernetes
+      ISTIO_META_NODE_NAME:           (v1:spec.nodeName)
+      ISTIO_META_INTERCEPTION_MODE:  REDIRECT
+      ISTIO_META_WORKLOAD_NAME:      owncloud-deployment
+      ISTIO_META_OWNER:              kubernetes://apis/apps/v1/namespaces/default/deployments/owncloud-deployment
+      ISTIO_META_MESH_ID:            cluster.local
+      TRUST_DOMAIN:                  cluster.local
+    Mounts:
+      /etc/istio/pod from istio-podinfo (rw)
+      /etc/istio/proxy from istio-envoy (rw)
+      /var/lib/istio/data from istio-data (rw)
+      /var/run/secrets/credential-uds from credential-socket (rw)
+      /var/run/secrets/istio from istiod-ca-cert (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-sxj5s (ro)
+      /var/run/secrets/tokens from istio-token (rw)
+      /var/run/secrets/workload-spiffe-credentials from workload-certs (rw)
+      /var/run/secrets/workload-spiffe-uds from workload-socket (rw)
 Conditions:
-
-Type Status
-
-Initialized True
-
-Ready True
-
-ContainersReady True
-
-PodScheduled True
-
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
 Volumes:
-
-workload-socket:
-
-Type: EmptyDir (a temporary directory that shares a pod's lifetime)
-
-Medium:
-
-SizeLimit: \<unset>
-
-credential-socket:
-
-Type: EmptyDir (a temporary directory that shares a pod's lifetime)
-
-Medium:
-
-SizeLimit: \<unset>
-
-workload-certs:
-
-Type: EmptyDir (a temporary directory that shares a pod's lifetime)
-
-Medium:
-
-SizeLimit: \<unset>
-
-istio-envoy:
-
-Type: EmptyDir (a temporary directory that shares a pod's lifetime)
-
-Medium: Memory
-
-SizeLimit: \<unset>
-
-istio-data:
-
-Type: EmptyDir (a temporary directory that shares a pod's lifetime)
-
-Medium:
-
-SizeLimit: \<unset>
-
-istio-podinfo:
-
-Type: DownwardAPI (a volume populated by information about the pod)
-
-Items:
-
-metadata.labels -> labels
-
-metadata.annotations -> annotations
-
-istio-token:
-
-Type: Projected (a volume that contains injected data from multiple sources)
-
-TokenExpirationSeconds: 43200
-
-istiod-ca-cert:
-
-Type: ConfigMap (a volume populated by a ConfigMap)
-
-Name: istio-ca-root-cert
-
-Optional: false
-
-owncloud-pv:
-
-Type: PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
-
-ClaimName: owncloud-pvc
-
-ReadOnly: false
-
-kube-api-access-sxj5s:
-
-Type: Projected (a volume that contains injected data from multiple sources)
-
-TokenExpirationSeconds: 3607
-
-ConfigMapName: kube-root-ca.crt
-
-ConfigMapOptional: \<nil>
-
-DownwardAPI: true
-
-QoS Class: Burstable
-
-Node-Selectors: \<none>
-
-Tolerations: node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
-
-node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
-
-Events: \<none>
+  workload-socket:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  credential-socket:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  workload-certs:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  istio-envoy:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     Memory
+    SizeLimit:  <unset>
+  istio-data:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  istio-podinfo:
+    Type:  DownwardAPI (a volume populated by information about the pod)
+    Items:
+      metadata.labels -> labels
+      metadata.annotations -> annotations
+  istio-token:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  43200
+  istiod-ca-cert:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      istio-ca-root-cert
+    Optional:  false
+  owncloud-pv:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  owncloud-pvc
+    ReadOnly:   false
+  kube-api-access-sxj5s:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:                      <none>
+```
 
 #### 创建Service（1分）
 
@@ -5964,47 +3805,33 @@ Events: \<none>
 
 **操作步骤**
 
-\# cat owncloud-svc.yaml
-
+```
+# cat owncloud-svc.yaml
 apiVersion: v1
-
 kind: Service
-
 metadata:
-
-name: owncloud-service
-
+  name: owncloud-service
 spec:
-
-selector:
-
-app: owncloud
-
-ports:
-
-\- name: http
-
-port: 80
-
-type: NodePort
-
-\# kubectl apply -f owncloud-svc.yaml
+  selector:
+    app: owncloud
+  ports:
+    - name: http
+      port: 80
+  type: NodePort
+# kubectl apply -f owncloud-svc.yaml
+```
 
 **答案**
 
-\#kubectl get svc -A
-
-NAMESPACE NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE
-
-default kubernetes ClusterIP 10.96.0.1 \<none> 443/TCP 24h
-
-default owncloud-service NodePort 10.98.228.242 \<none> 80:31024/TCP 17m
-
-kube-system kube-dns ClusterIP 10.96.0.10 \<none> 53/UDP,53/TCP,9153/TCP 24h
-
-kubernetes-dashboard dashboard-metrics-scraper ClusterIP 10.105.211.63 \<none> 8000/TCP 22h
-
-kubernetes-dashboard kubernetes-dashboard NodePort 10.104.143.162 \<none> 443:30001/TCP 22h
+```
+#kubectl get svc -A
+NAMESPACE              NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                  AGE
+default                kubernetes                  ClusterIP   10.96.0.1        <none>        443/TCP                  24h
+default                owncloud-service            NodePort    10.98.228.242    <none>        80:31024/TCP             17m
+kube-system            kube-dns                    ClusterIP   10.96.0.10       <none>        53/UDP,53/TCP,9153/TCP   24h
+kubernetes-dashboard   dashboard-metrics-scraper   ClusterIP   10.105.211.63    <none>        8000/TCP                 22h
+kubernetes-dashboard   kubernetes-dashboard        NodePort    10.104.143.162   <none>        443:30001/TCP            22h
+```
 
 ### C模块1：企业级应用的自动化部署和运维（40分）
 
