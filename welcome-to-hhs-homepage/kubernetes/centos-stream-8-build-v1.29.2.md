@@ -478,4 +478,24 @@ registry.aliyuncs.com/google_containers/pause                     3.9           
 
 ***
 
-* END
+### 4 部署istio
+
+```
+1、下载istio安装包并且解压
+2、进入istio目录中bin目录
+cd istio-1.17.2/bin/ 
+3、将istioctl复制到/uar/local/bin目录下，让其可以执行
+cp istioctl /usr/local/bin/
+4、安装部署istio
+istioctl install --set profile=demo
+5、查看istio服务是否部署成功
+kubectl get crd
+```
+
+### 5 部署vm
+
+```
+kubectl create namespace kubevirt
+kubectl apply -f https://github.com/kubevirt/kubevirt/releases/latest/download/kubevirt-operator.yaml
+kubectl apply -f https://github.com/kubevirt/kubevirt/releases/latest/download/kubevirt-cr.yaml
+```
