@@ -39,3 +39,4 @@
       * [Jenkins Pipeline](welcome-to-hhs-homepage/kubernetes/experimental-case/jenkins-pipeline.md)
   * [Contest](welcome-to-hhs-homepage/contest/README.md)
     * [2024 BRICS Provincial Championships](welcome-to-hhs-homepage/contest/2024-brics-provincial-championships.md)
+    * [maven](welcome-to-hhs-homepage/contest/maven.md)
