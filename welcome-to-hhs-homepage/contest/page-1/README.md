@@ -1363,7 +1363,7 @@ kubectl apply -f storageclass.yaml
 
 ```
 
-六、通过 statefulset 创建 elasticsearch 集群（1.5 分）
+六、[通过 statefulset 创建 elasticsearch 集群](statefulset-yi-zhi-chong-qi.md)（1.5 分）
 
 编写 es-statefulset.yaml，通过 yaml 文件构建 elasticsearch 的 State fulSet 集群，集群中有 3 个副本名字分别为 es-cluster-0、es-cluster-1、es -cluster-2，并且使用上述 storageclass 提供的存储，使用 elasticsearch:7. 2.0 镜像，声明 9200 端口为 api 端口，9300 端口为内部访问端口，添加 busybo x 的初始化容器对 elasticsearch 的数据目录/usr/share/elasticsearch/data 进行授权操作。
 
