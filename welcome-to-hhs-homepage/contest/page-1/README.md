@@ -1200,9 +1200,7 @@ exportfs -rv
 
 ②将 leader-locking-nfs-provisioner 关联对象 ServiceAccount:nfs-pro visioner，引用 Role:leader-locking-nfs-provisioner。
 
-3. 创建集群范围的角色(ClusterRole):nfs-provisioner-runner 和集群角
-
-色绑定(ClusterRoleBinding):run-nfs-provisioner，要求 ClusterRole 实现以 下操作：
+3. 创建集群范围的角色(ClusterRole):nfs-provisioner-runner 和集群角色绑定(ClusterRoleBinding):run-nfs-provisioner，要求 ClusterRole 实现以 下操作：
 
 ①允许对 persistentvolumes 进行 get,list,watch,create,delete 操作。 ②允许对 persistentvolumeclaims 进行 get,list,watch,update 操作。 ③允许对 storageclasses 进行 get,list,watch 操作。
 
@@ -1267,7 +1265,7 @@ rules:
 - apiGroups: [""]
   resources: ["persistentvolumeclaims"]
   verbs: ["get", "list", "watch", "update"]
-- apiGroups: [""]
+- apiGroups: ["storage.k8s.io"]
   resources: ["storageclasses"]
   verbs: ["get", "list", "watch"]
 - apiGroups: [""]
@@ -1295,7 +1293,7 @@ roleRef:
   name: nfs-provisioner-runner
   apiGroup: rbac.authorization.k8s.io
   
-kubectl apply -f /root/efk/rbac.yaml
+kubectl apply -f rbac.yaml
 ```
 
 四、部署 NFS Provisioner（1 分）
@@ -1326,10 +1324,14 @@ spec:
       serviceAccountName: nfs-client-provisioner
       containers:
       - name: nfs-client-provisioner
-        image: 192.168.100.10/library/nfs-client-provisioner:latest
+        image: registry.cn-beijing.aliyuncs.com/mydlq/nfs-subdir-external-provisioner:v4.0.0
         env:
         - name: PROVISIONER_NAME
           value: "example.com/nfs"
+        - name: NFS_SERVER
+          value: 192.168.100.10
+        - name: NFS_PATH
+          value: "/data/volume1" 
         volumeMounts:
         - name: nfs-volume
           mountPath: /persistentvolumes
@@ -1338,12 +1340,11 @@ spec:
         nfs:
           server: 192.168.100.10
           path: /data/volume1
-
-kubectl apply -f /root/efk/nfs-deploy.yaml
-
+          
+kubectl apply -f nfs-deploy.yaml 
 ```
 
-五、StorageClass 动态绑定（0.5 分）
+五、[StorageClass 动态绑定](pvc-yi-zhi-chu-yu-peding-zhuang-tai.md)（0.5 分）
 
 编写 storageclass.yaml 文件，创建名为 storage 的 StorageClass 动态绑 定 nfs-provisioner，完成后查看 nfs-provisioner 的 storageclasses 对象。
 
@@ -1357,10 +1358,8 @@ kind: StorageClass
 metadata:
   name: storage
 provisioner: example.com/nfs
-reclaimPolicy: Retain
-volumeBindingMode: Immediate
 
-kubectl apply -f /root/efk/storageclass.yaml
+kubectl apply -f storageclass.yaml
 
 ```
 
@@ -1400,6 +1399,16 @@ spec:
       containers:
       - name: elasticsearch
         image: elasticsearch:7.2.0
+        env:
+        - name: discovery.seed_hosts
+          value: "192.168.100.10,192.168.100.20,192.168.100.30"
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1"
+          limits:
+            memory: "4Gi"
+            cpu: "2"
         ports:
         - containerPort: 9200
           name: api
@@ -1412,8 +1421,9 @@ spec:
   - metadata:
       name: elasticsearch-data
     spec:
-      accessModes: ["ReadWriteOnce"]
-      storageClassName: "storage"
+      accessModes: 
+      - ReadWriteOnce
+      storageClassName: storage
       resources:
         requests:
           storage: 5Gi
@@ -1450,7 +1460,7 @@ spec:
       port: 9300
       targetPort: 9300
 
-kubectl apply -f /root/efk/es-svc.yaml
+kubectl apply -f es-svc.yaml
 
 ```
 
@@ -1504,7 +1514,7 @@ spec:
       nodePort: 32000
 
 
-kubectl apply -f /root/efk/kibana.yaml
+kubectl apply -f kibana.yaml
 
 ```
 
@@ -1597,7 +1607,7 @@ spec:
           hostPath:
             path: /var/lib/docker/containers
 
-kubectl apply -f /root/efk/fluentd.yaml
+kubectl apply -f fluentd.yaml
 
 ```
 
