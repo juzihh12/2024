@@ -40,3 +40,4 @@
   * [Contest](welcome-to-hhs-homepage/contest/README.md)
     * [2024 BRICS Provincial Championships](welcome-to-hhs-homepage/contest/2024-brics-provincial-championships.md)
     * [maven](welcome-to-hhs-homepage/contest/maven.md)
+    * [Page 1](welcome-to-hhs-homepage/contest/page-1.md)
