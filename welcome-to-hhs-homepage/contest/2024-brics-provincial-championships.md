@@ -14,7 +14,7 @@ layout:
 
 # 2024 BRICS Provincial Championships
 
-### A模块：私有云平台部署与运维（30分）
+## A模块：私有云平台部署与运维（30分）
 
 项目需求：某企业根据自身业务需求，实施数字化转型，规划和建设数字化平台建设，平台聚焦“DevOps建运一体”和“数据驱动产品开发”，拟采用开源OpenStack搭建企业内部私有云平台。拟将该任务交给工程师A与B，分工协助完成云平台服务部署、云应用开发、云系统运维等任务。
 
@@ -39,7 +39,7 @@ layout:
 
 ### 任务1 OpenStack私有云平台搭建(11分)
 
-#### 基础环境配置(1分)
+### 一、基础环境配置(1分)
 
 把controller节点主机名设置为controller, compute节点主机名设置为compute，修改hosts文件将IP地址映射为主机名；配置SSH免密通信；在compute节点把数据盘的80G空间分为3个空白分区，大小自定义，供后续组件使用。
 
@@ -82,7 +82,7 @@ controller,192.168.100.4 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAA
 compute,192.168.100.227 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDCvv127V/+59IGWruGybKSEreW5fHFbeGinpCmyUUBKKjGVAIFGZOhxWzhD2M4ZrM7FQcAlLboqdZAm6PCrHts=
 ```
 
-#### yum源配置(1分)
+### 二、yum源配置(1分)
 
 在controller节点使用提供的CentOS-7-x86\_64-DVD-2009.iso和openstack-train.tar.gz配置本地yum源local.repo，在compute节点创建FTP源ftp.repo，使用controller节点为FTP服务器。
 
@@ -153,7 +153,7 @@ gpgcheck=0
 enabled=1
 ```
 
-#### 基础安装(1分)
+### 三、基础安装(1分)
 
 在控制节点和计算节点分别安装openstack-shell软件包，根据表2配置两个节点脚本文件中的基本变量（配置脚本文件为/root/variable.sh），其它变量根据实际情况配置。配置完成后执行openstack-completion.sh 脚本完成基础安装。
 
@@ -229,7 +229,7 @@ Jul 02 12:59:24 controller chronyd[27410]: Selected source 192.168.100.4
 Hint: Some lines were ellipsized, use -l to show in full.
 ```
 
-#### 数据库安装与调优(1分)
+### 四、数据库安装与调优(1分)
 
 在controller节点上使用openstack-controller-mysql.sh脚本安装Mariadb、Memcached、RabbitMQ等服务。安装服务完毕后，修改/etc/my.cnf文件，完成下列要求：
 
@@ -292,7 +292,7 @@ innodb_log_files_in_group = 2
 +-----------------------------+-----------+
 ```
 
-#### Keystone服务安装与使用(1分)
+### 五、Keystone服务安装与使用(1分)
 
 在controller节点上使用openstack-controller-keystone.sh脚本安装Keystone服务。安装完成后，使用相关命令，创建用户competition，密码为000000。
 
@@ -334,7 +334,7 @@ innodb_log_files_in_group = 2
 +----------------------------------+-------------+
 ```
 
-#### Glance安装与使用(1分)
+### 六、Glance安装与使用(1分)
 
 在controller节点上使用openstack-controller-glance.sh脚本安装glance 服务。使用命令将提供的cirros-0.3.4-x86\_64-disk.img镜像上传至平台，命名为cirros，并设置最小启动需要的硬盘为10G，最小启动需要的内存为1G。
 
@@ -379,7 +379,7 @@ MainPID=30645 Id=openstack-glance-registry.service ActiveState=active
 +------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-#### Nova安装(1分)
+### 七、Nova安装(1分)
 
 在controller节点和compute节点上分别使用openstack-controller-nova.sh脚本、openstack-compute-nova.sh脚本安装Nova服务。安装完成后，请修改nova相关配置文件，解决因等待时间过长而导致虚拟机启动超时从而获取不到IP地址而报错失败的问题。
 
@@ -439,7 +439,7 @@ server_listen = 192.168.100.4
 server_proxyclient_address = 192.168.100.4
 ```
 
-#### Neutron安装(1分)
+### 八、Neutron安装(1分)
 
 使用提供的脚本openstack-controller-neutron.sh和openstack-compute-neutron.sh，分别在controller和compute节点上安装neutron服务。
 
@@ -470,7 +470,7 @@ MainPID=1124 Id=neutron-server.service ActiveState=active
 +--------------------------------------+--------------------+------------+-------------------+-------+-------+---------------------------+
 ```
 
-#### Dashboard安装(1分)
+### 九、Dashboard安装(1分)
 
 在controller节点上使用openstack-controller-dashboard.sh脚本安装dashboad服务。安装完成后，将Dashboard中的Django数据修改为存储在文件中。
 
@@ -499,7 +499,7 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.file'
 'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
 ```
 
-#### Cinder创建硬盘(1分)
+### 十、Cinder创建硬盘(1分)
 
 在控制节点和计算节点分别使用openstack-controller-cinder.sh、openstack-compute-cinder.sh脚本安装Cinder服务，请在compute节点，对块存储进行扩容操作，即在计算节点再分出一个5G的分区，加入到cinder块存储的后端存储中去。
 
@@ -560,7 +560,7 @@ Free PE / Size 0 / 0
 VG UUID EqpUz4-36e4-QsxK-iBQ1-UIde-itHv-csMmZK
 ```
 
-1. **Swift安装(2分)**
+### 十一、Swift安装(2分)
 
 在控制节点和计算节点上分别使用openstack-controller-swift.sh和openstack-compute-swift.sh脚本安装Swift服务。安装完成后，使用命令创建一个名叫container的容器，将cirros-0.3.4-x86\_64-disk.img镜像上传到container容器中，并设置分段存放，每一段大小为10M。
 
@@ -603,7 +603,7 @@ cirros-0.3.4-x86_64-disk.img/1657759800.000000/13287936/10000000/00000000
 cirros-0.3.4-x86_64-disk.img/1657759800.000000/13287936/10000000/00000001
 ```
 
-#### Manila服务安装与使用(1分)
+### 十二、Manila服务安装与使用(1分)
 
 在控制和计算节点上分别使用openstack-controller-manila.sh和openstack-compute-manila.sh脚本安装manila服务。安装服务后创建default\_share\_type共享类型（不使用驱动程序支持），接着创建一个大小为2G的共享存储名为share01并开放share01目录对OpenStack管理网段使用权限。
 
@@ -693,7 +693,7 @@ MainPID=3931 Id=openstack-manila-scheduler.service ActiveState=active
 
 ### 任务2 OpenStack私有云服务运维(12分)
 
-#### Raid磁盘阵列管理(1分)
+### 一、Raid磁盘阵列管理(1分)
 
 在controller节点分出4个大小为10G的分区，使用这4个分区，创建名为/dev/md5、raid级别为5的磁盘阵列加一个热备盘。
 
@@ -739,7 +739,7 @@ Number Major Minor RaidDevice State
 3 8 21 - spare /dev/sdb5
 ```
 
-#### Keystone优化-优化token失效时间(1分)
+### 二、Keystone优化-优化token失效时间(1分)
 
 openstack api server在处理请求前会校验token是否合法，除了校验token是否过期，同时还校验token是否在token失效列表里面；这个token失效列表会在本地缓存，如果过期，则会去keystone重新获取，在并发的时候，keystone会成为瓶颈点。请修改相关配置，将Keystone的失效列表缓存时间增加到原来的两倍。
 
@@ -764,7 +764,7 @@ cache_time = 7200
 provider = fernet
 ```
 
-#### Keystone权限控制(1分)
+### 三、Keystone权限控制(1分)
 
 使用自行搭建的OpenStack私有云平台，修改普通用户权限，使普通用户不能对镜像进行创建和删除操作。
 
@@ -786,7 +786,7 @@ provider = fernet
 HTTP 403 Forbidden: You are not authorized to complete add_image action.
 ```
 
-#### 修改文件句柄数(1分)
+### 四、修改文件句柄数(1分)
 
 Linux服务器大并发时，往往需要预先调优Linux参数。默认情况下，Linux最大文件句柄数为1024个。当你的服务器在大并发达到极限时，就会报出“too many open files”。修改相关配置文件，将控制节点的最大文件句柄数永久修改为65535。
 
@@ -811,7 +811,7 @@ rabbitmq hard nofile 10240
 * hard nofile 65535
 ```
 
-#### 镜像转换(1分)
+### 五、镜像转换(1分)
 
 使用自行搭建的OpenStack平台。上传CentOS\_7.9\_x86\_64\_GJ.qcow2镜像，请使用qemu相关命令，将镜像转换为raw格式镜像，转换后的镜像命名为CentOS\_7.9.raw并存放在/root 目录下。
 
@@ -833,7 +833,7 @@ virtual size: 8.0G (8589934592 bytes)
 disk size: 953M
 ```
 
-#### OpenStack镜像压缩(1分)
+### 六、OpenStack镜像压缩(1分)
 
 使用自行搭建的OpenStack平台。上传提供的CentOS-7-x86\_64-GenericCloud-2009.qcow2镜像，请使用qemu相关命令，对该镜像进行压缩，压缩后的镜像命名为CentOS-GenericCloud-2009.qcow2并存放在/root目录下。
 
@@ -862,7 +862,7 @@ refcount bits: 16
 corrupt: false
 ```
 
-#### Nova优化-优化数据库连接(1分)
+### 七、Nova优化-优化数据库连接(1分)
 
 当并发业务处理需要连接数据库，并发度高的时候，提示数据库连接超过了上限 。解决思路：调整各组件的数据库连接数配置，下面通过修改nova相关配置文件，修改连接池大小和最大允许超出的连接数为10。
 
@@ -890,7 +890,7 @@ server_listen = 192.168.100.4
 server_proxyclient_address = 192.168.100.4
 ```
 
-#### Nova保持云主机状态(1分)
+### 八、Nova保持云主机状态(1分)
 
 OpenStack平台若意外断电，在电力系统恢复后，OpenStack平台可以自启动，但是运行的云主机需要管理员手动开启，在OpenStack平台中配置虚拟机自启动，当宿主机启动后，把虚拟机恢复到之前的状态，如果虚拟机之前是关机，则宿主机启动后，虚拟机也是关机状态；如果虚拟机之前是开机状态，则宿主机启动后，虚拟机还是开机状态中运行的虚拟机。
 
@@ -914,7 +914,7 @@ service_metadata_proxy = true
 enabled = true
 ```
 
-1. **Nova自动清理镜像缓存(1分)**
+### **九、Nova自动清理镜像缓存(1分)**
 
 当在openstack平台创建虚拟机时，若是第一次在计算节点创建虚拟机，会先将镜像文件复制到该计算节点目录/var/lib/nova/instances/\_base，长期下来，该目录会占用比较大的磁盘空间而需要清理，可以通过修改nova的配置文件来自动清理该缓存目录，即在该节点没有使用其镜像启动的云主机时，那么这个镜像在过一定的时间后就会被自动删除。
 
@@ -982,7 +982,7 @@ server_proxyclient_address = 192.168.100.20
 novncproxy_base_url = http://192.168.100.10:6080/vnc_auto.html
 ```
 
-#### Cinder限速(1分)
+### 十、Cinder限速(1分)
 
 在使用Cinder服务的时候，为了减缓来自实例的数据访问速度的减慢，OpenStack Block Storage 支持对卷数据复制带宽的速率限制。请修改cinder后端配置文件将卷复制带宽限制为最高100 MiB/s。
 
@@ -1024,7 +1024,7 @@ target_protocol = iscsi
 target_helper = lioadm
 ```
 
-#### 使用Heat模板创建用户(2分)
+### 十一、使用Heat模板创建用户(2分)
 
 在controller节点执行openstack-controller-heat.sh会自行安装heat服务并完成配置，执行完成后在/root目录下编写Heat模板create\_user.yaml，创建名为heat-user的用户，属于admin项目包，并赋予heat-user用户admin的权限，配置用户密码为123456，编写完成之后不要创建堆栈。
 
@@ -1078,7 +1078,7 @@ roles: [{"role": admin, "project": admin}]
 
 ### 任务3 OpenStack私有云运维开发(7分)
 
-#### 安装python3环境(1分)
+### 一、安装python3环境(1分)
 
 在controller节点安装python3环境。安装完之后查看python3版本，使用提供的whl文件安装依赖。
 
@@ -1111,7 +1111,7 @@ setuptools (39.2.0)
 urllib3 (1.25.11)
 ```
 
-#### Python运维开发：基于OpenStack API实现镜像上传(3分)
+### 二、Python运维开发：基于OpenStack API实现镜像上传(3分)
 
 编写python代码对接OpenStack API，完成镜像的上传。在controller节点的/root目录下创建create\_image.py文件，在该文件中编写python代码对接openstack api（需在py文件中获取token），要求在openstack私有云平台中上传镜像cirros-0.3.4-x86\_64-disk.img，命名为cirros\_python，disk\_format为qcow2，container\_format为bare。执行完代码要求输出“创建镜像成功，id为：xxxxxx”。
 
@@ -1217,7 +1217,7 @@ print(glance_api.update_glance())
 +--------------------------------------+---------------+--------+
 ```
 
-#### Python运维开发：基于Openstack API创建用户(3分)
+### 三、Python运维开发：基于Openstack API创建用户(3分)
 
 编写python代码对接OpenStack API，完成用户的创建。在controller节点的/root目录下创建create\_user.py文件，在该文件中编写python代码对接openstack api（需在py文件中获取token），要求在openstack私有云平台中创建用户gjbs。
 
@@ -1354,7 +1354,7 @@ print(openstack_user_api.list_users())
 +----------------------------------+-------------------+
 ```
 
-### B模块：容器云平台部署与运维（30分）
+## B模块：容器云平台部署与运维（30分）
 
 企业构建Kubernetes容器云集群，引入KubeVirt实现OpenStack到Kubernetes的全面转型，用Kubernetes来管一切虚拟化运行时，包含裸金属、VM、容器。同时研发团队决定搭建基于Kubernetes 的CI/CD环境，基于这个平台来实现DevOps流程。引入服务网格Istio，实现业务系统的灰度发布，治理和优化公司各种微服务，并开发自动化运维程序。
 
@@ -1375,7 +1375,7 @@ print(openstack_user_api.list_users())
 
 ### 任务1 容器云服务搭建（6分）
 
-#### 部署容器云平台（6分）
+### 一、部署容器云平台（6分）
 
 在master节点和node节点将root密码设为000000，完成Kubernetes集群的部署，并完成Istio服务网格、KubeVirt虚拟化和Harbor镜像仓库的部署（master节点依次执行k8s\_harbor\_install.sh、k8s\_image\_push.sh、k8s\_master\_install.sh、k8s\_project \_install.sh，node节点执行k8s\_node\_install.sh）。
 
@@ -1498,7 +1498,7 @@ virt-operator     2/2     2            2           2m
 
 ### 任务2 容器云服务运维（18分）
 
-#### 容器化部署Node-Exporter（1分）
+### 一、容器化部署Node-Exporter（1分）
 
 编写Dockerfile文件构建exporter镜像，要求基于centos完成Node-Exporter服务的安装与配置，并设置服务开机自启。（需要的包在Technology\_packageV1.0.iso中Monitor.tar.gz）
 
@@ -1554,7 +1554,7 @@ Successfully built 444b36432c64
 Successfully tagged monitor-exporter:v1.0
 ```
 
-#### 容器化部署Alertmanager（1分）
+### 二、容器化部署Alertmanager（1分）
 
 编写Dockerfile文件构建alert镜像，要求基于centos完成Alertmanager服务的安装与配置，并设置服务开机自启。（需要的包在Technology\_packageV1.0.iso中Monitor.tar.gz）
 
@@ -1618,7 +1618,7 @@ root 20 0.0 0.0 51732 1700 ? Rs 15:44 0:00 ps -aux
 alert-test
 ```
 
-#### 容器化部署Grafana（1分）
+### 三、容器化部署Grafana（1分）
 
 编写Dockerfile文件构建grafana镜像，要求基于centos完成Grafana服务的安装与配置，并设置服务开机自启。（需要的包在Technology\_packageV1.0.iso中Monitor.tar.gz）
 
@@ -1680,7 +1680,7 @@ root 17 0.0 0.0 51732 1696 ? Rs 15:54 0:00 ps -aux
 grafana-test
 ```
 
-#### 容器化部署Prometheus（2分）
+### 四、容器化部署Prometheus（2分）
 
 编写Dockerfile文件构建prometheus镜像，要求基于centos完成Promethues服务的安装与配置，并设置服务开机自启。（需要的包在Technology\_packageV1.0.iso中Monitor.tar.gz）
 
@@ -1785,7 +1785,7 @@ root 19 3.0 0.0 51732 1700 ? Rs 15:57 0:00 ps -aux
 prometheus-test
 ```
 
-#### 编排部署监控系统（2分）
+### 五、编排部署监控系统（2分）
 
 编写docker-compose.yaml文件，使用镜像exporter、alert、grafana和prometheus完成监控系统的编排部署。（需要的包在Technology\_packageV1.0.iso中Monitor.tar.gz）
 
@@ -1881,7 +1881,7 @@ monitor-prometheus     "./prometheus --conf…"   monitor-prometheus     running
               <span class="alert alert-success state_indicator text-uppercase">up</span>
 ```
 
-1. **导入jenkins镜像（1分）**
+### **六、导入jenkins镜像（1分）**
 
 基于Kubernetes构建持续集成,master节点、harbor节点和cicd节点对应的IP都为master节点的IP, CICD\_OFF.TAR（需要的包在Technology\_packageV1.0.iso中CICD\_CICD\_Offline.TAR）。把CICD\_CICD\_Offline.TAR移动到/opt目录下然后解压。导入jenkins.tar文件中的镜像。
 
@@ -1905,7 +1905,7 @@ jenkins/jenkins 2.262-centos f04839b3e211 2 years ago 638MB
 jenkins/jenkins 2.262-centos f04839b3e211 2 years ago 638MB
 ```
 
-1. **安装Jenkins（1分）**
+### **七、安装Jenkins（1分）**
 
 编写Jenkins编排文件，启动并配置Jenkins。
 
@@ -2002,7 +2002,7 @@ Jenkins
 
 完成后点击“保存”。
 
-1. **部署Gitlab（2分）**
+### **八、部署Gitlab（2分）**
 
 编写Gitlab编排文件并启动Gitlab。
 
@@ -2072,7 +2072,7 @@ Gitlab启动较慢，启动完成后，在web端访问Gitlab（http://IP:81）�
 
 ![](../../.gitbook/assets/9.png)
 
-1. **push源代码（2分）**
+### **九、push源代码（2分）**
 
 push源代码到gitlab的springcloud项目，并完成相关配置。
 
@@ -2124,7 +2124,7 @@ Branch master set up to track remote branch master from origin.
 
 ![](../../.gitbook/assets/10.png)
 
-1. **Jenkins连接maven （1分）**
+### **十、Jenkins连接maven （1分）**
 
 配置Jenkins连接Gitlab，安装maven并完成相关配置。
 
@@ -2232,7 +2232,7 @@ OS name: "linux", version: "3.10.0-1160.el7.x86_64", arch: "amd64", family: "uni
 
 <figure><img src="../../.gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
 
-1. **配置并触发CI/CD（3分）**
+### **十一、 配置并触发CI/CD（3分）**
 
 编写流水线脚本配置CI/CD，habor仓库创建springcloud项目，上传代码触发自动构建。
 
@@ -2444,7 +2444,7 @@ gateway NodePort 10.100.62.39 <none> 4000:30010/TCP 22m
 
 至此，完整的CI/CD流程就完成了。
 
-#### 服务网格：创建Ingress Gateway（2分）
+### 十二、服务网格：创建Ingress Gateway（2分）
 
 在提供的kubernetes镜像中，使用 project/istio/istio-1.17.2/services/bookinfo.yaml部署bookinfo应用，将Bookinfo应用部署到default命名空间下，使用Istio Gateway可以实现应用程序从外部访问，请为Bookinfo应用创建一个名为bookinfo-gateway的网关，指定所有HTTP流量通过80端口流入网格，然后将网关绑定到虚拟服务bookinfo上。
 
@@ -2511,7 +2511,7 @@ spec:
 [root@master ~]# curl -L http://$(hostname -i):$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')/productpage
 ```
 
-#### 服务网格：创建VirtualService（2分）
+### 十三、服务网格：创建VirtualService（2分）
 
 在我们部署好的Bookinfo服务中，访问Bookinfo应用发现，其中一个微服务 reviews 的三个不同版本已经部署并同时运行 ，在浏览器中访问 Bookinfo 应用程序的 /productpage 并刷新几次，您会注意到，有时书评的输出包含星级评分，有时则不包含。这是因为没有明确的默认服务版本可路由，Istio将以循环方式将请求路由到所有可用版本。
 
@@ -2709,7 +2709,7 @@ virtualservice.networking.istio.io/ratings created
 virtualservice.networking.istio.io/details created
 ```
 
-#### KubeVirt运维：创建VM（2分）
+### 十四、KubeVirt运维：创建VM（2分）
 
 使用提供的镜像（images/fedora-virt\_v1.0.tar）在default命名空间下创建一台VM，名称为test-vm，内存大小为1Gi，磁盘驱动：virtio，运行策略：Manual。
 
@@ -3003,7 +3003,7 @@ Events:
   Normal  SuccessfulDelete  37m               virtualmachine-controller  Stopped the virtual machine by deleting the virtual machine instance dbcdbd0c-b49b-40fa-b779-f9c2a4be7390
 ```
 
-#### KubeVirt运维：开启功能优化（1分）
+### 十五、KubeVirt运维：开启功能优化（1分）
 
 在KubeVirt中有很多功能，为了更好的使用，更改kubevirt配置开启以下功能
 
@@ -3156,7 +3156,7 @@ spec:
   customizeComponents: {}
 ```
 
-#### Deployment管理：创建deployment（2分）
+### 十六、Deployment管理：创建deployment（2分）
 
 在master节点打上标签“tty=master”，然后编写deployment.yaml文件创建deployment，具体的要求如下。
 
@@ -3269,7 +3269,7 @@ spec:
 deployment.apps/test-deployment created
 ```
 
-#### PV卷管理：创建PV卷（1分）
+### 十七、PV卷管理：创建PV卷（1分）
 
 创建一个 pv，名字为 app-config，大小为 2Gi， 访问权限为 ReadWriteMany。Volume 的类型为 hostPath，路径为 /srv/app-config。
 
@@ -3337,7 +3337,7 @@ Source:
 Events:            <none>
 ```
 
-#### Ingress资源管理：创建Ingress（1分）
+### 十八、Ingress资源管理：创建Ingress（1分）
 
 创建一个新的 nginx lngress资源：
 
@@ -3415,7 +3415,7 @@ Events:       <none>
 
 ownCloud 是一个开源免费专业的私有云存储项目，它能帮你快速在个人电脑或服务器上架设一套专属的私有云文件同步网盘，可以像 百度云那样实现文件跨平台同步、共享、版本控制、团队协作等。
 
-#### 创建PV和PVC（1分）
+### 一、创建PV和PVC（1分）
 
 编写yaml文件(文件名自定义)创建PV和PVC来提供持久化存储，以便保存 ownCloud 服务中的文件和数据。
 
@@ -3464,7 +3464,7 @@ NAME                                 STATUS   VOLUME        CAPACITY   ACCESS MO
 persistentvolumeclaim/owncloud-pvc   Bound    owncloud-pv   5Gi        RWO                           18s
 ```
 
-#### 配置ConfigMap（1分）
+### 二、配置ConfigMap（1分）
 
 编写yaml文件(文件名自定义)创建一个configMap对象，名称为owncloud-config，指定OwnCloud的环境变量。登录账号对应的环境变量为OWNCLOUD\_ADMIN\_USERNAME,密码对应的环境变量为OWNCLOUD\_ADMIN\_PASSWORD。（变量值自定义）
 
@@ -3494,7 +3494,7 @@ kube-root-ca.crt     1      40m
 owncloud-config      2      7s
 ```
 
-#### 创建Secret（1分）
+### 三、创建Secret（1分）
 
 编写yaml文件(文件名自定义)创建一个Secret对象，名称为owncloud-db-password，以保存OwnCloud数据库的密码。对原始密码采用base64编码格式进行加密。
 
@@ -3524,7 +3524,7 @@ NAME                   TYPE     DATA   AGE
 owncloud-db-password   Opaque   1      2s
 ```
 
-#### 部署Owncloud Deployment应用（2分）
+### 四、部署Owncloud Deployment应用（2分）
 
 编写yaml文件(文件名自定义) 创建Deployment对象, 指定OwnCloud的容器和相关的环境变量。(Deployment资源命名为owncloud-deployment,镜像为Harbor仓库中的owncloud:latest，存储的挂载路径为/var/www/html,其它根据具体情况进行配置)
 
@@ -3797,7 +3797,7 @@ Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists fo
 Events:                      <none>
 ```
 
-#### 创建Service（1分）
+### 五、创建Service（1分）
 
 编写yaml文件(文件名自定义)创建一个Service对象使用NodePort的方式将OwnCloud公开到集群外部，名称为owncloud-service。通过http://IP:端口号可查看owncloud。
 
@@ -3833,7 +3833,7 @@ kubernetes-dashboard   dashboard-metrics-scraper   ClusterIP   10.105.211.63    
 kubernetes-dashboard   kubernetes-dashboard        NodePort    10.104.143.162   <none>        443:30001/TCP            22h
 ```
 
-### C模块1：企业级应用的自动化部署和运维（40分）
+## C模块1：企业级应用的自动化部署和运维（40分）
 
 ### 任务1、应用的自动化部署和运维
 
@@ -3855,7 +3855,7 @@ kubernetes-dashboard   kubernetes-dashboard        NodePort    10.104.143.162   
 
 部署方式：在ansible节点采用playbook分别部署zabbix\_server节点和zabbix\_agent节点。
 
-#### 安装ansible（2分）
+### 一、安装ansible（2分）
 
 修改主机名ansible节点主机名ansible, zabbix\_server节点主机名为zabbix\_server,zabbix\_agent节点主机名为zabbix\_agent,使用提供的软件包autoDeployment.tar在ansible节点安装ansible。
 
@@ -3863,77 +3863,51 @@ kubernetes-dashboard   kubernetes-dashboard        NodePort    10.104.143.162   
 
 **答案**
 
-\[root@ansible \~]# ansible --version
-
+```
+[root@ansible ~]# ansible --version
 ansible 2.9.27
-
-config file = /etc/ansible/ansible.cfg
-
-configured module search path = \[u'/root/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
-
-ansible python module location = /usr/lib/python2.7/site-packages/ansible
-
-executable location = /usr/bin/ansible
-
-python version = 2.7.5 (default, Oct 14 2020, 14:45:30) \[GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = [u'/root/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python2.7/site-packages/ansible
+  executable location = /usr/bin/ansible
+  python version = 2.7.5 (default, Oct 14 2020, 14:45:30) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]
+```
 
 **操作步骤**
 
-\[root@ansible \~]# hostnamectl set-hostname ansible
-
-\[root@ansible \~]# logout
-
-\[root@zabbix\_server \~]# hostnamectl set-hostname zabbix\_server
-
-\[root@zabbix\_server \~]# logout
-
-\[root@zabbix\_agent \~]# hostnamectl set-hostname zabbix\_agent
-
-\[root@zabbix\_agent \~]# logout
-
-\[root@ansible \~]# mkdir /opt/centos
-
-\[root@ansible \~]# mount A\_module\_software\_package/CentOS-7-x86\_64-DVD-2009.iso /mnt/
-
+```
+[root@ansible ~]# hostnamectl set-hostname ansible
+[root@ansible ~]# logout
+[root@zabbix_server ~]# hostnamectl set-hostname zabbix_server
+[root@zabbix_server ~]# logout
+[root@zabbix_agent ~]# hostnamectl set-hostname zabbix_agent
+[root@zabbix_agent ~]# logout
+[root@ansible ~]# mkdir /opt/centos
+[root@ansible ~]# mount A_module_software_package/CentOS-7-x86_64-DVD-2009.iso /mnt/
 mount: /dev/loop0 is write-protected, mounting read-only
-
-\[root@ansible \~]# cp -rf /mnt/\* /opt/centos/
-
-\[root@ansible \~]# umount /mnt
-
-\[root@ansible \~]# tar -zxvf C\_module\_software\_package/autoDeployment.tar -C /opt/
-
-\[root@ansible \~]# rm -rf /etc/yum.repos.d/\*
-
-\[root@ansible \~]# vim /etc/yum.repos.d/local.repo
-
-\[auto]
-
+[root@ansible ~]# cp -rf /mnt/* /opt/centos/
+[root@ansible ~]# umount /mnt 
+[root@ansible ~]# tar -zxvf C_module_software_package/autoDeployment.tar -C /opt/
+[root@ansible ~]# rm -rf /etc/yum.repos.d/*
+[root@ansible ~]# vim /etc/yum.repos.d/local.repo
+[auto]
 name=auto
-
 baseurl=file:///opt/autoDeployment
-
 enabled=1
-
 gpgcheck=0
-
-\[centos]
-
+[centos]
 name=centos
-
 baseurl=file:///opt/centos
-
 enabled=1
-
 gpgcheck=0
 
-\[root@ansible \~]# yum clean all
+[root@ansible ~]# yum clean all
+[root@ansible ~]# yum repolist
 
-\[root@ansible \~]# yum repolist
+[root@ansible ~]# yum -y install ansible
+```
 
-\[root@ansible \~]# yum -y install ansible
-
-#### 配置免密登录（1分）
+### 二、配置免密登录（1分）
 
 在ansible节点配置主机映射将IP地址映射为主机名，三台主机名分别为ansible、zabbix\_server、zabbix\_agent，在ansible节点配置SSH免密通信，通过scp分别把公钥发送给zabbix\_server节点和zabbix\_agent节点。
 
@@ -3941,35 +3915,29 @@ gpgcheck=0
 
 **答案**
 
-\[root@ansible \~]# ssh zabbix\_server "cat /root/.ssh/known\_hosts"
-
+```
+[root@ansible ~]# ssh zabbix_server "cat /root/.ssh/known_hosts"
 ansible,192.168.100.161 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBD9m+x7fx/zq3hgourWx2peUIRUd8D+LQ3xlkQPyd5Q0atuwm+OJUDS0sG70nuPf5/pUWnemUJ6w60yoTFUDZOU=
-
-zabbix\_server,192.168.100.77 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPAGqIhH86lCQn/oLxQ+m2VYovx1Nm4ZKx6RD1dmTHRBvxzlwlp5SIy4dzag/O47cl5cUJCRJM6gf/RT6I36LmA=
-
-zabbix\_agent,192.168.100.165 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDh+PuRlCpoCYJsEzYnhRXPBkmJwidgTvHc8ojryWiJJkosN3dPmo2kcEVE2GVcbhJ3EP9szt9AREeXIzfD1/4w=
+zabbix_server,192.168.100.77 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPAGqIhH86lCQn/oLxQ+m2VYovx1Nm4ZKx6RD1dmTHRBvxzlwlp5SIy4dzag/O47cl5cUJCRJM6gf/RT6I36LmA=
+zabbix_agent,192.168.100.165 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDh+PuRlCpoCYJsEzYnhRXPBkmJwidgTvHc8ojryWiJJkosN3dPmo2kcEVE2GVcbhJ3EP9szt9AREeXIzfD1/4w=
+```
 
 **操作步骤**
 
-\[root@ansible \~]# vim /etc/hosts
-
+```
+[root@ansible ~]# vim /etc/hosts
 192.168.100.161 ansible
+192.168.100.77 zabbix_server
+192.168.100.165 zabbix_agent
 
-192.168.100.77 zabbix\_server
+[root@ansible ~]# ssh-copy-id ansible
+[root@ansible ~]# ssh-copy-id zabbix_server
+[root@ansible ~]# ssh-copy-id zabbix_agent
+[root@ansible ~]# scp /root/.ssh/known_hosts zabbix_server:/root/.ssh/known_hosts 
+[root@ansible ~]# scp /root/.ssh/known_hosts zabbix_agent:/root/.ssh/known_hosts 
+```
 
-192.168.100.165 zabbix\_agent
-
-\[root@ansible \~]# ssh-copy-id ansible
-
-\[root@ansible \~]# ssh-copy-id zabbix\_server
-
-\[root@ansible \~]# ssh-copy-id zabbix\_agent
-
-\[root@ansible \~]# scp /root/.ssh/known\_hosts zabbix\_server:/root/.ssh/known\_hosts
-
-\[root@ansible \~]# scp /root/.ssh/known\_hosts zabbix\_agent:/root/.ssh/known\_hosts
-
-#### 配置主机清单（2分）
+### 三、配置主机清单（2分）
 
 在ansible节点配置主机清单，在清单中分别创建server主机组和agent主机组，server主机组主机为zabbix\_server的IP地址，agent主机组主机为zabbix\_agent的IP地址。
 
@@ -3977,37 +3945,29 @@ zabbix\_agent,192.168.100.165 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNT
 
 **答案**
 
-\[root@ansible \~]# ansible agent -m ping
-
+```
+[root@ansible ~]# ansible agent -m ping
 192.168.100.165 | SUCCESS => {
-
-"ansible\_facts": {
-
-"discovered\_interpreter\_python": "/usr/bin/python"
-
-},
-
-"changed": false,
-
-"ping": "pong"
-
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    }, 
+    "changed": false, 
+    "ping": "pong"
 }
+```
 
 **操作步骤**
 
-\[root@ansible \~]# vim /etc/ansible/hosts
-
-\#添加
-
-\[server]
-
+```
+[root@ansible ~]# vim /etc/ansible/hosts
+#添加
+[server]
 192.168.100.77
-
-\[agent]
-
+[agent]
 192.168.100.165
+```
 
-#### 创建ansible工作环境（2分）
+### 四、创建ansible工作环境（2分）
 
 在ansible节点配置ftp服务,然后创建目录/opt/zabbix/files,在files目录下为zabbix\_server节点和zabbix\_agent节点编写ftp.repo文件，最后在zabbix目录下创建repo.yaml文件，文件实现的功能要求如下：
 
@@ -4021,113 +3981,74 @@ zabbix\_agent,192.168.100.165 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNT
 
 **答案**
 
-\[root@ansible zabbix]# ansible-playbook /opt/zabbix/repo.yaml
+```
+[root@ansible zabbix]# ansible-playbook /opt/zabbix/repo.yaml        
 
-PLAY \[配置repo文件] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
+PLAY [配置repo文件] ************************************************************************************************************
 
-TASK \[Gathering Facts] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
+TASK [Gathering Facts] *****************************************************************************************************
+ok: [192.168.100.77]
+ok: [192.168.100.165]
 
-ok: \[192.168.100.77]
+TASK [删除自带的repo文件] *********************************************************************************************************
+changed: [192.168.100.77]
+changed: [192.168.100.165]
 
-ok: \[192.168.100.165]
+TASK [给目录设置权限] *************************************************************************************************************
+changed: [192.168.100.165]
+changed: [192.168.100.77]
 
-TASK \[删除自带的repo文件] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
+TASK [把ftp.repo复制给zabbix_server和zabbix_agent] ******************************************************************************
+changed: [192.168.100.77]
+changed: [192.168.100.165]
 
-changed: \[192.168.100.77]
-
-changed: \[192.168.100.165]
-
-TASK \[给目录设置权限] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.165]
-
-changed: \[192.168.100.77]
-
-TASK \[把ftp.repo复制给zabbix\_server和zabbix\_agent] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-changed: \[192.168.100.165]
-
-PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-192.168.100.165 : ok=4 changed=3 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0
-
-192.168.100.77 : ok=4 changed=3 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0
+PLAY RECAP *****************************************************************************************************************
+192.168.100.165            : ok=4    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+192.168.100.77             : ok=4    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
+```
 
 **操作步骤**
 
-\[root@ansible \~]# yum -y install vsftpd
-
-\[root@ansible \~]# vim /etc/vsftpd/vsftpd.conf
-
-\[root@ansible \~]# systemctl restart vsftpd
-
-\[root@ansible \~]# systemctl enable vsftpd
-
-\[root@ansible \~]# mkdir -p /opt/zabbix/files
-
-\[root@ansible \~]# cd /opt/zabbix/
-
-\[root@ansible zabbix]# vim files/ftp.repo
-
-\[centos]
-
+```
+[root@ansible ~]# yum -y install vsftpd
+[root@ansible ~]# vim /etc/vsftpd/vsftpd.conf 
+[root@ansible ~]# systemctl restart vsftpd
+[root@ansible ~]# systemctl enable vsftpd
+[root@ansible ~]# mkdir -p /opt/zabbix/files
+[root@ansible ~]# cd /opt/zabbix/
+[root@ansible zabbix]# vim files/ftp.repo
+[centos]
 name=centos
-
 baseurl=ftp://192.168.100.161/centos
-
 gpgcheck=0
-
 enabled=1
-
-\[ansible]
-
+[ansible]
 name=ansible
-
 baseurl=ftp://192.168.100.161/autoDeployment
-
 gpgcheck=0
-
 enabled=1
 
-\[root@ansible zabbix]# vim repo.yaml
+[root@ansible zabbix]# vim repo.yaml
+---
+- name: 配置repo文件
+  hosts: all
+  tasks:
+    - name: 删除自带的repo文件
+      file:
+        path: /etc/yum.repos.d/
+        state: absent
+    - name: 给目录设置权限
+      file:
+        path: /etc/yum.repos.d
+        state: directory
+        mode: 755
+    - name: 把ftp.repo复制给zabbix_server和zabbix_agent
+      copy:
+        src: files/ftp.repo
+        dest: /etc/yum.repos.d/
+```
 
-\---
-
-\- name: 配置repo文件
-
-hosts: all
-
-tasks:
-
-\- name: 删除自带的repo文件
-
-file:
-
-path: /etc/yum.repos.d/
-
-state: absent
-
-\- name: 给目录设置权限
-
-file:
-
-path: /etc/yum.repos.d
-
-state: directory
-
-mode: 755
-
-\- name: 把ftp.repo复制给zabbix\_server和zabbix\_agent
-
-copy:
-
-src: files/ftp.repo
-
-dest: /etc/yum.repos.d/
-
-#### 安装nginx和php（2分）
+### 五、安装nginx和php（2分）
 
 在ansible节点/opt/zabbix目录创建nginx\_php.yaml文件并执行，文件实现的功能要求如下：
 
@@ -4139,163 +4060,103 @@ dest: /etc/yum.repos.d/
 
 **答案**
 
-\[root@ansible zabbix]# ansible server -m shell -a "systemctl status nginx php74-php-fpm ; nginx -v ; php74 -v"
-
+```
+[root@ansible zabbix]# ansible server -m shell -a "systemctl status nginx php74-php-fpm ; nginx -v ; php74 -v"          
 192.168.100.77 | CHANGED | rc=0 >>
-
 ● nginx.service - nginx - high performance web server
+   Loaded: loaded (/usr/lib/systemd/system/nginx.service; enabled; vendor preset: disabled)
+   Active: active (running) since Thu 2024-06-20 09:07:13 UTC; 2min 57s ago
+     Docs: http://nginx.org/en/docs/
+ Main PID: 9115 (nginx)
+   CGroup: /system.slice/nginx.service
+           ├─9115 nginx: master process /usr/sbin/nginx -c /etc/nginx/nginx.con
+           ├─9116 nginx: worker process                   
+           ├─9117 nginx: worker process                   
+           ├─9118 nginx: worker process                   
+           └─9119 nginx: worker process                   
 
-Loaded: loaded (/usr/lib/systemd/system/nginx.service; enabled; vendor preset: disabled)
-
-Active: active (running) since Thu 2024-06-20 09:07:13 UTC; 2min 57s ago
-
-Docs: http://nginx.org/en/docs/
-
-Main PID: 9115 (nginx)
-
-CGroup: /system.slice/nginx.service
-
-├─9115 nginx: master process /usr/sbin/nginx -c /etc/nginx/nginx.con
-
-├─9116 nginx: worker process
-
-├─9117 nginx: worker process
-
-├─9118 nginx: worker process
-
-└─9119 nginx: worker process
-
-Jun 20 09:07:13 zabbix\_server systemd\[1]: Starting nginx - high performance web server...
-
-Jun 20 09:07:13 zabbix\_server systemd\[1]: Started nginx - high performance web server.
+Jun 20 09:07:13 zabbix_server systemd[1]: Starting nginx - high performance web server...
+Jun 20 09:07:13 zabbix_server systemd[1]: Started nginx - high performance web server.
 
 ● php74-php-fpm.service - The PHP FastCGI Process Manager
+   Loaded: loaded (/usr/lib/systemd/system/php74-php-fpm.service; enabled; vendor preset: disabled)
+   Active: active (running) since Thu 2024-06-20 09:07:14 UTC; 2min 57s ago
+ Main PID: 9247 (php-fpm)
+   Status: "Processes active: 0, idle: 5, Requests: 0, slow: 0, Traffic: 0req/sec"
+   CGroup: /system.slice/php74-php-fpm.service
+           ├─9247 php-fpm: master process (/etc/opt/remi/php74/php-fpm.conf
+           ├─9248 php-fpm: pool www                                  
+           ├─9249 php-fpm: pool www                                  
+           ├─9250 php-fpm: pool www                                  
+           ├─9251 php-fpm: pool www                                  
+           └─9252 php-fpm: pool www                                  
 
-Loaded: loaded (/usr/lib/systemd/system/php74-php-fpm.service; enabled; vendor preset: disabled)
-
-Active: active (running) since Thu 2024-06-20 09:07:14 UTC; 2min 57s ago
-
-Main PID: 9247 (php-fpm)
-
-Status: "Processes active: 0, idle: 5, Requests: 0, slow: 0, Traffic: 0req/sec"
-
-CGroup: /system.slice/php74-php-fpm.service
-
-├─9247 php-fpm: master process (/etc/opt/remi/php74/php-fpm.conf
-
-├─9248 php-fpm: pool www
-
-├─9249 php-fpm: pool www
-
-├─9250 php-fpm: pool www
-
-├─9251 php-fpm: pool www
-
-└─9252 php-fpm: pool www
-
-Jun 20 09:07:14 zabbix\_server systemd\[1]: Starting The PHP FastCGI Process Manager...
-
-Jun 20 09:07:14 zabbix\_server systemd\[1]: Started The PHP FastCGI Process Manager.
-
+Jun 20 09:07:14 zabbix_server systemd[1]: Starting The PHP FastCGI Process Manager...
+Jun 20 09:07:14 zabbix_server systemd[1]: Started The PHP FastCGI Process Manager.
 PHP 7.4.33 (cli) (built: Feb 14 2023 08:49:52) ( NTS )
-
 Copyright (c) The PHP Group
-
 Zend Engine v3.4.0, Copyright (c) Zend Technologiesnginx version: nginx/1.22.1
+```
 
 **操作步骤**
 
-\[root@ansible zabbix]# vim nginx\_php.yaml
+```
+[root@ansible zabbix]# vim nginx_php.yaml             
+---
+- name: 安装nginx和php74
+  hosts: server
+  tasks:
+    - name: 安装nginx
+      yum:
+        name: nginx
+        state: present
+    - name: 安装php74
+      yum:
+        name:
+          - php74-php-fpm
+          - php74-php-common
+          - php74-php-cli
+          - php74-php-gd
+          - php74-php-ldap
+          - php74-php-mbstring
+          - php74-php-mysqlnd
+          - php74-php-xml
+          - php74-php-bcmath
+          - php74-php
+        state: present
+    - service:
+        name: nginx
+        state: started
+        enabled: yes
+    - service:
+        name: php74-php-fpm
+        state: started
+        enabled: yes
 
-\---
+[root@ansible zabbix]# ansible-playbook nginx_php.yaml
 
-\- name: 安装nginx和php74
+PLAY [安装nginx和php74] *******************************************************************************************************
 
-hosts: server
+TASK [Gathering Facts] *****************************************************************************************************
+ok: [192.168.100.77]
 
-tasks:
+TASK [安装nginx] *************************************************************************************************************
+changed: [192.168.100.77]
 
-\- name: 安装nginx
+TASK [安装php74] *************************************************************************************************************
+changed: [192.168.100.77]
 
-yum:
+TASK [service] *************************************************************************************************************
+changed: [192.168.100.77]
 
-name: nginx
+TASK [service] *************************************************************************************************************
+changed: [192.168.100.77]
 
-state: present
+PLAY RECAP *****************************************************************************************************************
+192.168.100.77             : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
 
-\- name: 安装php74
-
-yum:
-
-name:
-
-\- php74-php-fpm
-
-\- php74-php-common
-
-\- php74-php-cli
-
-\- php74-php-gd
-
-\- php74-php-ldap
-
-\- php74-php-mbstring
-
-\- php74-php-mysqlnd
-
-\- php74-php-xml
-
-\- php74-php-bcmath
-
-\- php74-php
-
-state: present
-
-\- service:
-
-name: nginx
-
-state: started
-
-enabled: yes
-
-\- service:
-
-name: php74-php-fpm
-
-state: started
-
-enabled: yes
-
-\[root@ansible zabbix]# ansible-playbook nginx\_php.yaml
-
-PLAY \[安装nginx和php74] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-TASK \[Gathering Facts] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-ok: \[192.168.100.77]
-
-TASK \[安装nginx] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-TASK \[安装php74] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-TASK \[service] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-TASK \[service] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-192.168.100.77 : ok=5 changed=4 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0
-
-#### 安装zabbix服务器端 （3分）
+### 六、安装zabbix服务器端 （3分）
 
 在ansible节点/opt/zabbix目录创建zabbix\_server.yaml文件并执行，文件实现的功能要求如下：
 
@@ -4307,115 +4168,77 @@ PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\
 
 **答案**
 
-\[root@ansible zabbix]# ansible server -a "systemctl status zabbix-server zabbix-agent"
-
+```
+[root@ansible zabbix]# ansible server -a "systemctl status zabbix-server zabbix-agent" 
 192.168.100.77 | CHANGED | rc=0 >>
-
 ● zabbix-server-mysql.service - Zabbix Server with MySQL DB
+   Loaded: loaded (/usr/lib/systemd/system/zabbix-server-mysql.service; disabled; vendor preset: disabled)
+   Active: active (running) since Thu 2024-06-20 09:14:48 UTC; 26s ago
+ Main PID: 11351 (zabbix_server)
+   CGroup: /system.slice/zabbix-server-mysql.service
+           └─11351 /usr/sbin/zabbix_server -f
 
-Loaded: loaded (/usr/lib/systemd/system/zabbix-server-mysql.service; disabled; vendor preset: disabled)
-
-Active: active (running) since Thu 2024-06-20 09:14:48 UTC; 26s ago
-
-Main PID: 11351 (zabbix\_server)
-
-CGroup: /system.slice/zabbix-server-mysql.service
-
-└─11351 /usr/sbin/zabbix\_server -f
-
-Jun 20 09:14:48 zabbix\_server systemd\[1]: Started Zabbix Server with MySQL DB.
+Jun 20 09:14:48 zabbix_server systemd[1]: Started Zabbix Server with MySQL DB.
 
 ● zabbix-agent.service - Zabbix Monitor Agent
+   Loaded: loaded (/usr/lib/systemd/system/zabbix-agent.service; disabled; vendor preset: disabled)
+   Active: active (running) since Thu 2024-06-20 09:14:48 UTC; 26s ago
+ Main PID: 11448 (zabbix_agentd)
+   CGroup: /system.slice/zabbix-agent.service
+           ├─11448 /usr/sbin/zabbix_agentd -f
+           ├─11449 /usr/sbin/zabbix_agentd: collector [idle 1 sec
+           ├─11450 /usr/sbin/zabbix_agentd: listener #1 [waiting for connection
+           ├─11451 /usr/sbin/zabbix_agentd: listener #2 [waiting for connection
+           ├─11452 /usr/sbin/zabbix_agentd: listener #3 [waiting for connection
+           └─11453 /usr/sbin/zabbix_agentd: active checks #1 [idle 1 sec
 
-Loaded: loaded (/usr/lib/systemd/system/zabbix-agent.service; disabled; vendor preset: disabled)
-
-Active: active (running) since Thu 2024-06-20 09:14:48 UTC; 26s ago
-
-Main PID: 11448 (zabbix\_agentd)
-
-CGroup: /system.slice/zabbix-agent.service
-
-├─11448 /usr/sbin/zabbix\_agentd -f
-
-├─11449 /usr/sbin/zabbix\_agentd: collector \[idle 1 sec
-
-├─11450 /usr/sbin/zabbix\_agentd: listener #1 \[waiting for connection
-
-├─11451 /usr/sbin/zabbix\_agentd: listener #2 \[waiting for connection
-
-├─11452 /usr/sbin/zabbix\_agentd: listener #3 \[waiting for connection
-
-└─11453 /usr/sbin/zabbix\_agentd: active checks #1 \[idle 1 sec
-
-Jun 20 09:14:48 zabbix\_server systemd\[1]: Started Zabbix Monitor Agent.
-
-Jun 20 09:14:48 zabbix\_server zabbix\_agentd\[11448]: Starting Zabbix Agent \[Zabbix server]. Zabbix 6.0.13 (revision fdfa8cef9ce).
-
-Jun 20 09:14:48 zabbix\_server zabbix\_agentd\[11448]: Press Ctrl+C to exit.
+Jun 20 09:14:48 zabbix_server systemd[1]: Started Zabbix Monitor Agent.
+Jun 20 09:14:48 zabbix_server zabbix_agentd[11448]: Starting Zabbix Agent [Zabbix server]. Zabbix 6.0.13 (revision fdfa8cef9ce).
+Jun 20 09:14:48 zabbix_server zabbix_agentd[11448]: Press Ctrl+C to exit.
+```
 
 **操作步骤**
 
-\[root@ansible zabbix]# vim zabbix\_server.yaml
+```
+[root@ansible zabbix]# vim zabbix_server.yaml
+---
+- name: 安装server端、agent端和web端
+  hosts: server
+  tasks:
+    - name: 安装zabbix6.0-server,zabbix6.0-agent和zabbix6.0-web
+      yum:
+        name:
+          - zabbix6.0-server
+          - zabbix6.0-agent
+          - zabbix6.0-web
+        state: present
+    - name: 启动zabbix-server和zabbix-agent
+      service:
+        name: "{{item}}"
+        state: started
+      loop:
+        - zabbix-server
+        - zabbix-agent
 
-\---
+[root@ansible zabbix]# ansible-playbook zabbix_server.yaml 
 
-\- name: 安装server端、agent端和web端
+PLAY [安装server端、agent端和web端] ***********************************************************************************************
 
-hosts: server
+TASK [Gathering Facts] *****************************************************************************************************
+ok: [192.168.100.77]
 
-tasks:
+TASK [安装zabbix6.0-server,zabbix6.0-agent和zabbix6.0-web] ********************************************************************
+changed: [192.168.100.77]
 
-\- name: 安装zabbix6.0-server,zabbix6.0-agent和zabbix6.0-web
+TASK [启动zabbix-server和zabbix-agent] ****************************************************************************************
+changed: [192.168.100.77] => (item=zabbix-server)
+changed: [192.168.100.77] => (item=zabbix-agent)
 
-yum:
+PLAY RECAP *****************************************************************************************************************
+192.168.100.77             : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0  
+```
 
-name:
-
-\- zabbix6.0-server
-
-\- zabbix6.0-agent
-
-\- zabbix6.0-web
-
-state: present
-
-\- name: 启动zabbix-server和zabbix-agent
-
-service:
-
-name: "\{{item\}}"
-
-state: started
-
-loop:
-
-\- zabbix-server
-
-\- zabbix-agent
-
-\[root@ansible zabbix]# ansible-playbook zabbix\_server.yaml
-
-PLAY \[安装server端、agent端和web端] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-TASK \[Gathering Facts] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-ok: \[192.168.100.77]
-
-TASK \[安装zabbix6.0-server,zabbix6.0-agent和zabbix6.0-web] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-TASK \[启动zabbix-server和zabbix-agent] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77] => (item=zabbix-server)
-
-changed: \[192.168.100.77] => (item=zabbix-agent)
-
-PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-192.168.100.77 : ok=3 changed=2 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0
-
-#### 安装数据库（3分）
+### 七、安装数据库（3分）
 
 在ansible节点/opt/zabbix目录创建mariadb.yaml文件并执行，文件实现的功能要求如下：
 
@@ -4427,73 +4250,53 @@ PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\
 
 **答案**
 
-\[root@ansible zabbix]# ansible server -m shell -a "systemctl status mariadb | head -n 6"
-
+```
+[root@ansible zabbix]# ansible server -m shell -a "systemctl status mariadb |  head -n 6"
 192.168.100.77 | CHANGED | rc=0 >>
-
 ● mariadb.service - MariaDB 10.5.20 database server
-
-Loaded: loaded (/usr/lib/systemd/system/mariadb.service; enabled; vendor preset: disabled)
-
-Drop-In: /etc/systemd/system/mariadb.service.d
-
-└─migrated-from-my.cnf-settings.conf
-
-Active: active (running) since Thu 2024-06-20 09:21:21 UTC; 57s ago
-
-Docs: man:mariadbd(8)
+   Loaded: loaded (/usr/lib/systemd/system/mariadb.service; enabled; vendor preset: disabled)
+  Drop-In: /etc/systemd/system/mariadb.service.d
+           └─migrated-from-my.cnf-settings.conf
+   Active: active (running) since Thu 2024-06-20 09:21:21 UTC; 57s ago
+     Docs: man:mariadbd(8)
+```
 
 **操作步骤**
 
-\[root@ansible zabbix]# vim mariadb.yaml
+```
+[root@ansible zabbix]# vim mariadb.yaml
+---
+- name: 安装数据库mariadb
+  hosts: server
+  tasks:
+  - name: 安装数据库mariadb
+    yum:
+      name: MariaDB-server
+      state: present
+  - name: 启动数据库并设置为开机自启动
+    service:
+      name: mariadb
+      state: started
+      enabled: yes
 
-\---
+[root@ansible zabbix]# ansible-playbook mariadb.yaml 
 
-\- name: 安装数据库mariadb
+PLAY [安装数据库mariadb] ********************************************************************************************************
 
-hosts: server
+TASK [Gathering Facts] *****************************************************************************************************
+ok: [192.168.100.77]
 
-tasks:
+TASK [安装数据库mariadb] ********************************************************************************************************
+changed: [192.168.100.77]
 
-\- name: 安装数据库mariadb
+TASK [启动数据库并设置为开机自启动] ******************************************************************************************************
+changed: [192.168.100.77]
 
-yum:
+PLAY RECAP *****************************************************************************************************************
+192.168.100.77             : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0  
+```
 
-name: MariaDB-server
-
-state: present
-
-\- name: 启动数据库并设置为开机自启动
-
-service:
-
-name: mariadb
-
-state: started
-
-enabled: yes
-
-\[root@ansible zabbix]# ansible-playbook mariadb.yaml
-
-PLAY \[安装数据库mariadb] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-TASK \[Gathering Facts] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-ok: \[192.168.100.77]
-
-TASK \[安装数据库mariadb] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-TASK \[启动数据库并设置为开机自启动] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-192.168.100.77 : ok=3 changed=2 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0
-
-#### 配置数据库（3分）
+### 八、配置数据库（3分）
 
 在ansible节点/opt/zabbix目录创建mariadb\_cfg.yaml文件并执行，文件实现的功能要求如下：
 
@@ -4509,131 +4312,88 @@ PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\
 
 **答案**
 
-\[root@ansible zabbix]# ansible server -m shell -a "mysql -uroot -ppassword -e 'use zabbix;select \* from users\_groups;show grants for 'zabbix'@'localhost';'"
-
+```
+[root@ansible zabbix]# ansible server -m shell -a "mysql -uroot -ppassword -e 'use zabbix;select * from users_groups;show grants for 'zabbix'@'localhost';'"
 192.168.100.77 | CHANGED | rc=0 >>
-
-id usrgrpid userid
-
-4 7 1
-
-2 8 2
-
-3 9 2
-
+id      usrgrpid        userid
+4       7       1
+2       8       2
+3       9       2
 Grants for zabbix@localhost
-
-GRANT USAGE ON \*.\* TO \`zabbix\`@\`localhost\` IDENTIFIED BY PASSWORD '\*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19'
-
-GRANT ALL PRIVILEGES ON \`zabbix\`.\* TO \`zabbix\`@\`localhost\`
+GRANT USAGE ON *.* TO `zabbix`@`localhost` IDENTIFIED BY PASSWORD '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19'
+GRANT ALL PRIVILEGES ON `zabbix`.* TO `zabbix`@`localhost`
+```
 
 **操作步骤**
 
-\[root@ansible zabbix]# vim mariadb\_cfg.yaml
+```
+[root@ansible zabbix]# vim mariadb_cfg.yaml
+---
+- name: 对数据库进行配置
+  hosts: server
+  tasks:
+    - name: 设置登录密码
+      shell: mysqladmin -uroot  password password
+    - name: 创建数据库zabbix
+      shell: mysql -uroot -ppassword -e "create database zabbix character set utf8 collate utf8_bin;"
+      ignore_errors: yes
+    - name: 创建用户zabbix
+      shell: mysql -uroot -ppassword -e "grant all privileges on zabbix.* to zabbix@localhost identified by 'password';"
+      ignore_errors: yes
+    - name: 刷新配置
+      shell: mysql -uroot -ppassword -e "flush privileges;"
+      ignore_errors: yes
+    - name: 导入schema.sql
+      shell: mysql -uroot -ppassword zabbix < /usr/share/zabbix-mysql/schema.sql
+      ignore_errors: yes
+    - name: 导入images.sql
+      shell: mysql -uroot -ppassword zabbix < /usr/share/zabbix-mysql/images.sql
+      ignore_errors: yes
+    - name: 导入data.sql
+      shell: mysql -uroot -ppassword zabbix < /usr/share/zabbix-mysql/data.sql
+      ignore_errors: yes
+    - name: 重启数据库服务
+      service:
+        name: mariadb
+        state: restarted
+        enabled: yes
 
-\---
+[root@ansible zabbix]# ansible-playbook mariadb_cfg.yaml 
 
-\- name: 对数据库进行配置
+PLAY [对数据库进行配置] ************************************************************************************************************
 
-hosts: server
+TASK [Gathering Facts] *****************************************************************************************************
+ok: [192.168.100.77]
 
-tasks:
+TASK [设置登录密码] **************************************************************************************************************
+changed: [192.168.100.77]
 
-\- name: 设置登录密码
+TASK [创建数据库zabbix] *********************************************************************************************************
+changed: [192.168.100.77]
 
-shell: mysqladmin -uroot password password
+TASK [创建用户zabbix] **********************************************************************************************************
+changed: [192.168.100.77]
 
-\- name: 创建数据库zabbix
+TASK [刷新配置] ****************************************************************************************************************
+changed: [192.168.100.77]
 
-shell: mysql -uroot -ppassword -e "create database zabbix character set utf8 collate utf8\_bin;"
+TASK [导入schema.sql] ********************************************************************************************************
+changed: [192.168.100.77]
 
-ignore\_errors: yes
+TASK [导入images.sql] ********************************************************************************************************
+changed: [192.168.100.77]
 
-\- name: 创建用户zabbix
+TASK [导入data.sql] **********************************************************************************************************
+changed: [192.168.100.77]
 
-shell: mysql -uroot -ppassword -e "grant all privileges on zabbix.\* to zabbix@localhost identified by 'password';"
+TASK [重启数据库服务] *************************************************************************************************************
+changed: [192.168.100.77]
 
-ignore\_errors: yes
+PLAY RECAP *****************************************************************************************************************
+192.168.100.77             : ok=9    changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+```
 
-\- name: 刷新配置
-
-shell: mysql -uroot -ppassword -e "flush privileges;"
-
-ignore\_errors: yes
-
-\- name: 导入schema.sql
-
-shell: mysql -uroot -ppassword zabbix < /usr/share/zabbix-mysql/schema.sql
-
-ignore\_errors: yes
-
-\- name: 导入images.sql
-
-shell: mysql -uroot -ppassword zabbix < /usr/share/zabbix-mysql/images.sql
-
-ignore\_errors: yes
-
-\- name: 导入data.sql
-
-shell: mysql -uroot -ppassword zabbix < /usr/share/zabbix-mysql/data.sql
-
-ignore\_errors: yes
-
-\- name: 重启数据库服务
-
-service:
-
-name: mariadb
-
-state: restarted
-
-enabled: yes
-
-\[root@ansible zabbix]# ansible-playbook mariadb\_cfg.yaml
-
-PLAY \[对数据库进行配置] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-TASK \[Gathering Facts] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-ok: \[192.168.100.77]
-
-TASK \[设置登录密码] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-TASK \[创建数据库zabbix] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-TASK \[创建用户zabbix] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-TASK \[刷新配置] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-TASK \[导入schema.sql] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-TASK \[导入images.sql] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-TASK \[导入data.sql] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-TASK \[重启数据库服务] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-192.168.100.77 : ok=9 changed=8 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0
-
-#### 编辑zabbix配置文件（4分）
+### 九、编辑zabbix配置文件（4分）
 
 在ansible节点/opt/zabbix目录分别创建zabbix\_server.conf.j2和zabbix\_agentd.conf.j2,然后编写zsa.yml文件并执行，文件实现的功能要求如下：
 
@@ -4645,143 +4405,94 @@ PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\
 
 **答案**
 
-\[root@ansible zabbix]# ansible server -m shell -a "cat /etc/zabbix\_server.conf | grep -v '^#\\|^$'"
-
+```
+[root@ansible zabbix]# ansible server -m shell -a "cat /etc/zabbix_server.conf | grep -v '^#\|^$'"
 192.168.100.77 | CHANGED | rc=0 >>
-
-LogFile=/var/log/zabbixsrv/zabbix\_server.log
-
+LogFile=/var/log/zabbixsrv/zabbix_server.log
 LogFileSize=0
-
-PidFile=/run/zabbixsrv/zabbix\_server.pid
-
+PidFile=/run/zabbixsrv/zabbix_server.pid
 DBName=zabbix
-
 DBUser=zabbix
-
 DBPassword=password
-
 DBSocket=/var/lib/mysql/mysql.sock
-
 Timeout=4
-
 AlertScriptsPath=/var/lib/zabbixsrv/alertscripts
-
 ExternalScripts=/var/lib/zabbixsrv/externalscripts
-
 LogSlowQueries=3000
-
 TmpDir=/var/lib/zabbixsrv/tmp
-
 StatsAllowedIP=127.0.0.1
+```
 
 **操作步骤**
 
-\[root@ansible zabbix]# vim vars.yaml
-
+```
+[root@ansible zabbix]# vim vars.yaml
 dbname: zabbix
-
 dbuser: zabbix
-
 dbpassword: password
-
 server: 192.168.100.77
-
 serveractive: 192.168.100.77
+hostname: "{{ansible_default_ipv4['address']}}"
 
-hostname: "\{{ansible\_default\_ipv4\['address']\}}"
+[root@ansible zabbix]# scp zabbix_server:/etc/zabbix_server.conf ./zabbix_server.conf.j2
+[root@ansible zabbix]# scp zabbix_server:/etc/zabbix_agentd.conf ./zabbix_agentd.conf.j2
 
-\[root@ansible zabbix]# scp zabbix\_server:/etc/zabbix\_server.conf ./zabbix\_server.conf.j2
+[root@ansible zabbix]# vim zabbix_server.conf.j2
+#修改
+DBName={{dbname}}
+DBUser={{dbuser}}
+DBPassword={{dbpassword}}
 
-\[root@ansible zabbix]# scp zabbix\_server:/etc/zabbix\_agentd.conf ./zabbix\_agentd.conf.j2
+[root@ansible zabbix]# vim zabbix_agentd.conf.j2
+#修改
+Server={{server}}
+ServerActive={{serveractive}}
+Hostname={{hostname}}
 
-\[root@ansible zabbix]# vim zabbix\_server.conf.j2
+[root@ansible zabbix]# vim zsa.yaml
+---
+- hosts: server
+  vars_files: ./vars.yaml
+  tasks:
+    - name: 复制zabbix_server.conf.j2
+      template:
+        src: ./zabbix_server.conf.j2
+        dest: /etc/zabbix_server.conf
+    - name: 复制zabbix_agentd.conf.j2
+      template:
+        src: ./zabbix_agentd.conf.j2
+        dest: /etc/zabbix_agentd.conf
+    - name: 重启zabbix-server服务和zabbix-agent服务
+      service:
+         name: "{{item}}"
+         state: restarted
+      loop:
+        - zabbix-server
+        - zabbix-agent
 
-\#修改
 
-DBName=\{{dbname\}}
+[root@ansible zabbix]# ansible-playbook  zsa.yaml
 
-DBUser=\{{dbuser\}}
+PLAY [server] **************************************************************************************************************
 
-DBPassword=\{{dbpassword\}}
+TASK [Gathering Facts] *****************************************************************************************************
+ok: [192.168.100.77]
 
-\[root@ansible zabbix]# vim zabbix\_agentd.conf.j2
+TASK [复制zabbix_server.conf.j2] *********************************************************************************************
+changed: [192.168.100.77]
 
-\#修改
+TASK [复制zabbix_agentd.conf.j2] *********************************************************************************************
+ok: [192.168.100.77]
 
-Server=\{{server\}}
+TASK [重启zabbix-server服务和zabbix-agent服务] ************************************************************************************
+changed: [192.168.100.77] => (item=zabbix-server)
+changed: [192.168.100.77] => (item=zabbix-agent)
 
-ServerActive=\{{serveractive\}}
+PLAY RECAP *****************************************************************************************************************
+192.168.100.77             : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+```
 
-Hostname=\{{hostname\}}
-
-\[root@ansible zabbix]# vim zsa.yaml
-
-\---
-
-\- hosts: server
-
-vars\_files: ./vars.yaml
-
-tasks:
-
-\- name: 复制zabbix\_server.conf.j2
-
-template:
-
-src: ./zabbix\_server.conf.j2
-
-dest: /etc/zabbix\_server.conf
-
-\- name: 复制zabbix\_agentd.conf.j2
-
-template:
-
-src: ./zabbix\_agentd.conf.j2
-
-dest: /etc/zabbix\_agentd.conf
-
-\- name: 重启zabbix-server服务和zabbix-agent服务
-
-service:
-
-name: "\{{item\}}"
-
-state: restarted
-
-loop:
-
-\- zabbix-server
-
-\- zabbix-agent
-
-\[root@ansible zabbix]# ansible-playbook zsa.yaml
-
-PLAY \[server] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-TASK \[Gathering Facts] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-ok: \[192.168.100.77]
-
-TASK \[复制zabbix\_server.conf.j2] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-TASK \[复制zabbix\_agentd.conf.j2] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-ok: \[192.168.100.77]
-
-TASK \[重启zabbix-server服务和zabbix-agent服务] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77] => (item=zabbix-server)
-
-changed: \[192.168.100.77] => (item=zabbix-agent)
-
-PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-192.168.100.77 : ok=4 changed=2 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0
-
-#### 编辑php配置文件（4分）
+### 十、编辑php配置文件（4分）
 
 在ansible节点/opt/zabbix目录创建php.ini.j2,php.ini.j2配置要求最大POST数据限制为16M,程序执行时间限制为300，PHP页面接受数据所需最大时间限制为300，把时区设为Asia/Shanghai，然后编写php.yaml文件并执行，文件实现的功能要求如下：
 
@@ -4793,139 +4504,89 @@ PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\
 
 **答案**
 
-\[root@ansible zabbix]# cat /opt/zabbix/php.yaml && ansible server -m shell -a "cat /etc/opt/remi/php74/php.ini | grep -v '^;'|grep max"
-
-\---
-
-\- hosts: server
-
-vars\_files: ./vars.yaml
-
-tasks:
-
-\- template:
-
-src: /opt/zabbix/php.ini.j2
-
-dest: /etc/opt/remi/php74/php.ini
-
-\- service:
-
-name: php74-php-fpm
-
-state: restarted
-
+```
+[root@ansible zabbix]# cat /opt/zabbix/php.yaml && ansible server -m shell -a "cat  /etc/opt/remi/php74/php.ini  | grep -v '^;'|grep max"
+---
+- hosts: server
+  vars_files: ./vars.yaml
+  tasks:
+    - template:
+        src: /opt/zabbix/php.ini.j2
+        dest: /etc/opt/remi/php74/php.ini
+    - service:
+        name: php74-php-fpm
+        state: restarted
 192.168.100.77 | CHANGED | rc=0 >>
-
-max\_execution\_time = 300
-
-max\_input\_time = 300
-
-log\_errors\_max\_len = 1024
-
-post\_max\_size = 16M
-
-upload\_max\_filesize = 2M
-
-max\_file\_uploads = 20
-
-odbc.max\_persistent = -1
-
-odbc.max\_links = -1
-
-mysqli.max\_persistent = -1
-
-mysqli.max\_links = -1
-
-pgsql.max\_persistent = -1
-
-pgsql.max\_links = -1
-
-session.gc\_maxlifetime = 1440
-
-ldap.max\_links = -1
+max_execution_time = 300
+max_input_time = 300
+log_errors_max_len = 1024
+post_max_size = 16M
+upload_max_filesize = 2M
+max_file_uploads = 20
+odbc.max_persistent = -1
+odbc.max_links = -1
+mysqli.max_persistent = -1
+mysqli.max_links = -1
+pgsql.max_persistent = -1
+pgsql.max_links = -1
+session.gc_maxlifetime = 1440
+ldap.max_links = -1
+```
 
 **操作步骤**
 
-\[root@ansible zabbix]# vim vars.yaml
-
+```
+[root@ansible zabbix]# vim vars.yaml
 dbname: zabbix
-
 dbuser: zabbix
-
 dbpassword: password
-
 server: 192.168.100.77
-
 serveractive: 192.168.100.77
-
-hostname: "\{{ansible\_default\_ipv4\['address']\}}"
-
-post\_max\_size: 16M
-
-max\_execution\_time: 300
-
-max\_input\_time: 300
-
+hostname: "{{ansible_default_ipv4['address']}}"
+post_max_size: 16M
+max_execution_time: 300
+max_input_time: 300
 datetimezone: Asia/Shanghai
 
-\[root@ansible zabbix]# scp zabbix\_server:/etc/opt/remi/php74/php.ini ./php.ini.j2
+[root@ansible zabbix]# scp zabbix_server:/etc/opt/remi/php74/php.ini ./php.ini.j2
 
-\[root@ansible zabbix]# vim php.ini.j2
+[root@ansible zabbix]# vim php.ini.j2 
+#修改
+post_max_size = {{post_max_size}}
+max_execution_time = {{max_execution_time}}
+max_input_time = {{max_input_time}}
+date.timezone = {{datetimezone}}
 
-\#修改
+[root@ansible zabbix]# vim php.yaml
+---
+- hosts: server
+  vars_files: ./vars.yaml
+  tasks:
+    - template:
+        src: /opt/zabbix/php.ini.j2
+        dest: /etc/opt/remi/php74/php.ini
+    - service:
+        name: php74-php-fpm
+        state: restarted
 
-post\_max\_size = \{{post\_max\_size\}}
+[root@ansible zabbix]# ansible-playbook  php.yaml
 
-max\_execution\_time = \{{max\_execution\_time\}}
+PLAY [server] **************************************************************************************************************
 
-max\_input\_time = \{{max\_input\_time\}}
+TASK [Gathering Facts] *****************************************************************************************************
+ok: [192.168.100.77]
 
-date.timezone = \{{datetimezone\}}
+TASK [template] ************************************************************************************************************
+changed: [192.168.100.77]
 
-\[root@ansible zabbix]# vim php.yaml
+TASK [service] *************************************************************************************************************
+changed: [192.168.100.77]
 
-\---
+PLAY RECAP *****************************************************************************************************************
+192.168.100.77             : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+```
 
-\- hosts: server
-
-vars\_files: ./vars.yaml
-
-tasks:
-
-\- template:
-
-src: /opt/zabbix/php.ini.j2
-
-dest: /etc/opt/remi/php74/php.ini
-
-\- service:
-
-name: php74-php-fpm
-
-state: restarted
-
-\[root@ansible zabbix]# ansible-playbook php.yaml
-
-PLAY \[server] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-TASK \[Gathering Facts] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-ok: \[192.168.100.77]
-
-TASK \[template] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-TASK \[service] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-192.168.100.77 : ok=3 changed=2 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0
-
-#### 配置www.conf（3分）
+### 十一、配置www.conf（3分）
 
 在ansible节点/opt/zabbix目录创建www.conf.j2(把用户和组都设置为nginx)，然后编写www.yaml文件并执行，文件实现的功能要求如下：
 
@@ -4935,99 +4596,68 @@ PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\
 
 **答案**
 
-\[root@ansible zabbix]# cat /opt/zabbix/www.yaml && ansible server -m shell -a "cat /etc/php-fpm.d/www.conf | grep nginx"
-
-\---
-
-\- hosts: server
-
-vars\_files: ./vars.yaml
-
-tasks:
-
-\- template:
-
-src: /opt/zabbix/www.conf.j2
-
-dest: /etc/php-fpm.d/www.conf
-
+```
+[root@ansible zabbix]# cat /opt/zabbix/www.yaml && ansible server -m shell -a "cat /etc/php-fpm.d/www.conf | grep nginx"
+---
+- hosts: server
+  vars_files: ./vars.yaml
+  tasks:
+    - template:
+        src: /opt/zabbix/www.conf.j2
+        dest: /etc/php-fpm.d/www.conf
 192.168.100.77 | CHANGED | rc=0 >>
-
 user = nginx
-
 group = nginx
+```
 
 **操作步骤**
 
-\[root@ansible zabbix]# vim vars.yaml
-
+```
+[root@ansible zabbix]# vim vars.yaml 
 dbname: zabbix
-
 dbuser: zabbix
-
 dbpassword: password
-
 server: 192.168.100.77
-
 serveractive: 192.168.100.77
-
-hostname: "\{{ansible\_default\_ipv4\['address']\}}"
-
-post\_max\_size: 16M
-
-max\_execution\_time: 300
-
-max\_input\_time: 300
-
+hostname: "{{ansible_default_ipv4['address']}}"
+post_max_size: 16M
+max_execution_time: 300
+max_input_time: 300
 datetimezone: Asia/Shanghai
-
 user: nginx
-
 group: nginx
 
-\[root@ansible zabbix]# scp zabbix\_server:/etc/php-fpm.d/www.conf ./www.conf.j2
+[root@ansible zabbix]# scp zabbix_server:/etc/php-fpm.d/www.conf ./www.conf.j2
 
-\[root@ansible zabbix]# vim www.conf.j2
+[root@ansible zabbix]# vim www.conf.j2
+#修改
+user = {{user}}
+group = {{group}}
 
-\#修改
+[root@ansible zabbix]# vim www.yaml
+---
+- hosts: server
+  vars_files: ./vars.yaml
+  tasks:
+    - template:
+        src: /opt/zabbix/www.conf.j2
+        dest: /etc/php-fpm.d/www.conf
 
-user = \{{user\}}
+[root@ansible zabbix]# ansible-playbook www.yaml 
 
-group = \{{group\}}
+PLAY [server] **************************************************************************************************************
 
-\[root@ansible zabbix]# vim www.yaml
+TASK [Gathering Facts] *****************************************************************************************************
+ok: [192.168.100.77]
 
-\---
+TASK [template] ************************************************************************************************************
+changed: [192.168.100.77]
 
-\- hosts: server
+PLAY RECAP *****************************************************************************************************************
+192.168.100.77             : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+```
 
-vars\_files: ./vars.yaml
-
-tasks:
-
-\- template:
-
-src: /opt/zabbix/www.conf.j2
-
-dest: /etc/php-fpm.d/www.conf
-
-\[root@ansible zabbix]# ansible-playbook www.yaml
-
-PLAY \[server] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-TASK \[Gathering Facts] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-ok: \[192.168.100.77]
-
-TASK \[template] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-192.168.100.77 : ok=2 changed=1 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0
-
-#### 编辑nginx配置文件(3分)
+### 十二、编辑nginx配置文件(3分)
 
 在ansible节点/opt/zabbix目录创建default.conf.j2(使用80端口，其它参数自行修改)，然后编写default.yaml文件并执行，文件实现的功能要求如下：
 
@@ -5037,177 +4667,109 @@ PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\
 
 **答案**
 
-\[root@ansible zabbix]# cat /opt/zabbix/default.yaml && ansible server -m shell -a "cat /etc/nginx/conf.d/default.conf | grep -Ev ^'( #|$|\\\[)'"
-
-\---
-
-\- hosts: server
-
-vars\_files: ./vars.yaml
-
-tasks:
-
-\- template:
-
-src: /opt/zabbix/default.conf.j2
-
-dest: /etc/nginx/conf.d/default.conf
-
+```
+[root@ansible zabbix]# cat /opt/zabbix/default.yaml && ansible server -m shell -a "cat /etc/nginx/conf.d/default.conf | grep -Ev ^'(    #|$|\[)'"
+---
+- hosts: server
+  vars_files: ./vars.yaml
+  tasks:
+    - template:
+        src: /opt/zabbix/default.conf.j2
+        dest: /etc/nginx/conf.d/default.conf
 192.168.100.77 | CHANGED | rc=0 >>
-
 server {
-
-listen 80;
-
-server\_name localhost;
-
-location / {
-
-root /usr/share/zabbix/;
-
-index index.html index.htm;
-
+    listen       80;
+    server_name  localhost;
+    location / {
+        root   /usr/share/zabbix/;
+        index  index.html index.htm;
+    }
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+    
+    location ~ \.php$ {
+        root           /usr/share/zabbix/;
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include        fastcgi_params;
+    }
 }
-
-error\_page 500 502 503 504 /50x.html;
-
-location = /50x.html {
-
-root /usr/share/nginx/html;
-
-}
-
-location \~ \\.php$ {
-
-root /usr/share/zabbix/;
-
-fastcgi\_pass 127.0.0.1:9000;
-
-fastcgi\_index index.php;
-
-fastcgi\_param SCRIPT\_FILENAME $document\_root$fastcgi\_script\_name;
-
-include fastcgi\_params;
-
-}
-
-}
+```
 
 **操作步骤**
 
-\[root@ansible zabbix]# vim vars.yaml
-
+```
+[root@ansible zabbix]# vim vars.yaml
 dbname: zabbix
-
 dbuser: zabbix
-
 dbpassword: password
-
 server: 192.168.100.77
-
 serveractive: 192.168.100.77
-
-stname: "\{{ansible\_default\_ipv4\['address']\}}"
-
-post\_max\_size: 16M
-
-max\_execution\_time: 300
-
-max\_input\_time: 300
-
+  stname: "{{ansible_default_ipv4['address']}}"
+post_max_size: 16M
+max_execution_time: 300
+max_input_time: 300
 datetimezone: Asia/Shanghai
-
 user: nginx
-
 group: nginx
-
 listen: 80
-
 root: /usr/share/zabbix/
-
 indexphp: index.php
+fastcgi_index: index.php
+SCRIPT_FILENAME: $document_root$fastcgi_script_name
 
-fastcgi\_index: index.php
+[root@ansible zabbix]# scp zabbix_server:/etc/nginx/conf.d/default.conf ./default.conf.j2
 
-SCRIPT\_FILENAME: $document\_root$fastcgi\_script\_name
-
-\[root@ansible zabbix]# scp zabbix\_server:/etc/nginx/conf.d/default.conf ./default.conf.j2
-
-\[root@ansible zabbix]# cat default.conf.j2 | grep -Ev ^'( #|$|\\\[)'
-
-\#修改
-
+[root@ansible zabbix]# cat default.conf.j2 | grep -Ev ^'(    #|$|\[)'
+#修改
 server {
-
-listen \{{listen\}};
-
-server\_name localhost;
-
-location / {
-
-root \{{root\}};
-
-index index.html index.htm;
-
+    listen       {{listen}};
+    server_name  localhost;
+    location / {
+        root   {{root}};
+        index  index.html index.htm;
+    }
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+    
+    location ~ \.php$ {
+        root           {{root}};
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  {{fastcgi_index}};
+        fastcgi_param  SCRIPT_FILENAME  {{SCRIPT_FILENAME}};
+        include        fastcgi_params;
+    }
 }
 
-error\_page 500 502 503 504 /50x.html;
+[root@ansible zabbix]# vim default.yaml
+---
+- hosts: server
+  vars_files: ./vars.yaml
+  tasks:
+    - template:
+        src: /opt/zabbix/default.conf.j2
+        dest: /etc/nginx/conf.d/default.conf
 
-location = /50x.html {
+[root@ansible zabbix]# ansible-playbook default.yaml 
 
-root /usr/share/nginx/html;
+PLAY [server] **************************************************************************************************************
 
-}
+TASK [Gathering Facts] *****************************************************************************************************
+ok: [192.168.100.77]
 
-location \~ \\.php$ {
+TASK [template] ************************************************************************************************************
+changed: [192.168.100.77]
 
-root \{{root\}};
+PLAY RECAP *****************************************************************************************************************
+192.168.100.77             : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+```
 
-fastcgi\_pass 127.0.0.1:9000;
-
-fastcgi\_index \{{fastcgi\_index\}};
-
-fastcgi\_param SCRIPT\_FILENAME \{{SCRIPT\_FILENAME\}};
-
-include fastcgi\_params;
-
-}
-
-}
-
-\[root@ansible zabbix]# vim default.yaml
-
-\---
-
-\- hosts: server
-
-vars\_files: ./vars.yaml
-
-tasks:
-
-\- template:
-
-src: /opt/zabbix/default.conf.j2
-
-dest: /etc/nginx/conf.d/default.conf
-
-\[root@ansible zabbix]# ansible-playbook default.yaml
-
-PLAY \[server] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-TASK \[Gathering Facts] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-ok: \[192.168.100.77]
-
-TASK \[template] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-192.168.100.77 : ok=2 changed=1 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0
-
-#### 配置zabbix.conf(3分)
+### 十三、配置zabbix.conf(3分)
 
 在ansible节点/opt/zabbix目录创建zabbix.conf.j2(用户和组都设置为nginx)，然后编写zabbix.yaml文件并执行，文件实现的功能要求如下：
 
@@ -5221,145 +4783,91 @@ PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\
 
 **答案**
 
-\[root@ansible zabbix]# cat /opt/zabbix/zabbix.yaml && curl http://zabbix\_server/setup.php | head -n 10
-
-\---
-
-\- hosts: server
-
-vars\_files: ./vars.yaml
-
-tasks:
-
-\- template:
-
-src: /opt/zabbix/zabbix.conf.j2
-
-dest: /etc/php-fpm.d/zabbix.conf
-
-\- service:
-
-name: "\{{item\}}"
-
-state: restarted
-
-loop:
-
-\- nginx
-
-\- zabbix-server
-
-\- zabbix-agent
-
-\- php74-php-fpm
-
-\- mariadb
-
-% Total % Received % Xferd Average Speed Time Time Time Current
-
-Dload Upload Total Spent Left Speed
-
-100 4703 0 4703 0 \<!DOCTYPE html>0 --:--:-- --:--:-- --:--:-- 0
-
-\<html lang="en">
-
-0 \<head>
-
-\<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
-
-\<meta charset="utf-8" />
-
-\<meta name="viewport" content="width=device-width, initial-scale=1">
-
-1 \<meta name="Author" content="Zabbix SIA" />
-
-8 \<title>Installation\</title>
-
-5 \<link rel="icon" href="favicon.ico">
-
-k \<link rel="apple-touch-icon-precomposed" sizes="76x76" href="assets/img/apple-touch-icon-76x76-precomposed.png">
-
-0 --:--:-- --:--:-- --:--:-- 191k
-
+```
+[root@ansible zabbix]# cat /opt/zabbix/zabbix.yaml && curl http://zabbix_server/setup.php | head -n 10                       
+---
+- hosts: server
+  vars_files: ./vars.yaml
+  tasks:
+    - template:
+        src: /opt/zabbix/zabbix.conf.j2
+        dest: /etc/php-fpm.d/zabbix.conf
+    - service:
+        name: "{{item}}"
+        state: restarted
+      loop:
+        - nginx
+        - zabbix-server
+        - zabbix-agent
+        - php74-php-fpm
+        - mariadb
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  4703    0  4703    0    <!DOCTYPE html>0 --:--:-- --:--:-- --:--:--     0
+ <html lang="en">
+0       <head>
+                <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+                <meta charset="utf-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+1               <meta name="Author" content="Zabbix SIA" />
+8               <title>Installation</title>
+5               <link rel="icon" href="favicon.ico">
+k               <link rel="apple-touch-icon-precomposed" sizes="76x76" href="assets/img/apple-touch-icon-76x76-precomposed.png">
+      0 --:--:-- --:--:-- --:--:--  191k
 (23) Failed writing body
+```
 
 **操作步骤**
 
-\[root@ansible zabbix]# scp zabbix\_server:/etc/php-fpm.d/zabbix.conf ./zabbix.conf.j2
+```
+[root@ansible zabbix]# scp zabbix_server:/etc/php-fpm.d/zabbix.conf ./zabbix.conf.j2
 
-\[root@ansible zabbix]# vim zabbix.conf.j2
+[root@ansible zabbix]# vim zabbix.conf.j2 
+#修改
+[zabbix]
+user = {{user}}
+group = {{group}}
 
-\#修改
+[root@ansible zabbix]# vim zabbix.yaml
+---
+- hosts: server
+  vars_files: ./vars.yaml
+  tasks:
+    - template:
+        src: /opt/zabbix/zabbix.conf.j2
+        dest: /etc/php-fpm.d/zabbix.conf
+    - service:
+        name: "{{item}}"
+        state: restarted
+      loop:
+        - nginx
+        - zabbix-server
+        - zabbix-agent
+        - php74-php-fpm
+        - mariadb
 
-\[zabbix]
+[root@ansible zabbix]# ansible-playbook zabbix.yaml 
 
-user = \{{user\}}
+PLAY [server] **************************************************************************************************************
 
-group = \{{group\}}
+TASK [Gathering Facts] *****************************************************************************************************
+ok: [192.168.100.77]
 
-\[root@ansible zabbix]# vim zabbix.yaml
+TASK [template] ************************************************************************************************************
+changed: [192.168.100.77]
 
-\---
+TASK [service] *************************************************************************************************************
+changed: [192.168.100.77] => (item=nginx)
+changed: [192.168.100.77] => (item=zabbix-server)
+changed: [192.168.100.77] => (item=zabbix-agent)
+changed: [192.168.100.77] => (item=php74-php-fpm)
+changed: [192.168.100.77] => (item=mariadb)
 
-\- hosts: server
+PLAY RECAP *****************************************************************************************************************
+192.168.100.77             : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+```
 
-vars\_files: ./vars.yaml
-
-tasks:
-
-\- template:
-
-src: /opt/zabbix/zabbix.conf.j2
-
-dest: /etc/php-fpm.d/zabbix.conf
-
-\- service:
-
-name: "\{{item\}}"
-
-state: restarted
-
-loop:
-
-\- nginx
-
-\- zabbix-server
-
-\- zabbix-agent
-
-\- php74-php-fpm
-
-\- mariadb
-
-\[root@ansible zabbix]# ansible-playbook zabbix.yaml
-
-PLAY \[server] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-TASK \[Gathering Facts] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-ok: \[192.168.100.77]
-
-TASK \[template] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77]
-
-TASK \[service] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.77] => (item=nginx)
-
-changed: \[192.168.100.77] => (item=zabbix-server)
-
-changed: \[192.168.100.77] => (item=zabbix-agent)
-
-changed: \[192.168.100.77] => (item=php74-php-fpm)
-
-changed: \[192.168.100.77] => (item=mariadb)
-
-PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-192.168.100.77 : ok=3 changed=2 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0
-
-#### 编写playbook(5分)
+### 十四、编写playbook(5分)
 
 在ansible节点/opt/zabbix目录编辑agent.yaml文件并执行，文件实现的功能要求如下：
 
@@ -5375,193 +4883,118 @@ PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\
 
 **答案**
 
-\[root@ansible zabbix]# cat agent.yaml && ansible agent -m shell -a "systemctl status zabbix-agent"
-
-\---
-
-\- hosts: agent
-
-vars\_files: ./vars.yaml
-
-tasks:
-
-\- name: 删除/etc/yum.repos.d目录(删除repo文件)
-
-file:
-
-path: /etc/yum.repos.d
-
-state: absent
-
-\- name: 创建/etc/yum.repos.d目录
-
-file:
-
-path: /etc/yum.repos.d
-
-state: directory
-
-mode: 755
-
-\- name: 把ftp.repo文件复制到/etc/yum.repos.d目录
-
-copy:
-
-src: ./files/ftp.repo
-
-dest: /etc/yum.repos.d/
-
-\- name: 安装zabbix6.0-agent
-
-yum:
-
-name: zabbix6.0-agent
-
-state: present
-
-\- name: 复制zabbix\_agentd.conf.j2文件
-
-template:
-
-src: zabbix\_agentd.conf.j2
-
-dest: /etc/zabbix\_agentd.conf
-
-\- name: 启动zabbix-agent服务
-
-service:
-
-name: zabbix-agent
-
-state: restarted
+```
+[root@ansible zabbix]# cat agent.yaml && ansible agent -m shell -a "systemctl status zabbix-agent"            
+---
+- hosts: agent
+  vars_files: ./vars.yaml
+  tasks:
+    - name: 删除/etc/yum.repos.d目录(删除repo文件)
+      file:
+        path: /etc/yum.repos.d
+        state: absent
+    - name: 创建/etc/yum.repos.d目录
+      file:
+        path: /etc/yum.repos.d
+        state: directory
+        mode: 755
+    - name: 把ftp.repo文件复制到/etc/yum.repos.d目录
+      copy:
+        src: ./files/ftp.repo
+        dest: /etc/yum.repos.d/
+    - name: 安装zabbix6.0-agent
+      yum:
+        name: zabbix6.0-agent
+        state: present
+    - name: 复制zabbix_agentd.conf.j2文件
+      template:
+        src: zabbix_agentd.conf.j2
+        dest: /etc/zabbix_agentd.conf
+    - name: 启动zabbix-agent服务
+      service:
+        name: zabbix-agent
+        state: restarted
 
 192.168.100.165 | CHANGED | rc=0 >>
-
 ● zabbix-agent.service - Zabbix Monitor Agent
+   Loaded: loaded (/usr/lib/systemd/system/zabbix-agent.service; disabled; vendor preset: disabled)
+   Active: active (running) since Thu 2024-06-20 14:24:57 UTC; 2h 6min ago
+ Main PID: 24391 (zabbix_agentd)
+   CGroup: /system.slice/zabbix-agent.service
+           ├─24391 /usr/sbin/zabbix_agentd -f
+           ├─24392 /usr/sbin/zabbix_agentd: collector [idle 1 sec
+           ├─24393 /usr/sbin/zabbix_agentd: listener #1 [waiting for connection
+           ├─24394 /usr/sbin/zabbix_agentd: listener #2 [waiting for connection
+           ├─24395 /usr/sbin/zabbix_agentd: listener #3 [waiting for connection
+           └─24396 /usr/sbin/zabbix_agentd: active checks #1 [idle 1 sec
 
-Loaded: loaded (/usr/lib/systemd/system/zabbix-agent.service; disabled; vendor preset: disabled)
-
-Active: active (running) since Thu 2024-06-20 14:24:57 UTC; 2h 6min ago
-
-Main PID: 24391 (zabbix\_agentd)
-
-CGroup: /system.slice/zabbix-agent.service
-
-├─24391 /usr/sbin/zabbix\_agentd -f
-
-├─24392 /usr/sbin/zabbix\_agentd: collector \[idle 1 sec
-
-├─24393 /usr/sbin/zabbix\_agentd: listener #1 \[waiting for connection
-
-├─24394 /usr/sbin/zabbix\_agentd: listener #2 \[waiting for connection
-
-├─24395 /usr/sbin/zabbix\_agentd: listener #3 \[waiting for connection
-
-└─24396 /usr/sbin/zabbix\_agentd: active checks #1 \[idle 1 sec
-
-Jun 20 14:24:57 zabbix\_agent systemd\[1]: Started Zabbix Monitor Agent.
-
-Jun 20 14:24:57 zabbix\_agent zabbix\_agentd\[24391]: Starting Zabbix Agent \[192.168.100.165]. Zabbix 6.0.13 (revision fdfa8cef9ce).
-
-Jun 20 14:24:57 zabbix\_agent zabbix\_agentd\[24391]: Press Ctrl+C to exit.
+Jun 20 14:24:57 zabbix_agent systemd[1]: Started Zabbix Monitor Agent.
+Jun 20 14:24:57 zabbix_agent zabbix_agentd[24391]: Starting Zabbix Agent [192.168.100.165]. Zabbix 6.0.13 (revision fdfa8cef9ce).
+Jun 20 14:24:57 zabbix_agent zabbix_agentd[24391]: Press Ctrl+C to exit.
+```
 
 **操作步骤**
 
-\[root@ansible zabbix]# vim agent.yaml
+```
+[root@ansible zabbix]# vim agent.yaml
+---
+- hosts: agent
+  vars_files: ./vars.yaml
+  tasks:
+    - name: 删除/etc/yum.repos.d目录(删除repo文件)
+      file:
+        path: /etc/yum.repos.d
+        state: absent
+    - name: 创建/etc/yum.repos.d目录
+      file:
+        path: /etc/yum.repos.d
+        state: directory
+        mode: 755
+    - name: 把ftp.repo文件复制到/etc/yum.repos.d目录
+      copy:
+        src: ./files/ftp.repo
+        dest: /etc/yum.repos.d/
+    - name: 安装zabbix6.0-agent
+      yum:
+        name: zabbix6.0-agent
+        state: present
+    - name: 复制zabbix_agentd.conf.j2文件
+      template:
+        src: zabbix_agentd.conf.j2
+        dest: /etc/zabbix_agentd.conf
+    - name: 启动zabbix-agent服务
+      service:
+        name: zabbix-agent
+        state: restarted
 
-\---
+[root@ansible zabbix]# ansible-playbook agent.yaml
 
-\- hosts: agent
+PLAY [agent] ***************************************************************************************************************
 
-vars\_files: ./vars.yaml
+TASK [Gathering Facts] *****************************************************************************************************
+ok: [192.168.100.165]
 
-tasks:
+TASK [删除/etc/yum.repos.d目录(删除repo文件)] **************************************************************************************
+changed: [192.168.100.165]
 
-\- name: 删除/etc/yum.repos.d目录(删除repo文件)
+TASK [创建/etc/yum.repos.d目录] ************************************************************************************************
+changed: [192.168.100.165]
 
-file:
+TASK [把ftp.repo文件复制到/etc/yum.repos.d目录] ************************************************************************************
+changed: [192.168.100.165]
 
-path: /etc/yum.repos.d
+TASK [安装zabbix6.0-agent] ***************************************************************************************************
+changed: [192.168.100.165]
 
-state: absent
+TASK [复制zabbix_agentd.conf.j2文件] *******************************************************************************************
+changed: [192.168.100.165]
 
-\- name: 创建/etc/yum.repos.d目录
+TASK [启动zabbix-agent服务] ****************************************************************************************************
+changed: [192.168.100.165]
 
-file:
-
-path: /etc/yum.repos.d
-
-state: directory
-
-mode: 755
-
-\- name: 把ftp.repo文件复制到/etc/yum.repos.d目录
-
-copy:
-
-src: ./files/ftp.repo
-
-dest: /etc/yum.repos.d/
-
-\- name: 安装zabbix6.0-agent
-
-yum:
-
-name: zabbix6.0-agent
-
-state: present
-
-\- name: 复制zabbix\_agentd.conf.j2文件
-
-template:
-
-src: zabbix\_agentd.conf.j2
-
-dest: /etc/zabbix\_agentd.conf
-
-\- name: 启动zabbix-agent服务
-
-service:
-
-name: zabbix-agent
-
-state: restarted
-
-\[root@ansible zabbix]# ansible-playbook agent.yaml
-
-PLAY \[agent] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-TASK \[Gathering Facts] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-ok: \[192.168.100.165]
-
-TASK \[删除/etc/yum.repos.d目录(删除repo文件)] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.165]
-
-TASK \[创建/etc/yum.repos.d目录] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.165]
-
-TASK \[把ftp.repo文件复制到/etc/yum.repos.d目录] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.165]
-
-TASK \[安装zabbix6.0-agent] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.165]
-
-TASK \[复制zabbix\_agentd.conf.j2文件] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.165]
-
-TASK \[启动zabbix-agent服务] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[192.168.100.165]
-
-PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-192.168.100.165 : ok=7 changed=6 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0
+PLAY RECAP *****************************************************************************************************************
+192.168.100.165            : ok=7    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+```
 
 ### 任务2、部署prometheus监控mysqld服务
 
@@ -5581,7 +5014,7 @@ PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\
 
 3.竞赛用到的软件包都在云主机/root下。
 
-#### 十五、安装ansible并创建test用户（1分）
+### 一、安装ansible并创建test用户（1分）
 
 修改monitor节点主机名为ansible,slave1节点主机名为slave1,slave2节点主机名为slave2，配置各节点主机映射将IP地址映射为主机名，使用提供的软件包autoDeployment.tar在monitor节点配置yun源并安装ansible。为所有节点添加test用户，设置用户密码为000000，为test用户设置免密sudo，配置ssh免密登录，使monitor节点能够免密登录所有节点的test用户。
 
@@ -5589,93 +5022,57 @@ PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\
 
 **答案**
 
-\[root@monitor \~]# ansible --version && ssh test@slave2 "id && hostnamectl && sudo -lU test"
-
-ansible 2.9.27
-
-config file = /etc/ansible/ansible.cfg
-
-configured module search path = \[u'/root/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
-
-ansible python module location = /usr/lib/python2.7/site-packages/ansible
-
-executable location = /usr/bin/ansible
-
-python version = 2.7.5 (default, Oct 14 2020, 14:45:30) \[GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]
+```
+[root@monitor ~]# ansible --version && ssh test@slave2 "id && hostnamectl && sudo -lU test"                                  
+ansible 2.9.27                                                                                                               
+  config file = /etc/ansible/ansible.cfg                                                                                     
+  configured module search path = [u'/root/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']                 
+  ansible python module location = /usr/lib/python2.7/site-packages/ansible                                                  
+  executable location = /usr/bin/ansible                                                                                     
+  python version = 2.7.5 (default, Oct 14 2020, 14:45:30) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)] 
+```
 
 **操作步骤**
 
+```
 vi /etc/hosts
-
-192.168.100.10 monitor
-
-192.168.100.20 slave1
-
-192.168.100.30 slave2
-
-scp /etc/hosts slave1:/etc/hosts
-
-scp /etc/hosts slave2:/etc/hosts
-
+192.168.100.10 monitor                                                                                                       
+192.168.100.20 slave1                                                                                                        
+192.168.100.30 slave2                                                              
+scp /etc/hosts slave1:/etc/hosts                                                                                      
+scp /etc/hosts slave2:/etc/hosts 
 使用网络源进行安装ansible
-
-wget -O /etc/yum.repos.d/epel-7.repo http://mirrors.aliyun.com/repo/epel-7.repo
-
+wget -O /etc/yum.repos.d/epel-7.repo http://mirrors.aliyun.com/repo/epel-7.repo 
 yum -y install epel-release
-
 yum install -y ansible
-
 为所有节点添加test用户并设置用户密码为000000
-
 useradd test && echo "000000" | passwd --stdin test
-
 为test用户设置免密sudo
-
-echo "test ALL=(ALL) NOPASSWD: ALL" >> visudo
-
+echo "test        ALL=(ALL)       NOPASSWD: ALL" >> visudo
 配置ssh免密登录
+[root@monitor ansible]# sudo -u test ssh-keygen -t rsa -N "" -f /home/test/.ssh/id_rsa                                       
+Generating public/private rsa key pair.                                                                                      
+Your identification has been saved in /home/test/.ssh/id_rsa.                                                                
+Your public key has been saved in /home/test/.ssh/id_rsa.pub.                                                                
+The key fingerprint is:                                                                                                      
+SHA256:osykMK8rFyhxPU5x2E/tjzJilQEw8mix4x8Duz6agB4 test@monitor                                                              
+The key's randomart image is:                                                                                                
++---[RSA 2048]----+                                                                                                          
+|  o o+.. .       |                                                                                                          
+|   *o.o o .      |                                                                                                          
+|  *..o o +       |                                                                                                          
+|.o.++   + .      |                                                                                                          
+|o+oo+...S  o     |                                                                                                          
+|++.B.+o.o . .    |                                                                                                          
+|+E+.=. . o       |                                                                                                          
+|+++              |                                                                                                          
+|*=..             |                                                                                                          
++----[SHA256]-----+                                                                                                          
+[root@monitor ansible]# sudo -u test ssh-copy-id test@slave1                                                                                                                          
+[root@monitor ansible]# sudo -u test ssh-copy-id test@slave2                                                                 
+```
 
-\[root@monitor ansible]# sudo -u test ssh-keygen -t rsa -N "" -f /home/test/.ssh/id\_rsa
-
-Generating public/private rsa key pair.
-
-Your identification has been saved in /home/test/.ssh/id\_rsa.
-
-Your public key has been saved in /home/test/.ssh/id\_rsa.pub.
-
-The key fingerprint is:
-
-SHA256:osykMK8rFyhxPU5x2E/tjzJilQEw8mix4x8Duz6agB4 test@monitor
-
-The key's randomart image is:
-
-\+---\[RSA 2048]----+
-
-\| o o+.. . |
-
-\| \*o.o o . |
-
-\| \*..o o + |
-
-|.o.++ + . |
-
-|o+oo+...S o |
-
-|++.B.+o.o . . |
-
-|+E+.=. . o |
-
-|+++ |
-
-|\*=.. |
-
-\+----\[SHA256]-----+
-
-\[root@monitor ansible]# sudo -u test ssh-copy-id test@slave1
-
-\[root@monitor ansible]# sudo -u test ssh-copy-id test@slave2
-
-#### 十六、初始化ansible（1分）
+### 二、初始化ansible（1分）
 
 在monitor节点创建/root/ansible目录作为ansible工作目录，在该目录内创建ansible.cfg文件并完成以下配置，清单文件位置为/root/ansible/inventory，登录用户为test，登录时不需要输入密码，设置并行主机数量为2。允许test用户免密提权到root。
 
@@ -5683,59 +5080,40 @@ The key's randomart image is:
 
 **答案**
 
-\[root@monitor ansible]# cat /root/ansible/ansible.cfg
-
-\[defaults]
-
-inventory = /root/ansible/inventory
-
-remote\_user = test
-
-ask\_pass = flase
-
-forks = 2
-
-\[privilege\_escalation]
-
-become=True
-
-become\_method=sudo
-
-become\_user=root
-
-become\_ask\_pass=False
+```
+[root@monitor ansible]# cat /root/ansible/ansible.cfg                                                                        
+[defaults]                                                                                                                   
+inventory      = /root/ansible/inventory                                                                                     
+remote_user     = test                                                                                                       
+ask_pass      = flase                                                                                                        
+forks        = 2                                                                                                             
+[privilege_escalation]                                                                                                       
+become=True                                                                                                                  
+become_method=sudo                                                                                                           
+become_user=root                                                                                                             
+become_ask_pass=False 
+```
 
 **操作步骤**
 
-\[root@monitor \~]# mkdir -p /root/ansible
-
-\[root@monitor \~]# cd ansible
-
-\[root@monitor ansible]# vim ansible.cfg
-
-\[defaults]
-
-inventory = /root/ansible/inventory
-
-remote\_user = test
-
-ask\_pass = flase
-
-forks = 2
-
-\[privilege\_escalation]
-
-become=True
-
-become\_method=sudo
-
-become\_user=root
-
-become\_ask\_pass=False
-
+```
+[root@monitor ~]# mkdir -p /root/ansible
+[root@monitor ~]# cd ansible
+[root@monitor ansible]# vim ansible.cfg
+[defaults]                                                                                                                   
+inventory      = /root/ansible/inventory                                                                                     
+remote_user     = test                                                                                                       
+ask_pass      = flase                                                                                                        
+forks        = 2                                                                                                             
+[privilege_escalation]                                                                                                       
+become=True                                                                                                                  
+become_method=sudo                                                                                                           
+become_user=root                                                                                                             
+become_ask_pass=False 
 echo "test ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/test
+```
 
-#### 十七、编写ansible主机清单（0.5分）
+### 三、编写ansible主机清单（0.5分）
 
 在monitor节点ansible工作目录下配置ansible主机清单，在清单中创建master主机组和node主机组,master主机组内添加monitor主机,node主机组内添加slave1和slave2主机，主机清单中需使用主机名不使用ip。
 
@@ -5743,57 +5121,39 @@ echo "test ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/test
 
 **答案**
 
-\[root@monitor ansible]# cd /root/ansible/ && ansible slave2 -m ping && ansible all -m shell -a "id && users" | se
-
-d s/\\"//g
-
-slave2 | SUCCESS => {
-
-"ansible\_facts": {
-
-"discovered\_interpreter\_python": "/usr/bin/python"
-
-},
-
-"changed": false,
-
-"ping": "pong"
-
-}
-
-slave1 | CHANGED | rc=0 >>
-
-uid=0(root) gid=0(root) groups=0(root)
-
-root root root
-
-slave2 | CHANGED | rc=0 >>
-
-uid=0(root) gid=0(root) groups=0(root)
-
-root root root
-
-monitor | CHANGED | rc=0 >>
-
-uid=0(root) gid=0(root) groups=0(root)
-
-root root
+```
+[root@monitor ansible]# cd /root/ansible/ && ansible slave2 -m ping && ansible all -m shell -a "id && users" | se
+d s/\"//g                                                                                                        
+slave2 | SUCCESS => {                                                                                            
+    "ansible_facts": {                                                                                           
+        "discovered_interpreter_python": "/usr/bin/python"                                                       
+    },                                                                                                           
+    "changed": false,                                                                                            
+    "ping": "pong"                                                                                               
+}                                                                                                                
+slave1 | CHANGED | rc=0 >>                                                                                       
+uid=0(root) gid=0(root) groups=0(root)                                                                           
+root root root                                                                                                   
+slave2 | CHANGED | rc=0 >>                                                                                       
+uid=0(root) gid=0(root) groups=0(root)                                                                           
+root root root                                                                                                   
+monitor | CHANGED | rc=0 >>                                                                                      
+uid=0(root) gid=0(root) groups=0(root)                                                                           
+root root    
+```
 
 **操作步骤**
 
-\[root@monitor ansible]# vim inventory
+```
+[root@monitor ansible]# vim inventory
+    [master]                                                                                                         
+    monitor                                                                                                          
+    [node]                                                                                                           
+    slave1                                                                                                           
+    slave2  
+```
 
-\[master]
-
-monitor
-
-\[node]
-
-slave1
-
-slave2
-
-#### 十八、初始化monitor节点（2分）
+### 四、初始化monitor节点（2分）
 
 在monitor节点ansible工作目录下编写prometheus.yaml剧本文件控制master主机组完成以下内容（请使用ansible除shell外的对应模块，后续题目均使用提供的软件包Prometheus.tar.gz）：
 
@@ -5809,205 +5169,124 @@ slave2
 
 **答案**
 
-\[root@monitor ansible]# cd /root/ansible/ && ansible-playbook prometheus.yaml && cat prometheus.yaml
-
-PLAY \[master] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-TASK \[Gathering Facts] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-ok: \[monitor]
-
-TASK \[禁用selinux] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-\*\*
-
-ok: \[monitor]
-
-TASK \[安装并配置时间同步] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-\*\*\*\*\*\*\*\*\*
-
-ok: \[monitor]
-
-TASK \[配置时间同步] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-\*\*\*\*\*\*
-
-ok: \[monitor]
-
-TASK \[启动并设置为开机自启动] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-\*\*\*\*\*\*\*\*\*\*\*
-
-changed: \[monitor]
-
-TASK \[解压prometheus] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-\*\*
-
-changed: \[monitor]
-
-TASK \[重命名] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-\*\*\*
-
-changed: \[monitor]
-
-TASK \[重启 chronyd 服务] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-\*\*\*\*
-
-changed: \[monitor]
-
-PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-monitor : ok=8 changed=4 unreachable=0 failed=0 skipped=0 rescued=0 ignored=
-
-0
-
-\---
-
-\- hosts: master
-
-tasks:
-
-\- name: 禁用selinux
-
-template:
-
-src: /root/ansible/config.j2
-
-dest: /etc/selinux/config
-
-\- name: 安装并配置时间同步
-
-yum:
-
-name: chrony
-
-state: present
-
-\- name: 配置时间同步
-
-template:
-
-src: /root/ansible/chrony.conf.j2
-
-dest: /etc/chrony.conf
-
-\- name: 启动并设置为开机自启动
-
-service:
-
-name: chronyd
-
-state: restarted
-
-enabled: yes
-
-\- name: 解压prometheus
-
-unarchive:
-
-src: /root/prometheus-2.37.0.linux-amd64.tar.gz
-
-dest: /usr/local
-
-remote\_src: yes
-
-\- name: 重命名
-
-shell: mv /usr/local/prometheus-2.37.0.linux-amd64 /usr/local/prometheus
-
-\- name: 重启 chronyd 服务
-
-service:
-
-name: chronyd
-
-state: restarted
+```
+[root@monitor ansible]# cd /root/ansible/ && ansible-playbook prometheus.yaml && cat prometheus.yaml             
+                                                                                                                 
+PLAY [master] ***************************************************************************************************
+                                                                                                                 
+TASK [Gathering Facts] ******************************************************************************************
+ok: [monitor]                                                                                                    
+                                                                                                                 
+TASK [禁用selinux] **********************************************************************************************
+**                                                                                                               
+ok: [monitor]                                                                                                    
+                                                                                                                 
+TASK [安装并配置时间同步] ***************************************************************************************
+*********                                                                                                        
+ok: [monitor]                                                                                                    
+                                                                                                                 
+TASK [配置时间同步] *********************************************************************************************
+******                                                                                                           
+ok: [monitor]                                                                                                    
+                                                                                                                 
+TASK [启动并设置为开机自启动] ***********************************************************************************
+***********                                                                                                      
+changed: [monitor]                                                                                               
+                                                                                                                 
+TASK [解压prometheus] *******************************************************************************************
+**                                                                                                               
+changed: [monitor]                                                                                               
+                                                                                                                 
+TASK [重命名] ***************************************************************************************************
+***                                                                                                              
+changed: [monitor]                                                                                               
+                                                                                                                 
+TASK [重启 chronyd 服务] ****************************************************************************************
+****                                                                                                             
+changed: [monitor]                                                                                               
+                                                                                                                 
+PLAY RECAP ******************************************************************************************************
+monitor                    : ok=8    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=
+0                                                                                                                
+                                                                                                                 
+---                                                                                                              
+- hosts: master                                                                                                  
+  tasks:                                                                                                         
+    - name: 禁用selinux                                                                                          
+      template:                                                                                                  
+        src: /root/ansible/config.j2                                                                             
+        dest: /etc/selinux/config                                                                                
+    - name: 安装并配置时间同步                                                                                   
+      yum:                                                                                                       
+        name: chrony                                                                                             
+        state: present                                                                                           
+    - name: 配置时间同步                                                                                         
+      template:                                                                                                  
+        src: /root/ansible/chrony.conf.j2                                                                        
+        dest: /etc/chrony.conf                                                                                   
+    - name: 启动并设置为开机自启动                                                                               
+      service:                                                                                                   
+        name: chronyd                                                                                            
+        state: restarted                                                                                         
+        enabled: yes                                                                                             
+    - name: 解压prometheus                                                                                       
+      unarchive:                                                                                                 
+        src: /root/prometheus-2.37.0.linux-amd64.tar.gz                                                          
+        dest: /usr/local                                                                                         
+        remote_src: yes                                                                                          
+    - name: 重命名                                                                                               
+      shell: mv /usr/local/prometheus-2.37.0.linux-amd64 /usr/local/prometheus                                   
+    - name: 重启 chronyd 服务                                                                                    
+      service:                                                                                                   
+        name: chronyd                                                                                            
+        state: restarted                           
+```
 
 **操作步骤**
 
-\[root@monitor ansible]# vim prometheus.yaml
-
-\---
-
-\- hosts: master
-
-tasks:
-
-\- name: 禁用selinux
-
-template:
-
-src: /root/ansible/config.j2
-
-dest: /etc/selinux/config
-
-\- name: 安装并配置时间同步
-
-yum:
-
-name: chrony
-
-state: present
-
-\- name: 配置时间同步
-
-template:
-
-src: /root/ansible/chrony.conf.j2
-
-dest: /etc/chrony.conf
-
-\- name: 启动并设置为开机自启动
-
-service:
-
-name: chronyd
-
-state: restarted
-
-enabled: yes
-
-\- name: 解压prometheus
-
-unarchive:
-
-src: /root/prometheus-2.37.0.linux-amd64.tar.gz
-
-dest: /usr/local
-
-remote\_src: yes
-
-\- name: 重命名
-
-shell: mv /usr/local/prometheus-2.37.0.linux-amd64 /usr/local/prometheus
-
-\- name: 重启 chronyd 服务
-
-service:
-
-name: chronyd
-
-state: restarted
-
-\[root@monitor selinux]# cp /etc/selinux/config /root/ansible/config.j2
-
-\[root@monitor ansible]# vim config.j2
-
+```
+[root@monitor ansible]# vim prometheus.yaml 
+---                                                                                                              
+- hosts: master                                                                                                  
+  tasks:                                                                                                         
+    - name: 禁用selinux                                                                                          
+      template:                                                                                                  
+        src: /root/ansible/config.j2                                                                             
+        dest: /etc/selinux/config                                                                                
+    - name: 安装并配置时间同步                                                                                   
+      yum:                                                                                                       
+        name: chrony                                                                                             
+        state: present                                                                                           
+    - name: 配置时间同步                                                                                         
+      template:                                                                                                  
+        src: /root/ansible/chrony.conf.j2                                                                        
+        dest: /etc/chrony.conf                                                                                   
+    - name: 启动并设置为开机自启动                                                                               
+      service:                                                                                                   
+        name: chronyd                                                                                            
+        state: restarted                                                                                         
+        enabled: yes                                                                                             
+    - name: 解压prometheus                                                                                       
+      unarchive:                                                                                                 
+        src: /root/prometheus-2.37.0.linux-amd64.tar.gz                                                          
+        dest: /usr/local                                                                                         
+        remote_src: yes                                                                                          
+    - name: 重命名                                                                                               
+      shell: mv /usr/local/prometheus-2.37.0.linux-amd64 /usr/local/prometheus                                   
+    - name: 重启 chronyd 服务                                                                                    
+      service:                                                                                                   
+        name: chronyd                                                                                            
+        state: restarted        
+[root@monitor selinux]# cp /etc/selinux/config /root/ansible/config.j2 
+[root@monitor ansible]# vim config.j2
 SELINUX=disabled
+[root@monitor ansible]# cp /etc/chrony.conf /root/ansible/chrony.conf.j2
+[root@monitor ansible]# vim chrony.conf.j2 
+allow 0.0.0.0/0 
+[root@monitor ansible]# ansible-playbook prometheus.yaml 
+```
 
-\[root@monitor ansible]# cp /etc/chrony.conf /root/ansible/chrony.conf.j2
-
-\[root@monitor ansible]# vim chrony.conf.j2
-
-allow 0.0.0.0/0
-
-\[root@monitor ansible]# ansible-playbook prometheus.yaml
-
-#### 十九、启动node主机组服务（2分）
+### 五、启动node主机组服务（2分）
 
 在monitor节点ansible工作目录下编写node\_exporter.yaml剧本文件控制node主机组完成以下内容（请使用ansible除shell外的对应模块）：
 
@@ -6021,159 +5300,99 @@ allow 0.0.0.0/0
 
 **答案**
 
-\[root@monitor ansible]# cd /root/ansible/ && ansible-playbook /root/ansible/node\_exporter.yaml && cat /root/ansib
-
-le/node\_exporter.yaml && sleep 10 && ansible node -m shell -a "ps -aux | grep node"
-
-PLAY \[node] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-TASK \[Gathering Facts] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-ok: \[slave1]
-
-ok: \[slave2]
-
-TASK \[解压node\_exporter] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-\*\*
-
-ok: \[slave1]
-
-ok: \[slave2]
-
-TASK \[重命名] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-\*\*\*
-
-changed: \[slave1]
-
-changed: \[slave2]
-
-TASK \[授权] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-\*\*
-
-ok: \[slave2]
-
-ok: \[slave1]
-
-TASK \[后台启动服务] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-\*\*\*\*\*\*
-
-changed: \[slave1]
-
-changed: \[slave2]
-
-PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-slave1 : ok=5 changed=2 unreachable=0 failed=0 skipped=0 rescued=0 ignored=
-
-0
-
-slave2 : ok=5 changed=2 unreachable=0 failed=0 skipped=0 rescued=0 ignored=
-
-0
-
-\---
-
-\- hosts: node
-
-tasks:
-
-\- name: 解压node\_exporter
-
-unarchive:
-
-src: /root/node\_exporter-1.3.1.linux-amd64.tar.gz
-
-dest: /usr/local
-
-remote\_src: yes
-
-\- name: 重命名
-
-shell: mv /usr/local/node\_exporter-1.3.1.linux-amd64 /usr/local/node\_exporter
-
-\- name: 授权
-
-file:
-
-path: /root/start\_node\_exporter.sh
-
-mode: '0755'
-
-\- name: 后台启动服务
-
-script: /root/start\_node\_exporter.sh
-
-slave1 | CHANGED | rc=0 >>
-
-root 6085 0.0 0.0 113280 1192 pts/1 S+ 15:19 0:00 /bin/sh -c ps -aux | grep node
-
-root 6087 0.0 0.0 112808 944 pts/1 S+ 15:19 0:00 grep node
-
-slave2 | CHANGED | rc=0 >>
-
-root 6077 0.0 0.3 715956 12972 ? Sl 15:19 0:00 /usr/local/node\_exporter/node\_exporter
-
-root 6145 0.0 0.0 113280 1188 pts/0 S+ 15:19 0:00 /bin/sh -c ps -aux | grep node
-
-root 6147 0.0 0.0 112808 944 pts/0 S+ 15:19 0:00 grep node
+```
+[root@monitor ansible]# cd /root/ansible/ && ansible-playbook /root/ansible/node_exporter.yaml && cat /root/ansib
+le/node_exporter.yaml && sleep 10 && ansible node -m shell -a "ps -aux | grep node"                              
+                                                                                                                 
+PLAY [node] *****************************************************************************************************
+                                                                                                                 
+TASK [Gathering Facts] ******************************************************************************************
+ok: [slave1]                                                                                                     
+ok: [slave2]                                                                                                     
+                                                                                                                 
+TASK [解压node_exporter] ****************************************************************************************
+**                                                                                                               
+ok: [slave1]                                                                                                     
+ok: [slave2]                                                                                                     
+                                                                                                                 
+TASK [重命名] ***************************************************************************************************
+***                                                                                                              
+changed: [slave1]                                                                                                
+changed: [slave2]                                                                                                
+                                                                                                                 
+TASK [授权] *****************************************************************************************************
+**                                                                                                               
+ok: [slave2]                                                                                                     
+ok: [slave1]                                                                                                     
+                                                                                                                 
+TASK [后台启动服务] *********************************************************************************************
+******                                                                                                           
+changed: [slave1]                                                                                                
+changed: [slave2]                                                                                                
+                                                                                                                 
+PLAY RECAP ******************************************************************************************************
+slave1                     : ok=5    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=
+0                                                                                                                
+slave2                     : ok=5    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=
+0                                                                                                                
+                                                                                                                 
+---                                                                                                              
+- hosts: node                                                                                                    
+  tasks:                                                                                                         
+    - name: 解压node_exporter                                                                                    
+      unarchive:                                                                                                 
+        src: /root/node_exporter-1.3.1.linux-amd64.tar.gz                                                        
+        dest: /usr/local                                                                                         
+        remote_src: yes                                                                                          
+    - name: 重命名                                                                                               
+      shell: mv /usr/local/node_exporter-1.3.1.linux-amd64 /usr/local/node_exporter                              
+    - name: 授权                                                                                                 
+      file:                                                                                                      
+        path: /root/start_node_exporter.sh                                                                       
+        mode: '0755'                                                                                             
+    - name: 后台启动服务                                                                                         
+      script: /root/start_node_exporter.sh                                                                       
+                                                                                                                 
+slave1 | CHANGED | rc=0 >>                                                                                       
+root       6085  0.0  0.0 113280  1192 pts/1    S+   15:19   0:00 /bin/sh -c ps -aux | grep node                 
+root       6087  0.0  0.0 112808   944 pts/1    S+   15:19   0:00 grep node                                      
+slave2 | CHANGED | rc=0 >>                                                                                       
+root       6077  0.0  0.3 715956 12972 ?        Sl   15:19   0:00 /usr/local/node_exporter/node_exporter         
+root       6145  0.0  0.0 113280  1188 pts/0    S+   15:19   0:00 /bin/sh -c ps -aux | grep node                 
+root       6147  0.0  0.0 112808   944 pts/0    S+   15:19   0:00 grep node     
+```
 
 **操作步骤**
 
-\[root@monitor ansible]# vim start\_node\_exporter.sh
+```
+[root@monitor ansible]# vim start_node_exporter.sh  
+#!/bin/bash                                                                                                      
+nohup /usr/local/node_exporter/node_exporter > /var/log/node_exporter.log 2>&1 & 
+[root@monitor ansible]# scp start_node_exporter.sh slave1:/root/                                                 
+start_node_exporter.sh                                                          
+[root@monitor ansible]# scp start_node_exporter.sh slave2:/root/                                                 
+start_node_exporter.sh                                                          
+[root@monitor ansible]# vim node_exporter.yaml                                                                   
+---                                                                                                              
+- hosts: node                                                                                                    
+  tasks:                                                                                                         
+    - name: 解压node_exporter                                                                                    
+      unarchive:                                                                                                 
+        src: /root/node_exporter-1.3.1.linux-amd64.tar.gz                                                        
+        dest: /usr/local                                                                                         
+        remote_src: yes                                                                                          
+    - name: 重命名                                                                                               
+      shell: mv /usr/local/node_exporter-1.3.1.linux-amd64 /usr/local/node_exporter                              
+    - name: 授权                                                                                                 
+      file:                                                                                                      
+        path: /root/start_node_exporter.sh                                                                       
+        mode: '0755'                                                                                             
+    - name: 后台启动服务                                                                                         
+      script: /root/start_node_exporter.sh   
+[root@monitor ansible]# ansible-playbook node_exporter.yaml 
+```
 
-\#!/bin/bash
-
-nohup /usr/local/node\_exporter/node\_exporter > /var/log/node\_exporter.log 2>&1 &
-
-\[root@monitor ansible]# scp start\_node\_exporter.sh slave1:/root/
-
-start\_node\_exporter.sh
-
-\[root@monitor ansible]# scp start\_node\_exporter.sh slave2:/root/
-
-start\_node\_exporter.sh
-
-\[root@monitor ansible]# vim node\_exporter.yaml
-
-\---
-
-\- hosts: node
-
-tasks:
-
-\- name: 解压node\_exporter
-
-unarchive:
-
-src: /root/node\_exporter-1.3.1.linux-amd64.tar.gz
-
-dest: /usr/local
-
-remote\_src: yes
-
-\- name: 重命名
-
-shell: mv /usr/local/node\_exporter-1.3.1.linux-amd64 /usr/local/node\_exporter
-
-\- name: 授权
-
-file:
-
-path: /root/start\_node\_exporter.sh
-
-mode: '0755'
-
-\- name: 后台启动服务
-
-script: /root/start\_node\_exporter.sh
-
-\[root@monitor ansible]# ansible-playbook node\_exporter.yaml
-
-#### 二十、启动monitor主机组服务（3.5分）
+### 六、启动monitor主机组服务（3.5分）
 
 在monitor节点ansible工作目录下prometheus.yml配置文件，将需要监控的所有节点信息添加到该文件中；编写prometheus.service启动文件，实现prometheus以服务的形式启动。完成后请编写start\_prometheus.yaml剧本文件控制master主机组完成以下内容（请使用ansible除shell外的对应模块）：
 
@@ -6189,311 +5408,182 @@ script: /root/start\_node\_exporter.sh
 
 **答案**
 
-\[root@monitor ansible]# cd /root/ansible/ && cat /root/ansible/prometheus.yml | grep : && ansible-playbook /root/
-
-ansible/start\_prometheus.yaml && cat /root/ansible/start\_prometheus.yaml && sleep 20 && systemctl status promethe
-
-us | head -n 7 && curl -L http://localhost:9090/api/v1/targets?state=active | sed s/\\"//g
-
-globel**:**
-
-scrape\_interval**:** 15s
-
-scrape\_configs**:**
-
-\- job\_name**:** 'master'
-
-static\_configs**:**
-
-\- tsrgets**:** \['slave1**:**9100','slave2**:**9100']
-
-PLAY \[master] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-TASK \[Gathering Facts] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-ok: \[monitor]
-
-TASK \[复制文件] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-\*\*\*\*
-
-ok: \[monitor]
-
-TASK \[复制启动文件] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-\*\*\*\*\*\*
-
-ok: \[monitor]
-
-TASK \[启动prometheus服务] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-\*\*\*\*
-
-changed: \[monitor]
-
-TASK \[复制rpm包] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-\*\*\*
-
-ok: \[monitor]
-
-TASK \[安装grafana服务] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-\*\*\*\*
-
-ok: \[monitor]
-
-TASK \[启动grafana服务] \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-\*\*\*\*
-
-changed: \[monitor]
-
-PLAY RECAP \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-
-monitor : ok=7 changed=2 unreachable=0 failed=0 skipped=0 rescued=0 ignored=
-
-0
-
-\---
-
-\- hosts: master
-
-tasks:
-
-\- name: 复制文件
-
-copy:
-
-src: /root/ansible/prometheus.yml
-
-dest: /etc/prometheus/prometheus.yml
-
-\- name: 复制启动文件
-
-copy:
-
-src: /root/ansible/prometheus.service
-
-dest: /etc/systemd/system/prometheus.service
-
-\- name: 启动prometheus服务
-
-service:
-
-name: prometheus
-
-state: restarted
-
-enabled: yes
-
-\- name: 复制rpm包
-
-copy:
-
-src: /root/grafana-8.1.2-1.x86\_64.rpm
-
-dest: /mnt/grafana-8.1.2-1.x86\_64.rpm
-
-\- name: 安装grafana服务
-
-yum:
-
-name: /mnt/grafana-8.1.2-1.x86\_64.rpm
-
-state: present
-
-\- name: 启动grafana服务
-
-service:
-
-name: grafana-server
-
-state: restarted
-
-enabled: yes
-
-● prometheus.service - Prometheus
-
-Loaded: loaded (/etc/systemd/system/prometheus.service; enabled; vendor preset: disabled)
-
-Active: active (running) since Sun 2024-09-29 09:18:09 CST; 2min 17s ago
-
-Main PID: 2104 (prometheus)
-
-CGroup: /system.slice/prometheus.service
-
-└─2104 /usr/local/bin/prometheus/prometheus --config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/var/
-
-lib/prometheus
-
-% Total % Received % Xferd Average Speed Time Time Time Current
-
-Dload Upload Total Spent Left Speed
-
-100 1249 100 1249 0 0 210k 0 --:--:-- --:--:-- --:--:-- 243k
-
-{status:success,data:{activeTargets:\[{discoveredLabels:{\_\_address\_\_:slave1:9100,\_\_metrics\_path\_\_:/metrics,\_\_scheme\_\_:http,\_\_s
-
-crape\_interval\_\_:15s,\_\_scrape\_timeout\_\_:10s,job:prometheus},labels:{instance:slave1:9100,job:prometheus},scrapePool:prometheu
-
-s,scrapeUrl:http://slave1:9100/metrics,globalUrl:http://slave1:9100/metrics,lastError:Get \http://slave1:9100/metrics\\: dial
-
+```
+[root@monitor ansible]# cd /root/ansible/ && cat /root/ansible/prometheus.yml | grep : && ansible-playbook /root/
+ansible/start_prometheus.yaml && cat /root/ansible/start_prometheus.yaml && sleep 20 && systemctl status promethe
+us | head -n 7 && curl -L http://localhost:9090/api/v1/targets?state=active | sed s/\"//g                        
+globel:                                                                                                          
+  scrape_interval: 15s                                                                                           
+scrape_configs:                                                                                                  
+  - job_name: 'master'                                                                                           
+    static_configs:                                                                                              
+      - tsrgets: ['slave1:9100','slave2:9100']                                                                   
+                                                                                                                 
+PLAY [master] ***************************************************************************************************
+                                                                                                                 
+TASK [Gathering Facts] ******************************************************************************************
+ok: [monitor]                                                                                                    
+                                                                                                                 
+TASK [复制文件] *************************************************************************************************
+****                                                                                                             
+ok: [monitor]                                                                                                    
+                                                                                                                 
+TASK [复制启动文件] *********************************************************************************************
+******                                                                                                           
+ok: [monitor]                                                                                                    
+                                                                                                                 
+TASK [启动prometheus服务] ***************************************************************************************
+****                                                                                                             
+changed: [monitor]                                                                                               
+                                                                                                                 
+TASK [复制rpm包] ************************************************************************************************
+***                                                                                                              
+ok: [monitor]                                                                                                    
+                                                                                                                 
+TASK [安装grafana服务] ******************************************************************************************
+****                                                                                                             
+ok: [monitor]                                                                                                    
+                                                                                                                 
+TASK [启动grafana服务] ******************************************************************************************
+****                                                                                                             
+changed: [monitor]                                                                                               
+                                                                                                                 
+PLAY RECAP ******************************************************************************************************
+monitor                    : ok=7    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=
+0                                                                                                                
+                                                                                                                 
+---                                                                                                              
+- hosts: master                                                                                                  
+  tasks:                                                                                                         
+    - name: 复制文件                                                                                             
+      copy:                                                                                                      
+        src: /root/ansible/prometheus.yml                                                                        
+        dest: /etc/prometheus/prometheus.yml                                                                     
+    - name: 复制启动文件                                                                                         
+      copy:                                                                                                      
+        src: /root/ansible/prometheus.service                                                                    
+        dest: /etc/systemd/system/prometheus.service                                                             
+    - name: 启动prometheus服务                                                                                   
+      service:                                                                                                   
+        name: prometheus                                                                                         
+        state: restarted                                                                                         
+        enabled: yes                                                                                             
+    - name: 复制rpm包                                                                                            
+      copy:                                                                                                      
+        src: /root/grafana-8.1.2-1.x86_64.rpm                                                                    
+        dest: /mnt/grafana-8.1.2-1.x86_64.rpm                                                                    
+    - name: 安装grafana服务                                                                                      
+      yum:                                                                                                       
+        name: /mnt/grafana-8.1.2-1.x86_64.rpm                                                                    
+        state: present                                                                                           
+    - name: 启动grafana服务                                                                                      
+      service:                                                                                                   
+        name: grafana-server                                                                                     
+        state: restarted                                                                                         
+        enabled: yes                                                                                             
+● prometheus.service - Prometheus                                                                                            
+   Loaded: loaded (/etc/systemd/system/prometheus.service; enabled; vendor preset: disabled)                                 
+   Active: active (running) since Sun 2024-09-29 09:18:09 CST; 2min 17s ago                                                  
+ Main PID: 2104 (prometheus)                                                                                                 
+   CGroup: /system.slice/prometheus.service                                                                                  
+           └─2104 /usr/local/bin/prometheus/prometheus --config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/var/
+lib/prometheus                                                                                                               
+                                                                                                                             
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current                                              
+                                 Dload  Upload   Total   Spent    Left  Speed                                                
+100  1249  100  1249    0     0   210k      0 --:--:-- --:--:-- --:--:--  243k                                               
+{status:success,data:{activeTargets:[{discoveredLabels:{__address__:slave1:9100,__metrics_path__:/metrics,__scheme__:http,__s
+crape_interval__:15s,__scrape_timeout__:10s,job:prometheus},labels:{instance:slave1:9100,job:prometheus},scrapePool:prometheu
+s,scrapeUrl:http://slave1:9100/metrics,globalUrl:http://slave1:9100/metrics,lastError:Get \http://slave1:9100/metrics\: dial 
 tcp 192.168.100.20:9100: connect: connection refused,lastScrape:2024-09-29T09:20:15.381941014+08:00,lastScrapeDuration:0.0025
-
-38257,health:down,scrapeInterval:15s,scrapeTimeout:10s},{discoveredLabels:{\_\_address\_\_:slave2:9100,\_\_metrics\_path\_\_:/metrics,
-
-\_\_scheme\_\_:http,\_\_scrape\_interval\_\_:15s,\_\_scrape\_timeout\_\_:10s,job:prometheus},labels:{instance:slave2:9100,job:prometheus},s
-
+38257,health:down,scrapeInterval:15s,scrapeTimeout:10s},{discoveredLabels:{__address__:slave2:9100,__metrics_path__:/metrics,
+__scheme__:http,__scrape_interval__:15s,__scrape_timeout__:10s,job:prometheus},labels:{instance:slave2:9100,job:prometheus},s
 crapePool:prometheus,scrapeUrl:http://slave2:9100/metrics,globalUrl:http://slave2:9100/metrics,lastError:Get \http://slave2:9
-
-100/metrics\\: dial tcp 192.168.100.30:9100: connect: connection refused,lastScrape:2024-09-29T09:20:19.814547416+08:00,lastSc
-
-rapeDuration:0.000867366,health:down,scrapeInterval:15s,scrapeTimeout:10s}],droppedTargets:\[]\}}
+100/metrics\: dial tcp 192.168.100.30:9100: connect: connection refused,lastScrape:2024-09-29T09:20:19.814547416+08:00,lastSc
+rapeDuration:0.000867366,health:down,scrapeInterval:15s,scrapeTimeout:10s}],droppedTargets:[]}}
+```
 
 **操作步骤**
 
-\[root@monitor ansible]# tar -zxvf /root/prometheus-2.37.0.linux-amd64.tar.gz /usr/local/bin/
-
-\[root@monitor ansible]# scp /usr/local/bin/prometheus/prometheus.yml /root/ansible/prometheus.yml
-
-vim cat prometheus.yml
-
-\# my global config
-
-global:
-
-scrape\_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-
-evaluation\_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
-
-\# scrape\_timeout is set to the global default (10s).
-
-\# Alertmanager configuration
-
-alerting:
-
-alertmanagers:
-
-\- static\_configs:
-
-\- targets:
-
-\# - alertmanager:9093
-
-\# Load rules once and periodically evaluate them according to the global 'evaluation\_interval'.
-
-rule\_files:
-
-\# - "first\_rules.yml"
-
-\# - "second\_rules.yml"
-
-\# A scrape configuration containing exactly one endpoint to scrape:
-
-\# Here it's Prometheus itself.
-
-scrape\_configs:
-
-\# The job name is added as a label \`job=\` to any timeseries scraped from this config.
-
-\- job\_name: "prometheus"
-
-\# metrics\_path defaults to '/metrics'
-
-\# scheme defaults to 'http'.
-
-static\_configs:
-
-\- targets: \['slave1:9100','slave2:9100']
-
-\[root@monitor ansible]# cat prometheus.service
-
-\[Unit]
-
-Description=Prometheus
-
-After=network.target
-
-\[Service]
-
-User=root
-
-ExecStart=/usr/local/bin/prometheus/prometheus \\
-
-\--config.file=/etc/prometheus/prometheus.yml \\
-
-\--storage.tsdb.path=/var/lib/prometheus \\
-
-\--web.external-url=http://192.168.100.10:9090\\
-
-\[Install]
-
-WantedBy=multi-user.target
-
-\[root@monitor ansible]# cat start\_prometheus.yaml
-
-\---
-
-\- hosts: master
-
-tasks:
-
-\- name: 复制文件
-
-copy:
-
-src: /root/ansible/prometheus.yml
-
-dest: /etc/prometheus/prometheus.yml
-
-\- name: 复制启动文件
-
-copy:
-
-src: /root/ansible/prometheus.service
-
-dest: /etc/systemd/system/prometheus.service
-
-\- name: 启动prometheus服务
-
-service:
-
-name: prometheus
-
-state: restarted
-
-enabled: yes
-
-\- name: 复制rpm包
-
-copy:
-
-src: /root/grafana-8.1.2-1.x86\_64.rpm
-
-dest: /mnt/grafana-8.1.2-1.x86\_64.rpm
-
-\- name: 安装grafana服务
-
-yum:
-
-name: /mnt/grafana-8.1.2-1.x86\_64.rpm
-
-state: present
-
-\- name: 启动grafana服务
-
-service:
-
-name: grafana-server
-
-state: restarted
-
-enabled: yes
-
-\[root@monitor ansible]# ansible-playbook start\_prometheus.yaml
-
-#### 二十一、使用prometheus监控mysqld服务（3.5分）
+```
+[root@monitor ansible]# tar -zxvf /root/prometheus-2.37.0.linux-amd64.tar.gz /usr/local/bin/ 
+[root@monitor ansible]# scp /usr/local/bin/prometheus/prometheus.yml /root/ansible/prometheus.yml 
+vim cat prometheus.yml                                                                                   
+# my global config                                                                                                           
+global:                                                                                                                      
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.                             
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.                                 
+  # scrape_timeout is set to the global default (10s).                                                                       
+                                                                                                                             
+# Alertmanager configuration                                                                                                 
+alerting:                                                                                                                    
+  alertmanagers:                                                                                                             
+    - static_configs:                                                                                                        
+        - targets:                                                                                                           
+          # - alertmanager:9093                                                                                              
+                                                                                                                             
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.                              
+rule_files:                                                                                                                  
+  # - "first_rules.yml"                                                                                                      
+  # - "second_rules.yml"                                                                                                     
+                                                                                                                             
+# A scrape configuration containing exactly one endpoint to scrape:                                                          
+# Here it's Prometheus itself.                                                                                               
+scrape_configs:                                                                                                              
+  # The job name is added as a label `job=` to any timeseries scraped from this config.                            
+  - job_name: "prometheus"                                                                                                   
+                                                                                                                             
+    # metrics_path defaults to '/metrics'                                                                                    
+    # scheme defaults to 'http'.                                                                                             
+                                                                                                                             
+    static_configs:                                                                                                          
+      - targets: ['slave1:9100','slave2:9100']   
+[root@monitor ansible]# cat prometheus.service                                                                               
+[Unit]                                                                                                                       
+Description=Prometheus                                                                                                       
+After=network.target                                                                                                                                                                                                                             
+[Service]                                                                                                                    
+User=root                                                                                                                    
+ExecStart=/usr/local/bin/prometheus/prometheus \                                                                             
+  --config.file=/etc/prometheus/prometheus.yml \                                                                             
+  --storage.tsdb.path=/var/lib/prometheus \                                                                                  
+  --web.external-url=http://192.168.100.10:9090\                                                                                                                                                                                             
+[Install]                                                                                                                    
+WantedBy=multi-user.target   
+[root@monitor ansible]# cat start_prometheus.yaml                                                                            
+---                                                                                                                          
+- hosts: master                                                                                                              
+  tasks:                                                                                                                     
+    - name: 复制文件                                                                                                         
+      copy:                                                                                                                  
+        src: /root/ansible/prometheus.yml                                                                                    
+        dest: /etc/prometheus/prometheus.yml                                                                                 
+    - name: 复制启动文件                                                                                                     
+      copy:                                                                                                                  
+        src: /root/ansible/prometheus.service                                                                                
+        dest: /etc/systemd/system/prometheus.service                                                                         
+    - name: 启动prometheus服务                                                                                               
+      service:                                                                                                               
+        name: prometheus                                                                                                     
+        state: restarted                                                                                                     
+        enabled: yes                                                                                                         
+    - name: 复制rpm包                                                                                                        
+      copy:                                                                                                                  
+        src: /root/grafana-8.1.2-1.x86_64.rpm                                                                                
+        dest: /mnt/grafana-8.1.2-1.x86_64.rpm                                                                                
+    - name: 安装grafana服务                                                                                                  
+      yum:                                                                                                                   
+        name: /mnt/grafana-8.1.2-1.x86_64.rpm                                                                                
+        state: present                                                                                                       
+    - name: 启动grafana服务                                                                                                  
+      service:                                                                                                               
+        name: grafana-server                                                                                                 
+        state: restarted                                                                                                     
+        enabled: yes    
+[root@monitor ansible]# ansible-playbook start_prometheus.yaml 
+```
+
+### 七、使用prometheus监控mysqld服务（3.5分）
 
 配置slave1节点yum使用monitor节点ftp源，将提供的mysqld\_exporter-0.14.0.linux-amd64.tar.gz发送到slave1节点/usr/local/目录下解压并重命名为mysqld\_exporter，使用yum安装mariadb服务启动并设为开机自启动。进入mariadb数据库中创建mysqld\_monitor用户并授权，然后创建mariadb配置文件，内容为数据库用户名密码。后台启动mysqld\_exporter组件确保9104端口启动。回到prometheus节点修改prometheus.yml文件并添加mysql被监控信息。重启prometheus，随后web界面刷新并查看mysqld被控信息。
 
@@ -6501,151 +5591,89 @@ enabled: yes
 
 **答案**
 
-\[root@monitor ansible]# cat /usr/local/prometheus/prometheus.yml | grep : && ssh slave1 "ps -aux | grep mysql" && curl -L htt
-
-p://localhost:9090/api/v1/targets?state=active | sed s/\\"//g
-
-global**:**
-
-scrape\_interval**:** 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-
-evaluation\_interval**:** 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
-
-alerting**:**
-
-alertmanagers**:**
-
-\- static\_configs**:**
-
-\- targets**:**
-
-\# - alertmanager**:**9093
-
-rule\_files**:**
-
-\# A scrape configuration containing exactly one endpoint to scrape**:**
-
-scrape\_configs**:**
-
-\- job\_name**:** "prometheus"
-
-static\_configs**:**
-
-\- targets**:** \['slave1**:**9100','slave2**:**9100']
-
-mysql 1630 0.0 0.0 113412 1592 ? Ss 17:53 0:00 /bin/sh /usr/bin/mysqld\_safe --basedir=/usr
-
-mysql 1795 0.1 2.3 968920 90364 ? Sl 17:53 0:01 /usr/libexec/mysqld --basedir=/usr --datadir=/var/lib/mysql
-
-\--plugin-dir=/usr/lib64/mysql/plugin --log-error=/var/log/mariadb/mariadb.log --pid-file=/var/run/mariadb/mariadb.pid --sock
-
-et=/var/lib/mysql/mysql.sock
-
-root 1940 0.0 0.0 113280 1552 ? Ss 18:14 0:00 bash -c ps -aux | grep mysql
-
-root 1946 0.0 0.0 112808 948 ? R 18:14 0:00 grep mysql
-
-% Total % Received % Xferd Average Speed Time Time Time Current
-
-Dload Upload Total Spent Left Speed
-
-100 1154 100 1154 0 0 166k 0 --:--:-- --:--:-- --:--:-- 187k
-
-{status:success,data:{activeTargets:\[{discoveredLabels:{\_\_address\_\_:slave1:9100,\_\_metrics\_path\_\_:/metrics,\_\_scheme\_\_:http,\_\_s
-
-crape\_interval\_\_:15s,\_\_scrape\_timeout\_\_:10s,job:prometheus},labels:{instance:slave1:9100,job:prometheus},scrapePool:prometheu
-
+```
+[root@monitor ansible]# cat /usr/local/prometheus/prometheus.yml | grep : && ssh slave1 "ps -aux | grep mysql" && curl -L htt
+p://localhost:9090/api/v1/targets?state=active | sed s/\"//g                                                                 
+global:                                                                                                                      
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.                             
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.                                 
+alerting:                                                                                                                    
+  alertmanagers:                                                                                                             
+    - static_configs:                                                                                                        
+        - targets:                                                                                                           
+          # - alertmanager:9093                                                                                              
+rule_files:                                                                                                                  
+# A scrape configuration containing exactly one endpoint to scrape:                                                          
+scrape_configs:                                                                                                              
+  - job_name: "prometheus"                                                                                                   
+    static_configs:                                                                                                          
+      - targets: ['slave1:9100','slave2:9100']                                                                               
+mysql      1630  0.0  0.0 113412  1592 ?        Ss   17:53   0:00 /bin/sh /usr/bin/mysqld_safe --basedir=/usr                
+mysql      1795  0.1  2.3 968920 90364 ?        Sl   17:53   0:01 /usr/libexec/mysqld --basedir=/usr --datadir=/var/lib/mysql
+ --plugin-dir=/usr/lib64/mysql/plugin --log-error=/var/log/mariadb/mariadb.log --pid-file=/var/run/mariadb/mariadb.pid --sock
+et=/var/lib/mysql/mysql.sock                                                                                                 
+root       1940  0.0  0.0 113280  1552 ?        Ss   18:14   0:00 bash -c ps -aux | grep mysql                               
+root       1946  0.0  0.0 112808   948 ?        R    18:14   0:00 grep mysql                                                 
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current                                              
+                                 Dload  Upload   Total   Spent    Left  Speed                                                
+100  1154  100  1154    0     0   166k      0 --:--:-- --:--:-- --:--:--  187k                                               
+{status:success,data:{activeTargets:[{discoveredLabels:{__address__:slave1:9100,__metrics_path__:/metrics,__scheme__:http,__s
+crape_interval__:15s,__scrape_timeout__:10s,job:prometheus},labels:{instance:slave1:9100,job:prometheus},scrapePool:prometheu
 s,scrapeUrl:http://slave1:9100/metrics,globalUrl:http://slave1:9100/metrics,lastError:,lastScrape:2024-09-29T10:14:15.3593974
-
-34+08:00,lastScrapeDuration:0.013666011,health:up,scrapeInterval:15s,scrapeTimeout:10s},{discoveredLabels:{\_\_address\_\_:slave2
-
-:9100,\_\_metrics\_path\_\_:/metrics,\_\_scheme\_\_:http,\_\_scrape\_interval\_\_:15s,\_\_scrape\_timeout\_\_:10s,job:prometheus},labels:{instan
-
+34+08:00,lastScrapeDuration:0.013666011,health:up,scrapeInterval:15s,scrapeTimeout:10s},{discoveredLabels:{__address__:slave2
+:9100,__metrics_path__:/metrics,__scheme__:http,__scrape_interval__:15s,__scrape_timeout__:10s,job:prometheus},labels:{instan
 ce:slave2:9100,job:prometheus},scrapePool:prometheus,scrapeUrl:http://slave2:9100/metrics,globalUrl:http://slave2:9100/metric
-
-s,lastError:Get \http://slave2:9100/metrics\\: dial tcp 192.168.100.30:9100: connect: connection refused,lastScrape:2024-09-29
-
-T10:14:19.814569397+08:00,lastScrapeDuration:0.001126103,health:down,scrapeInterval:15s,scrapeTimeout:10s}],droppedTargets:\[]
-
-\}}
+s,lastError:Get \http://slave2:9100/metrics\: dial tcp 192.168.100.30:9100: connect: connection refused,lastScrape:2024-09-29
+T10:14:19.814569397+08:00,lastScrapeDuration:0.001126103,health:down,scrapeInterval:15s,scrapeTimeout:10s}],droppedTargets:[]
+}}
+```
 
 **操作步骤**
 
-\[root@slave1 \~]# tar -zxvf node\_exporter-1.3.1.linux-amd64.tar.gz /usr/local/
+```
+[root@slave1 ~]# tar -zxvf node_exporter-1.3.1.linux-amd64.tar.gz /usr/local/
+[root@slave1 local]# yum install -y mariadb*
+[root@slave1 local]# sudo systemctl start mariadb                                                                            
+[root@slave1 local]# sudo systemctl enable mariadb
+[root@slave1 local]# mysql -uroot                                                                                            
+create user 'mysqld_monitor'@'localhost' identified by '000000';                                           
+grant process,replication client on *.* to 'mysqld_monitor'@'localhost';                                   
+flush privileges;                                                                                                                                                                                                                                                                                    
+MariaDB [(none)]> quit                       
+[root@slave1 local]# vim /etc/my.cnf                                                                          
+[mysqld]                                                                                                                     
+datadir=/var/lib/mysql                                                                                                       
+socket=/var/lib/mysql/mysql.sock                                                                                             
+# Disabling symbolic-links is recommended to prevent assorted security risks                                                 
+symbolic-links=0                                                                                                             
+# Settings user and group are ignored when systemd is used.                                                                  
+# If you need to run mysqld under a different user or group,                                                                 
+# customize your systemd unit file for mariadb according to the                                                              
+# instructions in http://fedoraproject.org/wiki/Systemd                                                                      
+                                                                                                                             
+[mysqld_safe]                                                                                                                
+log-error=/var/log/mariadb/mariadb.log                                                                                       
+pid-file=/var/run/mariadb/mariadb.pid                                                                                        
+                                                                                                                             
+#                                                                                                                            
+# include all files from the config directory                                                                                
+#                                                                                                                            
+!includedir /etc/my.cnf.d                                                                                                    
+[client]                                                                                                                     
+user=mysqld_monitor                                                                                                          
+password=000000    
 
-\[root@slave1 local]# yum install -y mariadb\*
-
-\[root@slave1 local]# sudo systemctl start mariadb
-
-\[root@slave1 local]# sudo systemctl enable mariadb
-
-\[root@slave1 local]# mysql -uroot
-
-create user 'mysqld\_monitor'@'localhost' identified by '000000';
-
-grant process,replication client on \*.\* to 'mysqld\_monitor'@'localhost';
-
-flush privileges;
-
-MariaDB \[(none)]> quit
-
-\[root@slave1 local]# vim /etc/my.cnf
-
-\[mysqld]
-
-datadir=/var/lib/mysql
-
-socket=/var/lib/mysql/mysql.sock
-
-\# Disabling symbolic-links is recommended to prevent assorted security risks
-
-symbolic-links=0
-
-\# Settings user and group are ignored when systemd is used.
-
-\# If you need to run mysqld under a different user or group,
-
-\# customize your systemd unit file for mariadb according to the
-
-\# instructions in http://fedoraproject.org/wiki/Systemd
-
-\[mysqld\_safe]
-
-log-error=/var/log/mariadb/mariadb.log
-
-pid-file=/var/run/mariadb/mariadb.pid
-
-\#
-
-\# include all files from the config directory
-
-\#
-
-!includedir /etc/my.cnf.d
-
-\[client]
-
-user=mysqld\_monitor
-
-password=000000
-
-\[root@slave1 local]# cd /usr/local/node\_exporter
-
-\[root@slave1 node\_exporter]# ./node\_exporter &
-
+[root@slave1 local]# cd /usr/local/node_exporter
+[root@slave1 node_exporter]# ./node_exporter  & 
 检查服务是否启动
+[root@slave1 ~]# ps aux | grep node_exporter                                                                                 
+root       1882  0.3  0.5 717620 20208 pts/0    Sl   18:05   0:01 ./node_exporter                                            
+root       1906  0.0  0.0 112808   972 pts/1    S+   18:11   0:00 grep --color=auto node_exporter                            
+[root@slave1 ~]# netstat -tuln | grep 9100  
+tcp6       0      0 :::9100                 :::*                    LISTEN 
+```
 
-\[root@slave1 \~]# ps aux | grep node\_exporter
-
-root 1882 0.3 0.5 717620 20208 pts/0 Sl 18:05 0:01 ./**node\_exporter**
-
-root 1906 0.0 0.0 112808 972 pts/1 S+ 18:11 0:00 grep --color=auto **node\_exporter**
-
-\[root@slave1 \~]# netstat -tuln | grep 9100
-
-tcp6 0 0 :::**9100** :::\* LISTEN
-
-#### 二十二、安装alertmanager报警组件（3.5分）
+### 八、安装alertmanager报警组件（3.5分）
 
 在monitor节点将提供的alertmanager-0.21.0.linux-amd64.tar.gz解压到/usr/local/目录下并重命名为alertmanager。创建alertmanager.service启动文件，实现alertmanager以服务的形式启动，然后启动alertmanager查看9093端口。在prometheus.yml配置文件中添加alertmanager信息并重新启动prometheus服务，在slave1节点上停止node\_exporter服务。到web界面中查看警报管理器状态是否正常和slave1节点node\_exporter状态是否异常。
 
@@ -6653,209 +5681,128 @@ tcp6 0 0 :::**9100** :::\* LISTEN
 
 **答案**
 
-\[root@monitor ansible]# cat /usr/local/prometheus/prometheus.yml | grep : && systemctl status alertmanager | head -n 7 && cur
 
-l -L http://localhost:9093/api/v2/status | sed s/\\"//g && curl -L http://localhost:9090/api/v1/targets?state=active | sed s/\\
 
-"//g
-
-global**:**
-
-scrape\_interval**:** 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-
-evaluation\_interval**:** 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
-
-alerting**:**
-
-alertmanagers**:**
-
-\- static\_configs**:**
-
-\- targets**:**
-
-\# - alertmanager**:**9093
-
-rule\_files**:**
-
-\# A scrape configuration containing exactly one endpoint to scrape**:**
-
-scrape\_configs**:**
-
-\- job\_name**:** "prometheus"
-
-static\_configs**:**
-
-\- targets**:** \['slave1**:**9100','slave2**:**9100']
-
-● alertmanager.service - Alertmanager
-
-Loaded: loaded (/etc/systemd/system/alertmanager.service; enabled; vendor preset: disabled)
-
-Active: active (running) since Sun 2024-09-29 10:30:10 CST; 2min 20s ago
-
-Main PID: 5817 (alertmanager)
-
-CGroup: /system.slice/alertmanager.service
-
-└─5817 /usr/local/alertmanager/alertmanager --config.file=/usr/local/alertmanager/alertmanager.yml --storage.path=
-
-/usr/local/alertmanager/data
-
-% Total % Received % Xferd Average Speed Time Time Time Current
-
-Dload Upload Total Spent Left Speed
-
-100 1186 100 1186 0 0 152k 0 --:--:-- --:--:-- --:--:-- 165k
-
-{cluster:{name:01J8XSTC9YXXEW2H80Z9R8M8TA,peers:\[{address:192.168.100.10:9094,name:01J8XSTC9YXXEW2H80Z9R8M8TA}],status:ready}
-
-,config:{original:global:\n resolve\_timeout: 5m\n http\_config: {}\n smtp\_hello: localhost\n smtp\_require\_tls: true\n pag
-
-erduty\_url: https://events.pagerduty.com/v2/enqueue\n opsgenie\_api\_url: https://api.opsgenie.com/\n wechat\_api\_url: https:/
-
-/qyapi.weixin.qq.com/cgi-bin/\n victorops\_api\_url: https://alert.victorops.com/integrations/generic/20131114/alert/\nroute:\\
-
-n receiver: web.hook\n group\_by:\n - alertname\n group\_wait: 10s\n group\_interval: 10s\n repeat\_interval: 1h\ninhibit\_r
-
-ules:\n- source\_match:\n severity: critical\n target\_match:\n severity: warning\n equal:\n - alertname\n - dev\n -
-
-instance\nreceivers:\n- name: web.hook\n webhook\_configs:\n - send\_resolved: true\n http\_config: {}\n url: http://12
-
-7.0.0.1:5001/\n max\_alerts: 0\ntemplates: \[]\n},uptime:2024-09-29T10:30:10.495+08:00,versionInfo:{branch:HEAD,buildDate:20
-
+```
+[root@monitor ansible]# cat /usr/local/prometheus/prometheus.yml | grep : && systemctl status alertmanager | head -n 7 && cur
+l -L http://localhost:9093/api/v2/status | sed s/\"//g && curl -L http://localhost:9090/api/v1/targets?state=active | sed s/\
+"//g                                                                                                                         
+global:                                                                                                                      
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.                             
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.                                 
+alerting:                                                                                                                    
+  alertmanagers:                                                                                                             
+    - static_configs:                                                                                                        
+        - targets:                                                                                                           
+          # - alertmanager:9093                                                                                              
+rule_files:                                                                                                                  
+# A scrape configuration containing exactly one endpoint to scrape:                                                          
+scrape_configs:                                                                                                              
+  - job_name: "prometheus"                                                                                                   
+    static_configs:                                                                                                          
+      - targets: ['slave1:9100','slave2:9100']                                                                               
+● alertmanager.service - Alertmanager                                                                                        
+   Loaded: loaded (/etc/systemd/system/alertmanager.service; enabled; vendor preset: disabled)                               
+   Active: active (running) since Sun 2024-09-29 10:30:10 CST; 2min 20s ago                                                  
+ Main PID: 5817 (alertmanager)                                                                                               
+   CGroup: /system.slice/alertmanager.service                                                                                
+           └─5817 /usr/local/alertmanager/alertmanager --config.file=/usr/local/alertmanager/alertmanager.yml --storage.path=
+/usr/local/alertmanager/data                                                                                                 
+                                                                                                                             
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current                                              
+                                 Dload  Upload   Total   Spent    Left  Speed                                                
+100  1186  100  1186    0     0   152k      0 --:--:-- --:--:-- --:--:--  165k                                               
+{cluster:{name:01J8XSTC9YXXEW2H80Z9R8M8TA,peers:[{address:192.168.100.10:9094,name:01J8XSTC9YXXEW2H80Z9R8M8TA}],status:ready}
+,config:{original:global:\n  resolve_timeout: 5m\n  http_config: {}\n  smtp_hello: localhost\n  smtp_require_tls: true\n  pag
+erduty_url: https://events.pagerduty.com/v2/enqueue\n  opsgenie_api_url: https://api.opsgenie.com/\n  wechat_api_url: https:/
+/qyapi.weixin.qq.com/cgi-bin/\n  victorops_api_url: https://alert.victorops.com/integrations/generic/20131114/alert/\nroute:\
+n  receiver: web.hook\n  group_by:\n  - alertname\n  group_wait: 10s\n  group_interval: 10s\n  repeat_interval: 1h\ninhibit_r
+ules:\n- source_match:\n    severity: critical\n  target_match:\n    severity: warning\n  equal:\n  - alertname\n  - dev\n  -
+ instance\nreceivers:\n- name: web.hook\n  webhook_configs:\n  - send_resolved: true\n    http_config: {}\n    url: http://12
+7.0.0.1:5001/\n    max_alerts: 0\ntemplates: []\n},uptime:2024-09-29T10:30:10.495+08:00,versionInfo:{branch:HEAD,buildDate:20
 200617-08:54:02,buildUser:root@dee35927357f,goVersion:go1.14.4,revision:4c6c03ebfe21009c546e4d1e9b92c371d67c021d,version:0.21
-
-.0\}}
-
-% Total % Received % Xferd Average Speed Time Time Time Current
-
-Dload Upload Total Spent Left Speed
-
-100 1153 100 1153 0 0 174k 0 --:--:-- --:--:-- --:--:-- 187k
-
-{status:success,data:{activeTargets:\[{discoveredLabels:{\_\_address\_\_:slave1:9100,\_\_metrics\_path\_\_:/metrics,\_\_scheme\_\_:http,\_\_s
-
-crape\_interval\_\_:15s,\_\_scrape\_timeout\_\_:10s,job:prometheus},labels:{instance:slave1:9100,job:prometheus},scrapePool:prometheu
-
+.0}}                                                                                                                         
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current                                              
+                                 Dload  Upload   Total   Spent    Left  Speed                                                
+100  1153  100  1153    0     0   174k      0 --:--:-- --:--:-- --:--:--  187k                                               
+{status:success,data:{activeTargets:[{discoveredLabels:{__address__:slave1:9100,__metrics_path__:/metrics,__scheme__:http,__s
+crape_interval__:15s,__scrape_timeout__:10s,job:prometheus},labels:{instance:slave1:9100,job:prometheus},scrapePool:prometheu
 s,scrapeUrl:http://slave1:9100/metrics,globalUrl:http://slave1:9100/metrics,lastError:,lastScrape:2024-09-29T10:32:30.3621434
-
-26+08:00,lastScrapeDuration:0.021593482,health:up,scrapeInterval:15s,scrapeTimeout:10s},{discoveredLabels:{\_\_address\_\_:slave2
-
-:9100,\_\_metrics\_path\_\_:/metrics,\_\_scheme\_\_:http,\_\_scrape\_interval\_\_:15s,\_\_scrape\_timeout\_\_:10s,job:prometheus},labels:{instan
-
+26+08:00,lastScrapeDuration:0.021593482,health:up,scrapeInterval:15s,scrapeTimeout:10s},{discoveredLabels:{__address__:slave2
+:9100,__metrics_path__:/metrics,__scheme__:http,__scrape_interval__:15s,__scrape_timeout__:10s,job:prometheus},labels:{instan
 ce:slave2:9100,job:prometheus},scrapePool:prometheus,scrapeUrl:http://slave2:9100/metrics,globalUrl:http://slave2:9100/metric
-
-s,lastError:Get \http://slave2:9100/metrics\\: dial tcp 192.168.100.30:9100: connect: connection refused,lastScrape:2024-09-29
-
-T10:32:19.81419848+08:00,lastScrapeDuration:0.001793577,health:down,scrapeInterval:15s,scrapeTimeout:10s}],droppedTargets:\[]}
-
+s,lastError:Get \http://slave2:9100/metrics\: dial tcp 192.168.100.30:9100: connect: connection refused,lastScrape:2024-09-29
+T10:32:19.81419848+08:00,lastScrapeDuration:0.001793577,health:down,scrapeInterval:15s,scrapeTimeout:10s}],droppedTargets:[]}
 }
+```
 
 **操作步骤**
 
-\[root@monitor \~]# tar -zxvf alertmanager-0.21.0.linux-amd64.tar.gz
-
-\[root@monitor \~]# mv alertmanager-0.21.0.linux-amd64 /usr/local/alertmanager
-
-\[root@monitor ansible]# vim /etc/systemd/system/alertmanager.service
-
-\[Unit]
-
-Description=Alertmanager
-
-Wants=network-online.target
-
-After=network-online.target
-
-\[Service]
-
-Type=simple
-
-ExecStart=/usr/local/alertmanager/alertmanager \\
-
-\--config.file=/usr/local/alertmanager/alertmanager.yml \\
-
-\--storage.path=/usr/local/alertmanager/data
-
-Restart=on-failure
-
-\[Install]
-
-WantedBy=multi-user.target
-
-\[root@monitor ansible]# sudo systemctl daemon-reload
-
-\[root@monitor ansible]# sudo systemctl start alertmanager
-
-\[root@monitor ansible]# sudo systemctl enable alertmanager
-
-\[root@monitor ansible]# vim prometheus.yml
-
-\# my global config
-
-global:
-
-scrape\_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-
-evaluation\_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
-
-\# scrape\_timeout is set to the global default (10s).
-
-\# Alertmanager configuration
-
-alerting:
-
-alertmanagers:
-
-\- static\_configs:
-
-\- targets:
-
-\- alertmanager:9093
-
-\# Load rules once and periodically evaluate them according to the global 'evaluation\_interval'.
-
-rule\_files:
-
-\# - "first\_rules.yml"
-
-\# - "second\_rules.yml"
-
-\# A scrape configuration containing exactly one endpoint to scrape:
-
-\# Here it's Prometheus itself.
-
-scrape\_configs:
-
-\# The job name is added as a label \`job=\` to any timeseries scraped from this config.
-
-\- job\_name: "prometheus"
-
-\# metrics\_path defaults to '/metrics'
-
-\# scheme defaults to 'http'.
-
-static\_configs:
-
-\- targets: \['slave1:9100','slave2:9100']
-
-\- job\_name: 'node\_exporter'
-
-static\_configs:
-
-\- targets: \['slave1:9104']
-
-\[root@monitor ansible]#
-
-\[root@monitor ansible]# sudo systemctl restart prometheus
-
+```
+[root@monitor ~]# tar -zxvf alertmanager-0.21.0.linux-amd64.tar.gz                                                                                                                                    
+[root@monitor ~]# mv alertmanager-0.21.0.linux-amd64 /usr/local/alertmanager 
+[root@monitor ansible]# vim /etc/systemd/system/alertmanager.service                                                        
+[Unit]                                                                                                                       
+Description=Alertmanager                                                                                                     
+Wants=network-online.target                                                                                                  
+After=network-online.target                                                                                                  
+                                                                                                                             
+[Service]                                                                                                                    
+Type=simple                                                                                                                  
+ExecStart=/usr/local/alertmanager/alertmanager \                                                                             
+    --config.file=/usr/local/alertmanager/alertmanager.yml \                                                                 
+    --storage.path=/usr/local/alertmanager/data                                                                              
+                                                                                                                             
+Restart=on-failure                                                                                                           
+                                                                                                                             
+[Install]                                                                                                                    
+WantedBy=multi-user.target                                                                                                   
+                                   
+[root@monitor ansible]# sudo systemctl daemon-reload                                                                         
+[root@monitor ansible]# sudo systemctl start alertmanager                                                                    
+[root@monitor ansible]# sudo systemctl enable alertmanager
+[root@monitor ansible]# vim prometheus.yml     
+# my global config                                                                                                           
+global:                                                                                                                      
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.                             
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.                                 
+  # scrape_timeout is set to the global default (10s).                                                                       
+                                                                                                                             
+# Alertmanager configuration                                                                                                 
+alerting:                                                                                                                    
+  alertmanagers:                                                                                                             
+    - static_configs:                                                                                                        
+        - targets:                                                                                                           
+            - alertmanager:9093                                                                                              
+                                                                                                                             
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.                              
+rule_files:                                                                                                                  
+  # - "first_rules.yml"                                                                                                      
+  # - "second_rules.yml"                                                                                                     
+                                                                                                                             
+# A scrape configuration containing exactly one endpoint to scrape:                                                          
+# Here it's Prometheus itself.                                                                                               
+scrape_configs:                                                                                                              
+  # The job name is added as a label `job=` to any timeseries scraped from this config.                            
+  - job_name: "prometheus"                                                                                                   
+                                                                                                                             
+    # metrics_path defaults to '/metrics'                                                                                    
+    # scheme defaults to 'http'.                                                                                             
+                                                                                                                             
+    static_configs:                                                                                                          
+      - targets: ['slave1:9100','slave2:9100']                                                                               
+  - job_name: 'node_exporter'                                                                                              
+    static_configs:                                                                                                          
+      - targets: ['slave1:9104']                                                                                             
+[root@monitor ansible]#              
+                                                                              
+[root@monitor ansible]# sudo systemctl restart prometheus  
 查看服务是否运行
+[root@monitor ansible]# ss -tuln | grep 9093                                                                                 
+tcp    LISTEN     0      128    [::]:9093               [::]:*  
+```
 
-\[root@monitor ansible]# ss -tuln | grep 9093
-
-tcp LISTEN 0 128 \[::]:**9093** \[::]:\*
-
-#### 二十三、alertmanager告警规则编写（3.5分）
+#### 九、alertmanager告警规则编写（3.5分）
 
 在monitor节点的/usr/local/prometheus/路径下编写node\_rules.yml告警文件并加入prometheus配置文件中，请根据以下信息仿照模板编写：
 
@@ -6871,226 +5818,125 @@ tcp LISTEN 0 128 \[::]:**9093** \[::]:\*
 
 **答案**
 
-\[root@monitor ansible]# cat /usr/local/prometheus/node\_rules.yml && cat /usr/local/prometheus/prometheus.yml | grep - && curl
-
-\-L http://localhost:9090/api/v1/rules?type=alert | sed s/\\"//g
-
-groups:
-
-\- name: node\_rules
-
-rules:
-
-\- alert: HighMemoryUsage
-
-expr: (node\_memory\_Active\_bytes / node\_memory\_MemTotal\_bytes) \* 100 > 50
-
-for: 5m
-
-labels:
-
-severity: warning
-
-annotations:
-
-summary: "内存使用率超过50%"
-
-description: "内存使用率 \{{ $value \}}% 大于 50% (实例 \{{ $labels.instance \}})"
-
-\- alert: HighCPUUsage
-
-expr: (100 - (avg by(instance) (irate(node\_cpu\_seconds\_total{mode="idle"}\[5m])) \* 100)) > 75
-
-for: 5m
-
-labels:
-
-severity: warning
-
-annotations:
-
-summary: "CPU使用率超过75%"
-
-description: "CPU使用率 \{{ $value \}}% 大于 75% (实例 \{{ $labels.instance \}})"
-
-\- alert: HighDiskRead
-
-expr: irate(node\_disk\_read\_bytes\_total\[5m]) > (50 \* 1024 \* 1024)
-
-for: 5m
-
-labels:
-
-severity: warning
-
-annotations:
-
-summary: "磁盘读取速率超过50MB/s"
-
-description: "磁盘读取速率 \{{ $value \}} 超过 50MB/s (实例 \{{ $labels.instance \}})"
-
-\- alert: NodeDown
-
-expr: up == 0
-
-for: 2m
-
-labels:
-
-severity: critical
-
-annotations:
-
-summary: "节点服务异常"
-
-description: "节点 \{{ $labels.instance \}} 服务异常"
-
-**-** static\_configs:
-
-**-** targets:
-
-\# **-** alertmanager:9093
-
-\# **-** "first\_rules.yml"
-
-\# **-** "second\_rules.yml"
-
-**-** "usr/local/prometheus/node\_rules.yml"
-
-**-** job\_name: "prometheus"
-
-**-** targets: \['slave1:9100','slave2:9100']
-
-% Total % Received % Xferd Average Speed Time Time Time Current
-
-Dload Upload Total Spent Left Speed
-
-100 41 100 41 0 0 7278 0 --:--:-- --:--:-- --:--:-- 8200
+```
+[root@monitor ansible]# cat /usr/local/prometheus/node_rules.yml && cat /usr/local/prometheus/prometheus.yml | grep - && curl
+ -L http://localhost:9090/api/v1/rules?type=alert | sed s/\"//g                                                              
+groups:                                                                                                                      
+  - name: node_rules                                                                                                         
+    rules:                                                                                                                   
+      - alert: HighMemoryUsage                                                                                               
+        expr: (node_memory_Active_bytes / node_memory_MemTotal_bytes) * 100 > 50                                             
+        for: 5m                                                                                                              
+        labels:                                                                                                              
+          severity: warning                                                                                                  
+        annotations:                                                                                                         
+          summary: "内存使用率超过50%"                                                                                       
+          description: "内存使用率 {{ $value }}% 大于 50% (实例 {{ $labels.instance }})"                                     
+      - alert: HighCPUUsage                                                                                                  
+        expr: (100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)) > 75                         
+        for: 5m                                                                                                              
+        labels:                                                                                                              
+          severity: warning                                                                                                  
+        annotations:                                                                                                         
+          summary: "CPU使用率超过75%"                                                                                        
+          description: "CPU使用率 {{ $value }}% 大于 75% (实例 {{ $labels.instance }})"                                      
+      - alert: HighDiskRead                                                                                                  
+        expr: irate(node_disk_read_bytes_total[5m]) > (50 * 1024 * 1024)                                                     
+        for: 5m                                                                                                              
+        labels:                                                                                                              
+          severity: warning                                                                                                  
+        annotations:                                                                                                         
+          summary: "磁盘读取速率超过50MB/s"                                                                                  
+          description: "磁盘读取速率 {{ $value }} 超过 50MB/s (实例 {{ $labels.instance }})"                                 
+      - alert: NodeDown                                                                                                      
+        expr: up == 0                                                                                                        
+        for: 2m                                                                                                              
+        labels:                                                                                                              
+          severity: critical                                                                                                 
+        annotations:                                                                                                         
+          summary: "节点服务异常"                                                                                            
+          description: "节点 {{ $labels.instance }} 服务异常"                                                                
+    - static_configs:                                                                                                        
+        - targets:                                                                                                           
+          # - alertmanager:9093                                                                                              
+  # - "first_rules.yml"                                                                                                      
+  # - "second_rules.yml"                                                                                                     
+    - "usr/local/prometheus/node_rules.yml"                                                                                  
+  - job_name: "prometheus"                                                                                                   
+      - targets: ['slave1:9100','slave2:9100']                                                                               
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current                                              
+                                 Dload  Upload   Total   Spent    Left  Speed                                                
+100    41  100    41    0     0   7278      0 --:--:-- --:--:-- --:--:--  8200  
+```
 
 **操作步骤**
 
-\[root@monitor ansible]# vim /usr/local/prometheus/node\_rules.yml
-
-groups:
-
-\- name: node\_rules
-
-rules:
-
-\- alert: HighMemoryUsage
-
-expr: (node\_memory\_Active\_bytes / node\_memory\_MemTotal\_bytes) \* 100 > 50
-
-for: 5m
-
-labels:
-
-severity: warning
-
-annotations:
-
-summary: "内存使用率超过50%"
-
-description: "内存使用率 \{{ $value \}}% 大于 50% (实例 \{{ $labels.instance \}})"
-
-\- alert: HighCPUUsage
-
-expr: (100 - (avg by(instance) (irate(node\_cpu\_seconds\_total{mode="idle"}\[5m])) \* 100)) > 75
-
-for: 5m
-
-labels:
-
-severity: warning
-
-annotations:
-
-summary: "CPU使用率超过75%"
-
-description: "CPU使用率 \{{ $value \}}% 大于 75% (实例 \{{ $labels.instance \}})"
-
-\- alert: HighDiskRead
-
-expr: irate(node\_disk\_read\_bytes\_total\[5m]) > (50 \* 1024 \* 1024)
-
-for: 5m
-
-labels:
-
-severity: warning
-
-annotations:
-
-summary: "磁盘读取速率超过50MB/s"
-
-description: "磁盘读取速率 \{{ $value \}} 超过 50MB/s (实例 \{{ $labels.instance \}})"
-
-\- alert: NodeDown
-
-expr: up == 0
-
-for: 2m
-
-labels:
-
-severity: critical
-
-annotations:
-
-summary: "节点服务异常"
-
-description: "节点 \{{ $labels.instance \}} 服务异常"
-
-\[root@monitor ansible]# vim /usr/local/prometheus/prometheus.yml
-
-\# my global config
-
-global:
-
-scrape\_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-
-evaluation\_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
-
-\# scrape\_timeout is set to the global default (10s).
-
-\# Alertmanager configuration
-
-alerting:
-
-alertmanagers:
-
-\- static\_configs:
-
-\- targets:
-
-\# - alertmanager:9093
-
-\# Load rules once and periodically evaluate them according to the global 'evaluation\_interval'.
-
-rule\_files:
-
-\# - "first\_rules.yml"
-
-\# - "second\_rules.yml"
-
-\- "usr/local/prometheus/node\_rules.yml"
-
-\# A scrape configuration containing exactly one endpoint to scrape:
-
-\# Here it's Prometheus itself.
-
-scrape\_configs:
-
-\# The job name is added as a label \`job=\` to any timeseries scraped from this config.
-
-\- job\_name: "prometheus"
-
-\# metrics\_path defaults to '/metrics'
-
-\# scheme defaults to 'http'.
-
-static\_configs:
-
-\- targets: \['slave1:9100','slave2:9100']
-
-\[root@monitor ansible]# systemctl restart prometheus
+```
+[root@monitor ansible]# vim /usr/local/prometheus/node_rules.yml                                                             
+groups:                                                                                                                      
+  - name: node_rules                                                                                                         
+    rules:                                                                                                                   
+      - alert: HighMemoryUsage                                                                                               
+        expr: (node_memory_Active_bytes / node_memory_MemTotal_bytes) * 100 > 50                                             
+        for: 5m                                                                                                              
+        labels:                                                                                                              
+          severity: warning                                                                                                  
+        annotations:                                                                                                         
+          summary: "内存使用率超过50%"                                                                                       
+          description: "内存使用率 {{ $value }}% 大于 50% (实例 {{ $labels.instance }})"                                     
+      - alert: HighCPUUsage                                                                                                  
+        expr: (100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)) > 75                         
+        for: 5m                                                                                                              
+        labels:                                                                                                              
+          severity: warning                                                                                                  
+        annotations:                                                                                                         
+          summary: "CPU使用率超过75%"                                                                                        
+          description: "CPU使用率 {{ $value }}% 大于 75% (实例 {{ $labels.instance }})"                                      
+      - alert: HighDiskRead                                                                                                  
+        expr: irate(node_disk_read_bytes_total[5m]) > (50 * 1024 * 1024)                                                     
+        for: 5m                                                                                                              
+        labels:                                                                                                              
+          severity: warning                                                                                                  
+        annotations:                                                                                                         
+          summary: "磁盘读取速率超过50MB/s"                                                                                  
+          description: "磁盘读取速率 {{ $value }} 超过 50MB/s (实例 {{ $labels.instance }})"                                 
+      - alert: NodeDown                                                                                                      
+        expr: up == 0                                                                                                        
+        for: 2m                                                                                                              
+        labels:                                                                                                              
+          severity: critical                                                                                                 
+        annotations:                                                                                                         
+          summary: "节点服务异常"                                                                                            
+          description: "节点 {{ $labels.instance }} 服务异常"                                                                                    
+[root@monitor ansible]# vim /usr/local/prometheus/prometheus.yml  
+# my global config                                                                                                           
+global:                                                                                                                      
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.                             
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.                                 
+  # scrape_timeout is set to the global default (10s).                                                                       
+                                                                                                                             
+# Alertmanager configuration                                                                                                 
+alerting:                                                                                                                    
+  alertmanagers:                                                                                                             
+    - static_configs:                                                                                                        
+        - targets:                                                                                                           
+          # - alertmanager:9093                                                                                              
+                                                                                                                             
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.                              
+rule_files:                                                                                                                  
+  # - "first_rules.yml"                                                                                                      
+  # - "second_rules.yml"                                                                                                     
+    - "usr/local/prometheus/node_rules.yml"                                                                                  
+# A scrape configuration containing exactly one endpoint to scrape:                                                          
+# Here it's Prometheus itself.                                                                                               
+scrape_configs:                                                                                                              
+  # The job name is added as a label `job=` to any timeseries scraped from this config.                            
+  - job_name: "prometheus"                                                                                                   
+                                                                                                                             
+    # metrics_path defaults to '/metrics'                                                                                    
+    # scheme defaults to 'http'.                                                                                             
+                                                                                                                             
+    static_configs:                                                                                                          
+      - targets: ['slave1:9100','slave2:9100']                            
+[root@monitor ansible]# systemctl restart prometheus    
+```

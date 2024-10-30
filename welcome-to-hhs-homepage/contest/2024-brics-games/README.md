@@ -12,7 +12,7 @@ layout:
     visible: false
 ---
 
-# Page 1
+# 2024 BRICS Games
 
 ## B模块：容器云平台部署与运维（30分）
 
@@ -35,7 +35,7 @@ layout:
 
 ### 任务1 容器云服务搭建（6分）
 
-#### 一、部署容器云平台（6分）
+### 一、部署容器云平台（6分）
 
 在master节点和node节点将root密码设为000000，完成Kubernetes集群的部署，并完成Istio服务网格、KubeVirt虚拟化和Harbor镜像仓库的部署（master节点依次执行k8s\_harbor\_install.sh、k8s\_image\_push.sh、k8s\_master\_install.sh、k8s\_project \_install.sh，node节点执行k8s\_node\_install.sh）。
 
@@ -174,7 +174,7 @@ virt-operator     2/2     2            2           2m
 
 ### 任务 2 容器云服务运维（15.5 分）
 
-一、容器化部署 MariaDB（0.5 分）
+### 一、容器化部署 MariaDB（0.5 分）
 
 编写 Dockerfile 文件 Dockerfile-mariadb 构建 pig-mariadb:v1.0 镜像， 要求基于 centos 完成 mariadb 服务的安装与配置，并设置服务开机自启。（需 要的包在 Technology\_packageV1.0.iso 中 Pig.tar.gz，解压到 root 目录下操 作）
 
@@ -225,7 +225,7 @@ Dockerfile-mysql
 docker -t pig-mariadb:v1.0 -f Dockerfile-mysql .
 ```
 
-二、容器化部署 Redis（0.5 分）
+### 二、容器化部署 Redis（0.5 分）
 
 编写 Dockerfile 文件 Dockerfile-redis 构建 pig-redis:v1.0 镜像，基于 centos 安装 redis 服务并修改配置文件中的 bind 127.0.0.1 为 bind 0.0.0.0； 设置 redis 免密，并关闭保护模式，端口开启 6379 并设置开机自启。
 
@@ -251,7 +251,7 @@ vim Dockerfile-redis
 docker build -t pig-redis:v1.0 -f Dockerfile-redis . 
 ```
 
-三、容器化部署 Pig（0.5 分）
+### 三、容器化部署 Pig（0.5 分）
 
 编写 Dockerfile 文件 Dockerfile-pig 构建 pig-server:v1.0 镜像，要求基 于 centos 安装 openjdk，声明端口：3000、4000、8848、9999；使用提供的 ja r 包启动 pig 服务并设置开机自启。
 
@@ -287,7 +287,7 @@ Dockerfile-pig
 docker build -t pig-sserver:v1.0 -f Dockerfile-pig .
 ```
 
-四、容器化部署 nginx（0.5 分）
+### 四、容器化部署 nginx（0.5 分）
 
 编写 Dockerfile 文件 Dockerfile-nginx 构建 pig-ui:v1.0 镜像，要求基 于 centos 安装 nginx 服务，将 dist 文件夹拷贝到/data 目录下，将 pig-ui.co nf 文件拷贝到/etc/nginx/conf.d/目录下，设置 nginx 服务开机自启。
 
@@ -313,7 +313,7 @@ vim Dockerfile-nginx
 docker build -t pig-ui:v1.0 -f Dockerfile-nginx .
 ```
 
-五、编排部署 Pig 快发开发平台（1 分）
+### 五、编排部署 Pig 快发开发平台（1 分）
 
 编写 docker-compose.yaml 文件。
 
@@ -371,7 +371,7 @@ vim docker-compose.yaml
 docker-compose up -d
 ```
 
-六、导入 jenkins 镜像（0.5 分）
+### 六、导入 jenkins 镜像（0.5 分）
 
 基于 Kubernetes 构建持续集成,master 节点、harbor 节点和 cicd 节点对应 的 IP 都为 master 节点的 IP, CICD\_OFF.TAR（需要的包在 Technology\_package V1.0.iso 中 CICD\_CICD\_Offline.TAR）。把 CICD\_CICD\_Offline.TAR移动到/op t 目录下然后解压。导入 jenkins.tar 文件中的镜像。
 
@@ -388,7 +388,7 @@ docker-compose up -d
 jenkins/jenkins    2.262-centos   f04839b3e211   2 years ago     638MB
 ```
 
-七、安装 Jenkins（1 分）
+### 七、安装 Jenkins（1 分）
 
 编写 Jenkins 编排文件，启动并配置 Jenkins。
 
@@ -434,7 +434,7 @@ services:
 54670064056e42a2a47485a5e3356e57
 ```
 
-八、部署 Gitlab（1 分）
+### 八、部署 Gitlab（1 分）
 
 编写 Gitlab 编排文件并启动 Gitlab。
 
@@ -472,7 +472,7 @@ services:
 [root@master gitlab]#  docker-compose up -d
 ```
 
-九、push 源代码（1 分）
+### 九、push 源代码（1 分）
 
 push 源代码到 gitlab 的 springcloud 项目，并完成相关配置。
 
@@ -492,7 +492,7 @@ push 源代码到 gitlab 的 springcloud 项目，并完成相关配置。
 [root@master springcloud]# git push -u origin master
 ```
 
-十、Jenkins 连接 maven （1 分）
+### 十、Jenkins 连接 maven （1 分）
 
 配置 Jenkins 连接 Gitlab，安装 maven并完成相关配置。
 
@@ -531,7 +531,7 @@ Default locale: en_US, platform encoding: ANSI_X3.4-1968
 OS name: "linux", version: "3.10.0-1160.el7.x86_64", arch: "amd64", family: "unix"
 ```
 
-十一、配置并触发 CI/CD（1 分）
+### 十一、配置并触发 CI/CD（1 分）
 
 编写流水线脚本配置 CI/CD，habor 仓库创建 springcloud 项目，上传代码 触发自动构建。
 
@@ -599,7 +599,7 @@ nothing to commit, working directory clean
 [root@master springcloud]# git push -u origin master
 ```
 
-十二、服务网格：创建 Ingress Gateway（1 分）
+### 十二、服务网格：创建 Ingress Gateway（1 分）
 
 在提供的 kubernetes 镜像中，使用 project/istio/istio-1.17.2/servic es/bookinfo.yaml 部署 bookinfo 应用，将 Bookinfo 应用部署到 default 命名 空间下，使用 Istio Gateway 可以实现应用程序从外部访问，请为 Bookinfo 应 用创建一个名为 bookinfo-gateway 的网关，指定所有 HTTP流量通过 80 端口流 入网格，然后将网关绑定到虚拟服务 bookinfo 上。
 
@@ -652,7 +652,7 @@ spec:
 [root@master ~]# kubectl apply -f bookinfo-gateway.yaml
 ```
 
-十三、服务网格：创建 VirtualService（1 分）
+### 十三、服务网格：创建 VirtualService（1 分）
 
 在我们部署好的 Bookinfo 服务中，访问 Bookinfo 应用发现，其中一个微服
 
@@ -797,7 +797,7 @@ spec:
 [root@master ~]# kubectl apply -f dr.yaml  
 ```
 
-十四、KubeVirt 运维：创建 VM（1 分）
+### 十四、KubeVirt 运维：创建 VM（1 分）
 
 使用提供的镜像（images/fedora-virt\_v1.0.tar）在 default 命名空间下 创建一台 VM，名称为 test-vm，内存大小为 1Gi，磁盘驱动：virtio，运行策略： Manual。
 
@@ -840,7 +840,7 @@ virtualmachine.kubevirt.io/test-vm created
 [root@master ~]# virtctl start test-vm
 ```
 
-十五、KubeVirt 运维：开启功能优化（1 分）
+### 十五、KubeVirt 运维：开启功能优化（1 分）
 
 在 KubeVirt 中有很多功能，为了更好的使用，更改 kubevirt 配置开启以下 功能
 
@@ -865,7 +865,7 @@ virtualmachine.kubevirt.io/test-vm created
       - HostDisk
 ```
 
-十六、Deployment 管理：创建 deployment（1 分）
+### 十六、Deployment 管理：创建 deployment（1 分）
 
 在 master 节点打上标签“tty=master”，然后编写 deployment.yaml 文件 创建 deployment，具体的要求如下。
 
@@ -912,7 +912,7 @@ spec:
 [root@master ~]# kubectl apply -f deployment.yaml
 ```
 
-十七、PV卷管理：创建 PV卷（1 分）
+### 十七、PV卷管理：创建 PV卷（1 分）
 
 创建一个 pv，名字为 app-config，大小为 2Gi， 访问权限为 ReadWrite Many。Volume 的类型为 hostPath，路径为 /srv/app-config。
 
@@ -937,7 +937,7 @@ spec:
 [root@master exam-test1]# kubectl apply -f pv.yaml
 ```
 
-十八、Ingress 资源管理：创建 Ingress（1 分）
+### 十八、Ingress 资源管理：创建 Ingress（1 分）
 
 创建一个新的 nginx lngress 资源：
 
@@ -979,7 +979,7 @@ spec:
 
 ownCloud 是一个开源免费专业的私有云存储项目，它能帮你快速在个人电 脑或服务器上架设一套专属的私有云文件同步网盘，可以像 百度云那样实现文 件跨平台同步、共享、版本控制、团队协作等。
 
-一、创建 PV和 PVC（1 分）
+### 一、创建 PV和 PVC（1 分）
 
 编写 yaml 文件(文件名自定义)创建 PV和 PVC来提供持久化存储，以便保 存 ownCloud 服务中的文件和数据。
 
@@ -1016,7 +1016,7 @@ spec:
 # kubectl apply -f owncloud-pvc.yaml
 ```
 
-二、配置ConfigMap（1分）
+### 二、配置ConfigMap（1分）
 
 编写yaml文件(文件名自定义)创建一个configMap对象，名称为owncloud-config，指定OwnCloud的环境变量。登录账号对应的环境变量为OWNCLOUD\_ADMIN\_USERNAME,密码对应的环境变量为OWNCLOUD\_ADMIN\_PASSWORD。（变量值自定义）
 
@@ -1036,7 +1036,7 @@ data:
 # kubectl apply -f  owncloud-configmap.yaml
 ```
 
-三、创建 Secret（0.5 分）
+### 三、创建 Secret（0.5 分）
 
 编写 yaml 文件(文件名自定义)创建一个 Secret 对象，名称为 owncloud-db -password，以保存 OwnCloud数据库的密码。对原始密码采用 base64 编码格式 进行加密。
 
@@ -1058,7 +1058,7 @@ data:
 # kubectl apply -f owncloud-secret.yaml
 ```
 
-四、部署 Owncloud Deployment 应用（1 分）
+### 四、部署 Owncloud Deployment 应用（1 分）
 
 编写 yaml文件(文件名自定义) 创建 Deployment 对象, 指定 OwnCloud的容 器和相关的环境变量。(Deployment 资源命名为 owncloud-deployment,镜像为 H arbor 仓库中的 owncloud:latest，存储的挂载路径为/var/www/html,其它根据 具体情况进行配置)
 
@@ -1107,7 +1107,7 @@ spec:
 # kubectl apply -f owncloud-deploy.yaml
 ```
 
-五、创建 Service（1 分）
+### 五、创建 Service（1 分）
 
 编写 yaml文件(文件名自定义)创建一个 Service 对象使用 NodePort 的方式 将 OwnCloud公开到集群外部，名称为 owncloud-service。通过 http://IP:端口 号可查看 owncloud。
 
@@ -1135,7 +1135,7 @@ spec:
 
 EFK是三个开源软件的缩写，分别表示：Elasticsearch、Fluentd、Kibana。 这三个工具组成了一套完整的日志解决方案，可以帮助收集、分析和存储日志数 据。
 
-一、导入镜像（0.5 分）
+### 一、导入镜像（0.5 分）
 
 将提供的 efk-img.tar.gz 压缩包中的 docker 镜像导入到 master 节点，使 用命令将镜像打标签并上传至 haboor 镜像仓库的 library 项目中，在 root 目录 下创建 efk 目录作为本任务后续题目操作目录，本任务操作均在默认命名空间下。
 
@@ -1162,7 +1162,7 @@ mkdir /efk
 docker images 192.168.100.10/library
 ```
 
-二、配置 NFS Server 端（0.5 分）
+### 二、配置 NFS Server 端（0.5 分）
 
 在 master 节点安装 nfs 服务作为服务端，创建目录/data/volume1 作为共 享目录，只允许 192.168.100 网段访问，重启 nfs 服务并设置开机自启。
 
@@ -1187,7 +1187,7 @@ systemctl restart nfs-server
 exportfs -rv
 </code></pre>
 
-三、创建 ServiceAccount 并配置 RBAC（ 0.5 分）
+### 三、创建 ServiceAccount 并配置 RBAC（ 0.5 分）
 
 在 master 节点编写/root/efk/rbac.yaml 完成以下内容：
 
@@ -1294,7 +1294,7 @@ roleRef:
 kubectl apply -f rbac.yaml
 ```
 
-四、部署 NFS Provisioner（1 分）
+### 四、部署 NFS Provisioner（1 分）
 
 编写 nfs-deploy.yaml 文件，基于 nfs-client-provisioner 镜像创建 nfs - provisioner 的 deployment 对象，PROVISIONER\_NAME的值使用 example.com/nf s，绑定 nfs 服务端的共享目录。
 
@@ -1342,7 +1342,7 @@ spec:
 kubectl apply -f nfs-deploy.yaml 
 ```
 
-五、[StorageClass 动态绑定](pvc-yi-zhi-chu-yu-peding-zhuang-tai.md)（0.5 分）
+### 五、[StorageClass 动态绑定](pvc-yi-zhi-chu-yu-peding-zhuang-tai.md)（0.5 分）
 
 编写 storageclass.yaml 文件，创建名为 storage 的 StorageClass 动态绑 定 nfs-provisioner，完成后查看 nfs-provisioner 的 storageclasses 对象。
 
@@ -1361,7 +1361,7 @@ kubectl apply -f storageclass.yaml
 
 ```
 
-六、[通过 statefulset 创建 elasticsearch 集群](statefulset-yi-zhi-chong-qi.md)（1.5 分）
+### 六、[通过 statefulset 创建 elasticsearch 集群](statefulset-yi-zhi-chong-qi.md)（1.5 分）
 
 编写 es-statefulset.yaml，通过 yaml 文件构建 elasticsearch 的 State fulSet 集群，集群中有 3 个副本名字分别为 es-cluster-0、es-cluster-1、es -cluster-2，并且使用上述 storageclass 提供的存储，使用elasticsearch:7. 2.0 镜像，声明 9200 端口为 api 端口，9300 端口为内部访问端口，添加 busybo x 的初始化容器对 elasticsearch 的数据目录/usr/share/elasticsearch/data 进行授权操作。
 
@@ -1455,7 +1455,7 @@ kubectl apply -f /root/efk/es-statefulset.yaml
 
 ```
 
-七、创建 service（0.5 分）
+### 七、创建 service（0.5 分）
 
 编写 es-svc.yaml 文件，为 elasticsearch 的 pod 创建一个名为 elasticse arch 的 Service，并在 service 中声明 9200 和 9300 端口。
 
@@ -1486,7 +1486,7 @@ kubectl apply -f es-svc.yaml
 
 ```
 
-八、Kibana 可视化 UI 界面部署（1 分）
+### 八、Kibana 可视化 UI 界面部署（1 分）
 
 编写 kibana.yaml，通过该文件创建名为 kibana 的 Deployment 和 Service， 其中 Deployment 基于 kibana:7.2.0 镜像创建并通过环境变量 ELASTICSEARCH\_U RL指定 elasticsearch 服务地址，声明 5601 端口；Service 代理 kibana 的 pod 服务，并且使用 NodePort 类型，使用 32000 端口。创建成功后在浏览器访问 Kibana 的 UI界面。
 
@@ -1545,7 +1545,7 @@ kubectl apply -f kibana.yaml
 
 ```
 
-九、Fluentd 组件部署（1.5 分）
+### 九、Fluentd 组件部署（1.5 分）
 
 编写 fluentd.yaml，通过 yaml 文件创建 DaemonSet控制器使用 fluentd-k ubernetes-daemonset:v1.16-debian-elasticsearch7-1 镜像部署 fluentd 服务， 使其通过 9200 端口连接 elasticsearch 集群，容器分析器类型为 cri，容器分 析器时间格式为%Y-%m-%dT%H:%M:%S.%L%z，采集 dockers 容器的日志，并在该文 件中同时编写相关的 ServiceAccount 账号 fluentd 和 rbac 内容，应确保 fluen tdf 服务正常连接 elasticsearch 集群并能采集到 docker 容器日志信息。
 
@@ -1642,7 +1642,7 @@ kubectl apply -f fluentd.yaml
 
 ```
 
-十、验证日志采集（1 分）
+### 十、验证日志采集（1 分）
 
 在浏览器通过 http://公网 IP:32000/访问 kibana 页面，创建索引模式，索 引匹配格式为“logstash-\*”，时间过滤器为@timestamp，完成后自行验证是否 可以正常采集 docker 容器内的日志。
 
