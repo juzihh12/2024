@@ -1192,25 +1192,23 @@ exportfs -rv
 在 master 节点编写/root/efk/rbac.yaml 完成以下内容：
 
 1. 创建名称为 nfs-client-provisioner 的 ServiceAccount 账号。
-2. 创建访问控制的角色(Role):leader-locking-nfs-provisioner 和角色
+2. 创建访问控制的角色(Role):leader-locking-nfs-provisioner 和角色绑定(RoleBinding):leader-locking-nfs-provisioner，要求 Role 实现以下操 作：
 
-绑定(RoleBinding):leader-locking-nfs-provisioner，要求 Role 实现以下操 作：
+&#x20;     ①允许对 endpoints 进行 get,list,watch,create,update,patch 操作。
 
-①允许对 endpoints 进行 get,list,watch,create,update,patch 操作。
-
-②将 leader-locking-nfs-provisioner 关联对象 ServiceAccount:nfs-pro visioner，引用 Role:leader-locking-nfs-provisioner。
+&#x20;     ②将 leader-locking-nfs-provisioner 关联对象 ServiceAccount:nfs-provisioner，引用 Role:leader-locking-nfs-provisioner。
 
 3. 创建集群范围的角色(ClusterRole):nfs-provisioner-runner 和集群角色绑定(ClusterRoleBinding):run-nfs-provisioner，要求 ClusterRole 实现以 下操作：
 
-①允许对 persistentvolumes 进行 get,list,watch,create,delete 操作。 ②允许对 persistentvolumeclaims 进行 get,list,watch,update 操作。 ③允许对 storageclasses 进行 get,list,watch 操作。
+&#x20;     ①允许对 persistentvolumes 进行 get,list,watch,create,delete 操作。 ②允许对 persistentvolumeclaims 进行 get,list,watch,update 操作。 ③允许对 storageclasses 进行 get,list,watch 操作。
 
-④允许对 events 进行 create,update,patch 操作。
+&#x20;     ④允许对 events 进行 create,update,patch 操作。
 
-⑤允许对 services 和 endpoints 进行 get 操作。
+&#x20;    ⑤允许对 services 和 endpoints 进行 get 操作。
 
-⑥允许对 podsecuritypolicies 进行 use 操作。
+&#x20;    ⑥允许对 podsecuritypolicies 进行 use 操作。
 
-⑦将 run-nfs-provisioner 关联对象 ServiceAccount:nfs-provisioner， 引用 ClusterRole:nfs-provisioner-runner。
+&#x20;    ⑦将 run-nfs-provisioner 关联对象 ServiceAccount:nfs-provisioner， 引用 ClusterRole:nfs-provisioner-runner。
 
 在 master 节点创建完成后将 cat /root/efk/rbac.yaml | sed s/\ //g | tr -d '\n' && kubectl describe serviceaccount/nfs-provisioner | sed s /\ //g | tr -d '\n' && kubectl describe role.rbac.authorization.k8s.i o | sed s/\ //g | tr -d '\n'命令的返回结果提交到答题框。
 
@@ -1365,7 +1363,7 @@ kubectl apply -f storageclass.yaml
 
 六、[通过 statefulset 创建 elasticsearch 集群](statefulset-yi-zhi-chong-qi.md)（1.5 分）
 
-编写 es-statefulset.yaml，通过 yaml 文件构建 elasticsearch 的 State fulSet 集群，集群中有 3 个副本名字分别为 es-cluster-0、es-cluster-1、es -cluster-2，并且使用上述 storageclass 提供的存储，使用 elasticsearch:7. 2.0 镜像，声明 9200 端口为 api 端口，9300 端口为内部访问端口，添加 busybo x 的初始化容器对 elasticsearch 的数据目录/usr/share/elasticsearch/data 进行授权操作。
+编写 es-statefulset.yaml，通过 yaml 文件构建 elasticsearch 的 State fulSet 集群，集群中有 3 个副本名字分别为 es-cluster-0、es-cluster-1、es -cluster-2，并且使用上述 storageclass 提供的存储，使用elasticsearch:7. 2.0 镜像，声明 9200 端口为 api 端口，9300 端口为内部访问端口，添加 busybo x 的初始化容器对 elasticsearch 的数据目录/usr/share/elasticsearch/data 进行授权操作。
 
 在 master 节点创建完成后将 cat /root/efk/es-statefulset.yaml | sed s/\ //g | tr -d '\n' && kubectl describe StatefulSet | sed s/\ //g | tr -d '\n'命令的返回结果提交到答题框。
 
@@ -1376,10 +1374,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: es-cluster
-  labels:
-    app: elasticsearch
 spec:
-  serviceName: es-cluster
   replicas: 3
   selector:
     matchLabels:
@@ -1389,39 +1384,67 @@ spec:
       labels:
         app: elasticsearch
     spec:
-      initContainers:
-      - name: init-permissions
-        image: busybox:latest
-        command: ['sh', '-c', 'chown -R 1000:1000 /usr/share/elasticsearch/data']
-        volumeMounts:
-        - name: elasticsearch-data
-          mountPath: /usr/share/elasticsearch/data
       containers:
       - name: elasticsearch
-        image: elasticsearch:7.2.0
-        env:
-        - name: discovery.seed_hosts
-          value: "192.168.100.10,192.168.100.20,192.168.100.30"
+        image: elasticsearch:7.12.1
+        imagePullPolicy: IfNotPresent
         resources:
-          requests:
-            memory: "2Gi"
-            cpu: "1"
           limits:
-            memory: "4Gi"
-            cpu: "2"
+            cpu: 1000m
+          requests:
+            cpu: 100m
         ports:
-        - containerPort: 9200
-          name: api
-        - containerPort: 9300
-          name: transport
+        - name: http
+          containerPort: 9200
+          protocol: TCP
+        - name: https
+          containerPort: 9300
+          protocol: TCP
         volumeMounts:
-        - name: elasticsearch-data
+        - name: data
           mountPath: /usr/share/elasticsearch/data
+        env:
+        - name: cluster.name
+          value: k8s-logs
+        - name: node.name
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: discovery.seed_hosts
+          value: "elasticsearch.default.svc.cluster.local"
+        - name: cluster.initial_master_nodes
+          value: "es-cluster-0,es-cluster-1,es-cluster-2"
+        - name: ES_JAVA_OPTS
+          value: "-Xms512m -Xmx512m"
+      initContainers:
+      - name: fix-permissions
+        image: busybox
+        imagePullPolicy: IfNotPresent
+        command: ["sh", "-c", "chown -R 1000:1000 /usr/share/elasticsearch/data"]
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: data
+          mountPath: /usr/share/elasticsearch/data
+      - name: increase-vm-max-map
+        image: busybox
+        imagePullPolicy: IfNotPresent
+        command: ["sysctl", "-w", "vm.max_map_count=262144"]
+        securityContext:
+          privileged: true
+      - name: increase-fd-ulimit
+        image: busybox
+        imagePullPolicy: IfNotPresent
+        command: ["sh", "-c", "ulimit -n 65536"]
+        securityContext:
+          privileged: true
   volumeClaimTemplates:
   - metadata:
-      name: elasticsearch-data
+      name: data
+      labels:
+        app: elasticsearch
     spec:
-      accessModes: 
+      accessModes:
       - ReadWriteOnce
       storageClassName: storage
       resources:
@@ -1450,15 +1473,14 @@ metadata:
 spec:
   selector:
     app: elasticsearch
+  clusterIP: None
   ports:
     - name: api
       protocol: TCP
       port: 9200
-      targetPort: 9200
     - name: transport
       protocol: TCP
       port: 9300
-      targetPort: 9300
 
 kubectl apply -f es-svc.yaml
 
@@ -1492,6 +1514,12 @@ spec:
       containers:
         - name: kibana
           image: kibana:7.2.0
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits: 
+              cpu: 1000m
+            requests:
+              cpu: 100m
           ports:
             - containerPort: 5601
           env:
@@ -1510,7 +1538,6 @@ spec:
     app: kibana
   ports:
     - port: 5601
-      targetPort: 5601
       nodePort: 32000
 
 
@@ -1522,11 +1549,7 @@ kubectl apply -f kibana.yaml
 
 编写 fluentd.yaml，通过 yaml 文件创建 DaemonSet控制器使用 fluentd-k ubernetes-daemonset:v1.16-debian-elasticsearch7-1 镜像部署 fluentd 服务， 使其通过 9200 端口连接 elasticsearch 集群，容器分析器类型为 cri，容器分 析器时间格式为%Y-%m-%dT%H:%M:%S.%L%z，采集 dockers 容器的日志，并在该文 件中同时编写相关的 ServiceAccount 账号 fluentd 和 rbac 内容，应确保 fluen tdf 服务正常连接 elasticsearch 集群并能采集到 docker 容器日志信息。
 
-在 master 节点创建完成后将 cat /root/efk/fluentd.yaml | sed s/\ //g
-
-\| tr -d '\n' && kubectl get daemonset,pod | grep fluentd | sed s/\ / /g | tr -d '\n' && kubectl describe daemonset | sed s/\ //g | tr -d ' \n' && kubectl describe pod $(kubectl get pod | grep fluentd | awk -F
-
-\ '{print $1}') | grep -v ^' ' | sed s/\ //g | tr -d '\n'命令的返回 结果提交到答题框。
+在 master 节点创建完成后将 cat /root/efk/fluentd.yaml | sed s/\ //g | tr -d '\n' && kubectl get daemonset,pod | grep fluentd | sed s/\ / /g | tr -d '\n' && kubectl describe daemonset | sed s/\ //g | tr -d ' \n' && kubectl describe pod $(kubectl get pod | grep fluentd | awk -F\ '{print $1}') | grep -v ^' ' | sed s/\ //g | tr -d '\n'命令的返回 结果提交到答题框。
 
 操作步骤
 
@@ -1584,15 +1607,23 @@ spec:
           image: fluentd-kubernetes-daemonset:v1.16-debian-elasticsearch7-1
           env:
             - name: FLUENT_ELASTICSEARCH_HOST
-              value: "elasticsearch"
+              value: "elasticsearch.default.svc.cluster.local"
             - name: FLUENT_ELASTICSEARCH_PORT
               value: "9200"
+            - name: FLUENT_ELASTICSEARCH_SCHEME
+              value: "http"
             - name: FLUENTD_SYSTEMD_CONF
               value: "disable"
             - name: FLUENT_CONTAINER_TAIL_PARSER_TYPE
               value: "cri"
             - name: FLUENT_CONTAINER_TAIL_TIME_FORMAT
               value: "%Y-%m-%dT%H:%M:%S.%L%z"
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 200Mi
           volumeMounts:
             - name: varlog
               mountPath: /var/log
@@ -1615,22 +1646,34 @@ kubectl apply -f fluentd.yaml
 
 在浏览器通过 http://公网 IP:32000/访问 kibana 页面，创建索引模式，索 引匹配格式为“logstash-\*”，时间过滤器为@timestamp，完成后自行验证是否 可以正常采集 docker 容器内的日志。
 
-在 master 节点验证完成后将 curl -s "http://localhost:32000/api/save d\_objects/\_find?type=index-pattern\&fields=title\&fields=type\&per\_page= 10000" | sed s/"//g && curl -s -X POST "http://localhost:32000/elast icsearch/logstash-\*/\_search?pretty" -H "Content-Type: application/jso
-
-n" -H "kbn-xsrf: true" -d '{"query":{"term":{"kubernetes.container\_na me":"kibana"\}},"size":1}' | sed s/"//g 命令的返回结果提交到答题框。
+在 master 节点验证完成后将 curl -s "http://localhost:32000/api/save d\_objects/\_find?type=index-pattern\&fields=title\&fields=type\&per\_page= 10000" | sed s/"//g && curl -s -X POST "http://localhost:32000/elast icsearch/logstash-\*/\_search?pretty" -H "Content-Type: application/json" -H "kbn-xsrf: true" -d '{"query":{"term":{"kubernetes.container\_na me":"kibana"\}},"size":1}' | sed s/"//g 命令的返回结果提交到答题框。
 
 操作步骤
 
-```
-创建索引模式:
-登录 Kibana 后，导航到 "管理" (Management) 菜单。
-点击 "索引模式" (Index Patterns)。
-点击 "创建索引模式" (Create index pattern)。
-在索引匹配格式中输入 logstash-*，然后点击 "下一步" (Next)。
-在时间过滤器字段中选择 @timestamp，然后点击 "创建索引模式" (Create index pattern)。
+#### 1、点击堆栈管理
 
-验证日志采集:
-返回到 Kibana 的主界面，选择 "发现" (Discover)。
-在时间范围选择器中选择一个合适的时间范围。
-查看是否能看到 Docker 容器内的日志。如果日志成功采集，您应该能看到相关的日志条目。
-```
+<figure><img src="../../../.gitbook/assets/1730275852040.png" alt=""><figcaption></figcaption></figure>
+
+#### 2、点击索引模式
+
+<figure><img src="../../../.gitbook/assets/1730275946166.png" alt=""><figcaption></figcaption></figure>
+
+#### 3、创建新的索引模式
+
+<figure><img src="../../../.gitbook/assets/1730276108240.png" alt=""><figcaption></figcaption></figure>
+
+#### 4、设置索引匹配格式为“logstash-\*”
+
+<figure><img src="../../../.gitbook/assets/1730276134065.png" alt=""><figcaption></figcaption></figure>
+
+#### 5、设置时间过滤器为@timestamp
+
+<figure><img src="../../../.gitbook/assets/1730276246941.png" alt=""><figcaption></figcaption></figure>
+
+#### 6、查看UI界面的索引
+
+<figure><img src="../../../.gitbook/assets/1730276330565.png" alt=""><figcaption></figcaption></figure>
+
+#### 7、配置完成
+
+<figure><img src="../../../.gitbook/assets/1730276398223.png" alt=""><figcaption></figcaption></figure>
