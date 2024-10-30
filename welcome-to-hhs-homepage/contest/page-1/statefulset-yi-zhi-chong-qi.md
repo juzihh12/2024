@@ -62,7 +62,7 @@ ERROR: [2] bootstrap checks failed
 
 ## 4、根据日志可以发现Elasticsearch 启动失败的原因主要有两个：
 
-1. **虚拟内存设置过低**：
+1. **虚拟内存设置过低**：（每个节点都要运行）
    *   错误信息指出 `vm.max_map_count` 的值太低，建议至少设置为 `262144`。你可以通过以下命令临时更改这个值：
 
        ```bash
@@ -100,9 +100,9 @@ kubectl delete pod -l app=elasticsearch
 ## 5、查看statefulset及pod的状态
 
 ```
-pod/es-cluster-0                       1/1     Running   3 (77s ago)   3m30s
-pod/es-cluster-1                       1/1     Running   3 (30s ago)   3m23s
-pod/es-cluster-2                       1/1     Running   1 (45s ago)   2m16s
+pod/es-cluster-0                      1/1     Running            0             2m20s
+pod/es-cluster-1                      1/1     Running            0             2m13s
+pod/es-cluster-2                      1/1     Running            0             2m2s
 
-statefulset.apps/es-cluster   3/3     6m44s
+statefulset.apps/es-cluster   3/3     2m52s
 ```
