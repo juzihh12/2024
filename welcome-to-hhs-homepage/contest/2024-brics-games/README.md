@@ -192,11 +192,10 @@ virt-operator     2/2     2            2           2m
 
 ```
 vim local.repo
-	[local]
 	name=local
-	baseurl=um
-	gpgcheck=0
+	baseurl=file:///opt/yum
 	enabled=1
+	gpgcheck=0
 
 
 init_mysql.sh
@@ -205,24 +204,26 @@ init_mysql.sh
 	mysqld_safe --user=root &
 	sleep 10
 	mysqladmin -uroot password root
-	mysql -u root -proot -e "grant all privileges on *.* to 'root'@'%' identified by 'root'"
-	mysql -u root -proot -e "source /opt/mysql/pig_codegen.sql;source /opt/mysql/config.sql;source /opt/mysql/pig.sql"
+	mysql -u root -proot -e "grant all privileges on *.* to 'root'@'%' identified by 'root';"
+	mysql -u root -proot -e "source /opt/pig_codegen.sql;source /opt/pig_config.sql;source /opt/pig_job.sql;source /opt/pig.sql"
 
 
 Dockerfile-mysql
 	FROM centos:centos7.9.2009
 	MAINTAINER suansuan
 	RUN rm -rf /etc/yum.repos.d/*
-	COPY local.repo /etc/yum.repos.d/local.repo
-	COPY yum /opt/
-	RUN yum install -y mariadb-server mariadb
+	COPY local.repo /etc/yum.repos.d/
+	COPY yum /opt
+	COPY mysql/* /opt/
+	RUN yum install -y mariadb mariadb-server
 	ENV LC_ALL en_US.UTF-8
+	COPY init_mysql.sh /root
 	RUN chmod +x /root/init_mysql.sh && ./root/init_mysql.sh
 	EXPOSE 3306
 	CMD ["mysqld_safe","--user=root"]
 
 
-docker -t pig-mariadb:v1.0 -f Dockerfile-mysql .
+docker build -t pig-mariadb:v1.0 -f Dockerfile-mysql .
 ```
 
 ### 二、容器化部署 Redis（0.5 分）
@@ -237,16 +238,16 @@ docker -t pig-mariadb:v1.0 -f Dockerfile-mysql .
 
 ```
 vim Dockerfile-redis
-        FROM centos:centos7.9.2009
-	MAINTAINER suansuan
-	RUN rm -rf /etc/yum.repos.d/*
-	COPY /root/local.repo /etc/yum.repos.d/local.repo
-	COPY yum /opt/
-	RUN yum install -y redis*
-	RUN sed -i 's/bind 127.0.0.1/bind 0.0.0.0/g' /etc/redis.conf &&\
-	    sed -i 's/protected-mode yes/protected-mode no/g' /etc/redis.conf
-	EXPOSE 6379
-	CMD ["usr/bin/redis-server","/etc/redis.conf"]
+    FROM centos:centos7.9.2009
+    MAINTAINER suansuan
+    RUN rm -rf /etc/yum.repos.d/*
+    COPY local.repo /etc/yum.repos.d/
+    COPY yum /opt/
+    RUN yum install -y redis
+    RUN sed -i "s/bind 127.0.0.1/bind 0.0.0.0/g" /etc/redis.conf && \
+        sed -i "s/protected-mode yes/protected-mode no/g" /etc/redis.conf
+    EXPOSE 6379
+    CMD ["/usr/bin/redis-server","/etc/redis.conf"]
 
 docker build -t pig-redis:v1.0 -f Dockerfile-redis . 
 ```
@@ -265,31 +266,34 @@ docker build -t pig-redis:v1.0 -f Dockerfile-redis .
 vim start-pig.sh
 	#!/bin/bash
 	cd /root
+	sleep 10
 	nohup java -jar pig-register.jar &
 	sleep 10
 	nohup java -jar pig-gateway.jar &
 	sleep 10
 	nohup java -jar pig-auth.jar &
 	sleep 10
-	nohup java -jar pig-upms-biz.jar
+	nohup java -jar pig-upms-biz.jar &
 
 Dockerfile-pig
 	FROM centos:centos7.9.2009
-	MAINTAINER sunsuan
+	MAINTAINER suansuan
 	RUN rm -rf /etc/yum.repos.d/*
-	COPY /ect/local.repo /etc/yum.repos.d/local.repo
-	COPY yum /opt
-	RUN yum install -y jdk-1.8*
-	RUN chmod +x /root/start-pig.sh && ./root/start-pig.sh
-	EXPOSE 3000,4000,8848,9999
-	CMD ['/bin/bash','/root/start-pig.sh']
+	COPY local.repo /etc/yum.repos.d/
+	COPY yum /opt/
+	RUN yum install -y jdk-1.8.0*
+	COPY service/* /root
+	COPY start-pig.sh /root
+	RUN chmod +x /root/start-pig.sh
+	EXPOSE 3000 4000 8848 9999
+	CMD ["/bin/bash","/root/start-pig.sh"]
 	
 docker build -t pig-sserver:v1.0 -f Dockerfile-pig .
 ```
 
 ### 四、容器化部署 nginx（0.5 分）
 
-编写 Dockerfile 文件 Dockerfile-nginx 构建 pig-ui:v1.0 镜像，要求基 于 centos 安装 nginx 服务，将 dist 文件夹拷贝到/data 目录下，将 pig-ui.co nf 文件拷贝到/etc/nginx/conf.d/目录下，设置 nginx 服务开机自启。
+编写 Dockerfile 文件 Dockerfile-nginx 构建 pig-ui:v1.0 镜像，要求基 于 centos 安装 nginx 服务，将 dist 文件夹拷贝到/data 目录下，将 pig-ui.conf 文件拷贝到/etc/nginx/conf.d/目录下，设置 nginx 服务开机自启。
 
 请使用 docker build 命令进行构建镜像 pig-ui:v1.0。
 
@@ -330,50 +334,50 @@ docker build -t pig-ui:v1.0 -f Dockerfile-nginx .
 
 ```
 vim docker-compose.yaml
-  version: '3'
-  service:
-	pig-mysql:
-		container_name:pig-mysql
-		images: pig-mariadb:v1.0
-		environment:
-	      MYSQL_ROOT_PASSWORD:root
-		ports: 
-		  - 3306:3306
-	    links:
-		  - pig-service:pig-register
-	pig-redis:
-		container_name:pig-redis
-		images: pig-redis:v1.0
-		ports:
-		  - 6379:6379
-		links:
-		  - pig-service:pig-register
-	pig-service:
-		container_name:pig-service
-		images:pig-service:v1.0
-		ports:
-		  - 8848:8848
-		  - 9999:9999
-		extra_hosts:
-		  - pig-register:127.0.0.1
-		  - pig-gateway:127.0.0.1
-		  - pig-auth:127.0.0.1
-		  - pig-upms:127.0.0.1
-		  - pig-hou:127.0.0.1
-	pig-ui:
-		container_name:pig-ui
-		images:pig-ui:v1.0
-		ports:
-          - 8888:80
-		links:
-		  - pig-service:pig-gateway
+version: 3
+services:
+  pig-mysql:
+    container_name: pig-mysql
+    image: pig-mariadb:v1.0
+    ports:
+    - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD:root
+    links:
+    - pig-service:pig-register
+  pig-redis:
+    container_name: pig-redis
+    image: pig-redis:v1.0
+    ports:
+    - 6379:6379
+    links:
+    - pig-service:pig-register
+  pig-service:
+    container_name: pig-service
+    image: pig-service:v1.0
+    ports:
+    - 8848:8848
+    - 9999:9999
+    extra_hosts:
+    - pig-register:127.0.0.1
+    - pig-gateway:127.0.0.1
+    - pig-auth:127.0.0.1
+    - pig-upms:127.0.0.1
+    - pig-hou:127.0.0.1
+  pig-ui:
+    container_name: pig-ui
+    image: pig-ui:v1.0
+    ports:
+    - 8888:80
+    links:
+    - pig-service:pig-gateway
 
 docker-compose up -d
 ```
 
 ### 六、导入 jenkins 镜像（0.5 分）
 
-基于 Kubernetes 构建持续集成,master 节点、harbor 节点和 cicd 节点对应 的 IP 都为 master 节点的 IP, CICD\_OFF.TAR（需要的包在 Technology\_package V1.0.iso 中 CICD\_CICD\_Offline.TAR）。把 CICD\_CICD\_Offline.TAR移动到/op t 目录下然后解压。导入 jenkins.tar 文件中的镜像。
+基于 Kubernetes 构建持续集成,master 节点、harbor 节点和 cicd 节点对应 的 IP 都为 master 节点的 IP, CICD\_OFF.TAR（需要的包在 Technology\_package V1.0.iso 中 CICD\_CICD\_Offline.TAR）。把 CICD\_CICD\_Offline.TAR移动到/opt 目录下然后解压。导入 jenkins.tar 文件中的镜像。
 
 将 docker images | grep jenkins 命令的返回结果提交到答题框。
 
@@ -509,19 +513,7 @@ push 源代码到 gitlab 的 springcloud 项目，并完成相关配置。
 export M2_HOME=/usr/local/maven  # 行末添加两行
 export PATH=$PATH:$M2_HOME/bin
 [root@1a3190c3a8b2 /]# vi /root/.bashrc
-# .bashrc
-
-# User specific aliases and functions
-
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
-
-# Source global definitions
-if （ -f /etc/bashrc ）; then
-        . /etc/bashrc
-source /etc/profile  # 添加本行
-fi
+    source /etc/profile  # 添加本行
 退出容器重新进入：
 [root@1a3190c3a8b2 /]# mvn -v
 Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
@@ -533,7 +525,7 @@ OS name: "linux", version: "3.10.0-1160.el7.x86_64", arch: "amd64", family: "uni
 
 ### 十一、配置并触发 CI/CD（1 分）
 
-编写流水线脚本配置 CI/CD，habor 仓库创建 springcloud 项目，上传代码 触发自动构建。
+编写流水线脚本配置 CI/CD，habor 仓库创建 springcloud 项目，上传代码触发自动构建。
 
 构建成功后将 curl kubectl get endpoints -n springcloud gateway | grep -v AGE| awk '{print $2}' 命令的返回结果提交到答题框。
 
@@ -582,7 +574,6 @@ node{
        sh 'kubectl apply -f /var/jenkins_home/workspace/springcloud/yaml/deployment/config-deployment.yaml --kubeconfig=/root/.kube/config'
        sh 'kubectl apply -f /var/jenkins_home/workspace/springcloud/yaml/svc/gateway-svc.yaml --kubeconfig=/root/.kube/config'
        sh 'kubectl apply -f /var/jenkins_home/workspace/springcloud/yaml/svc/config-svc.yaml --kubeconfig=/root/.kube/config'
-        
     }
 }
 
@@ -871,8 +862,7 @@ virtualmachine.kubevirt.io/test-vm created
 
 1. 创建的 deployment 的名字为 test-deployment
 2. 使用 nginx 镜像
-
-(3)Pod 只能调度到标签为“tty=master”的节点上
+3. Pod 只能调度到标签为“tty=master”的节点上
 
 创建 deployment 后将 cat deployment.yaml &\&kubectl describe deploym ent test-deployment 命令的返回结果提交至答题框。
 
