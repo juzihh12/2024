@@ -14,8 +14,3 @@ layout:
 
 # Storage
 
-* [PersistentVolume](persistentvolume.md)
-* [PresistentVoluneClaim](presistentvoluneclaim.md)
-* [StorageClass](storageclass.md)
-* [Persistent Storage](persistent-storage.md)
-
