@@ -1,9 +1,9 @@
 ---
-cover: .gitbook/assets/HH.jpg
+cover: .gitbook/assets/754E8A3A014B8BA9B20A9FFF2346723F.jpg
 coverY: 0
 layout:
   cover:
-    visible: true
+    visible: false
     size: full
   title:
     visible: true
@@ -14,7 +14,7 @@ layout:
   outline:
     visible: false
   pagination:
-    visible: true
+    visible: false
 ---
 
 # 🫣 Welcome to HH's homepage
@@ -24,3 +24,4 @@ layout:
 * [**openstack**](welcome-to-hhs-homepage/openstack/)
 * [**kubernetes**](welcome-to-hhs-homepage/kubernetes/)
 * [**Contest**](welcome-to-hhs-homepage/contest/)
+
