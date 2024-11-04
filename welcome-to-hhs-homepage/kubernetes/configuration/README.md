@@ -14,5 +14,3 @@ layout:
 
 # Configuration
 
-* [ConfigMap](configmap.md)
-* [Secret](secret.md)
